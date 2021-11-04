@@ -4,7 +4,6 @@ import Home from "./src/Home";
 import Months from "./src/Months";
 import Days from "./src/Days";
 
-
 export default function Navigator(){
     const [index, setIndex] = useState<number>(1);
     const [routes] = useState([

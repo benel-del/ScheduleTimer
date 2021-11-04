@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { View, Text, ScrollView } from "react-native"
 import { Colors } from "react-native-paper";
 import { styles } from './styles'
-import getDayFormatting from "./function/getDayFormatting"
+import { getDayFormatting } from "./function/date"
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon2 from 'react-native-vector-icons/Feather'
 
@@ -11,7 +11,7 @@ const iconSize_mini = 21
 const iconColor = Colors.black
 
 export default function Home() {
-    const date = getDayFormatting(new Date())
+    let date = getDayFormatting(new Date())
     const todayInfo = ["5시간 2분", "75"]
     const statisticesOfDays = ["2시간 12분", "87"]
     const statisticesOfMonths = ["152시간 38분", "56"]

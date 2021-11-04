@@ -3,25 +3,17 @@ import { View, Text, Alert, ScrollView } from "react-native"
 import { Colors } from "react-native-paper"
 import { styles } from './styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Icon2 from 'react-native-vector-icons/Feather'
 import Icon3 from 'react-native-vector-icons/MaterialIcons'
-import getDayFormatting from "./function/getDayFormatting"
-import getTense from "./function/getTense"
-import { iSchedule } from "../type/schedule"
-import { iTimer } from "../type/timer"
-import ShowScheduleTimer from "./ShowScheduleTimer"
+import { getTense, getDayFormatting } from "./function/date"
+import ShowSchedule from "./ShowSchedule"
+import { initTimer } from "./function/timer"
 
 const iconSize = 40
 const iconSize_mini = 21
-const initTimer: iTimer = {
-    hour: 0,
-    minute: 0,
-    second: 0
-}
 
 export default function Days() {
     
-    const [timer, setTimer] = useState(initTimer)
+    const [timer, setTimer] = useState(initTimer())
     const [date, setDate] = useState(new Date())
     const tense = getTense(date)
     
@@ -47,38 +39,6 @@ export default function Days() {
     if(tense == "Past")
         editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.white}/>
 
-    const schedule1:iSchedule = {
-        date: date,
-        name: "뇌행",
-        timeSetting: "1시간 20분",
-        timeRemaining: 0,
-        isChecked: true,
-        timerIcon: "",
-        checkIcon: "check-square"
-    }
-    const schedule2:iSchedule = {
-        date: date,
-        name: "컴특",
-        timeSetting: "1시간 20분",
-        timeRemaining: 80*60,
-        isChecked: false,
-        timerIcon: "timer",
-        checkIcon: "square"
-    }
-    const schedule3:iSchedule = {
-        date: date,
-        name: "모소 기획서",
-        timeSetting: "3시간",
-        timeRemaining: 180*60,
-        isChecked: false,
-        timerIcon: "timer",
-        checkIcon: "square"
-    }
-
-    const [sch1, setSch1] = useState(schedule1)
-    const [sch2, setSch2] = useState(schedule2)
-    const [sch3, setSch3] = useState(schedule3)
-
     return (
         <View style={styles.container}>
             <View style={[styles.topView, styles.flexRowBetween]}>
@@ -95,12 +55,7 @@ export default function Days() {
             </View>
             
             <View style={styles.daysContentView}>
-                <ScrollView style={[styles.daysScrollView, styles.alignCenter, styles.topBoundary]} horizontal={false}>
-                    <ShowScheduleTimer schedule={sch1} setSchedule={setSch1} timer={timer} setTimer={setTimer}/>
-                    <ShowScheduleTimer schedule={sch2} setSchedule={setSch2} timer={timer} setTimer={setTimer}/>
-                    <ShowScheduleTimer schedule={sch3} setSchedule={setSch3} timer={timer} setTimer={setTimer}/>
-
-                </ScrollView>
+                <ShowSchedule date={date} timer={timer} setTimer={setTimer}/>
                 <View style={[styles.timerView, styles.alignCenter, styles.topBoundary]}>
                     <View style={[styles.innerView]}>
                         <Text style={styles.timerMiniText}>남은 시간</Text>
