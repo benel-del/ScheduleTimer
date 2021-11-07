@@ -1,31 +1,25 @@
 import React, { Dispatch, FC, SetStateAction, useState, useCallback, useRef } from 'react'
 import { View, ScrollView, Alert } from 'react-native'
 import { styles } from './styles'
-import { iSchedule, iTimer } from './typeDeclare'
-import { newSchedule, setTimerIcon, setTimeRemaining, setTimeOver, newTempSchedule } from './function/schedule'
-import { initTimer, isTimerInit, newTimer } from './function/timer'
+import { iSchedule } from './typeDeclare'
+import { setTimerIcon, setTimeRemaining, setTimeOver, newTempSchedule } from './function/schedule'
+import { initTimer, newTimer } from './function/timer'
 import ShowScheduleTimer from './ShowScheduleTimer'
 import ShowScheduleEdit from './ShowScheduleEdit'
 import ShowTimer from './ShowTimer'
-import { getStatisticsOfDay } from './function/statistics'
 
 export type parentType = {
     setIsTimerStop: Dispatch<SetStateAction<boolean>>,
-    date: Date,
-    updateStatistics: Dispatch<SetStateAction<(string | number)[]>>,
-    isEditMode: boolean
+    isEditMode: boolean,
+    schedules: iSchedule[],
+    setSchedules: Dispatch<SetStateAction<iSchedule[]>>
 }
 
 let tmStop = false
 let exitTimer = true
-const ShowSchedule: FC<parentType> = ({setIsTimerStop, date, updateStatistics, isEditMode}) => {
+const ShowSchedule: FC<parentType> = ({setIsTimerStop, isEditMode, schedules, setSchedules}) => {
     let newSch = newTempSchedule()
     const [timer, setTimer] = useState(initTimer())
-    const [schedules, setSchedules] = useState([
-        newSchedule(date, "뇌행", 0, 2),
-        newSchedule(date, "컴특", 0, 1),
-        newSchedule(date, "모소 기획서", 3, 0)
-    ])
 
     const startTimer = (schedule:iSchedule) => {
         if(exitTimer){
@@ -56,7 +50,7 @@ const ShowSchedule: FC<parentType> = ({setIsTimerStop, date, updateStatistics, i
     const countDown = () => {
         let time = newSch.timeRemaining
         const start = setInterval(() => {
-            if(time < 0){
+            if(time < 1){
                 exitTimer = true
                 setIsTimerStop(exitTimer)
                 stop(setTimeOver(newSch))
@@ -70,12 +64,11 @@ const ShowSchedule: FC<parentType> = ({setIsTimerStop, date, updateStatistics, i
              
         }, 1000)
 
-        const stop = (newSch: iSchedule) => {
+        const stop = (schedule: iSchedule) => {
             clearInterval(start)
             setSchedules(
-                schedules.map(sch => sch.index == newSch.index? newSch: sch)
+                schedules.map(sch => sch.index == schedule.index? schedule: sch)
             )
-            //updateStatistics(getStatisticsOfDay(schedules))
             setTimer(initTimer())
         }
     }

@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { iSchedule } from "../typeDeclare";
 
 const getStudyTimeAndCheck = (scheduleList: iSchedule[]) => {
