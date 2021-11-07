@@ -13,18 +13,18 @@ import { getTimeSetting } from './function/schedule'
 export type parentType = {
     schedule: iSchedule,
     startTimer: (schedule: iSchedule) => void,
-    stopTimer: (schedule: iSchedule) => void
+    stopTimer: (scheduel: iSchedule) => void
 }
 
 const ShowScheduleTimer: FC<parentType> = ({schedule, startTimer, stopTimer}) => {
-    const getIcon = useCallback((schedule: iSchedule) => { 
+    const getIcon = (schedule: iSchedule) => { 
         const tense = getTense(schedule.date)
         if (tense == "Today" && schedule.timerIcon == "timer")
             return <IconTimer name={schedule.timerIcon} size={32} color={Colors.black} onPress={() => {startTimer(schedule)}}/>
         else if(tense == "Today" && schedule.timerIcon == "timer-sand")
             return <IconTimerSand name={schedule.timerIcon} size={32} color={Colors.black} onPress={() => {stopTimer(schedule)}}/>
         return <IconTimer name="timer" size={32} color={Colors.white}/>
-    }, [])
+    }
 
     return (
         <View style={[styles.textIconView, styles.scheduleBoundary]}>
