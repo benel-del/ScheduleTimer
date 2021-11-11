@@ -1,19 +1,17 @@
-import React, { Dispatch, FC, SetStateAction, useState, useCallback, useRef } from 'react'
+import React, { Dispatch, FC, SetStateAction, useState, useCallback } from 'react'
 import { View, ScrollView, Alert, Text } from 'react-native'
-import { styles } from './styles'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
-import { setTimerIcon, setTimeRemaining, setTimeOver, newTempSchedule, newSchedule, getTimeSetting } from './function/schedule'
+import { setTimerIcon, setTimeRemaining, setTimeOver, newTempSchedule } from './function/schedule'
 import { initTimer, newTimer } from './function/timer'
 import ShowScheduleTimer from './ShowScheduleTimer'
-import ShowScheduleEdit from './ShowScheduleEdit'
 import ShowTimer from './ShowTimer'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 export type parentType = {
     tense: string,
     setIsTimerStop: Dispatch<SetStateAction<boolean>>,
-    isEditMode: boolean,
     setIsEditMode: Dispatch<SetStateAction<boolean>>,
     schedules: iSchedule[],
     setSchedules: Dispatch<SetStateAction<iSchedule[]>>
@@ -23,7 +21,7 @@ let tmStop = false
 let exitTimer = true
 const iconSize = 40
 
-const ShowSchedule: FC<parentType> = ({tense, setIsTimerStop, isEditMode, setIsEditMode, schedules, setSchedules}) => {
+const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, schedules, setSchedules}) => {
     let newSch = newTempSchedule()
     const [timer, setTimer] = useState(initTimer())
 
@@ -79,46 +77,13 @@ const ShowSchedule: FC<parentType> = ({tense, setIsTimerStop, isEditMode, setIsE
         }
     }
 
-    const insertSchedule = (schedule: iSchedule) => {
-        Alert.alert("계획을 추가하겠습니까?", "")
-        let newSch = newSchedule(new Date(), "추가", 0, 3)
-        setSchedules([...schedules, newSch])
-    }
-
-    const removeSchedule = (schedule: iSchedule) => {
-        const info = "[" + schedule.name + " " + getTimeSetting(schedule) + "]"
-        Alert.alert(info + " 계획을 삭제하겠습니까?", "", [
-            {text: "삭제", onPress: () => {remove()}},
-            {text: "취소", onPress: () => {}}
-        ])
-        const remove = () => {
-            setSchedules(
-                schedules.filter(sch => sch.index !== schedule.index)
-            )
-        }
-    }
-
-    console.log("schedules: " + isEditMode);
     let editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.black} onPress={() => {setIsEditMode(true)}}/>
     if(tense == "Past" || !exitTimer)
         editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.white}/>
-    else if(exitTimer && isEditMode)
-        editIcon = <Icon name="calendar-check" size={iconSize} color={Colors.black} onPress={() => {setIsEditMode(false)}}/>
-    
-    let title = "계획"
-    let scheduleList
-    if(!isEditMode){
-        scheduleList = schedules.map((schedule, index) => {
+
+    let scheduleList = schedules.map((schedule, index) => {
             return <ShowScheduleTimer schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
         })
-    }
-    else{
-        title += "편집"
-        scheduleList = schedules.map((schedule, index) => {
-            return <ShowScheduleEdit schedule={schedule} updateSchedule={removeSchedule} key={index}/>
-        })
-        scheduleList.push(<ShowScheduleEdit schedule={newTempSchedule()} updateSchedule={insertSchedule} key={scheduleList.length}/>)
-    }
     
     let timerView
     if(exitTimer)
@@ -131,7 +96,7 @@ const ShowSchedule: FC<parentType> = ({tense, setIsTimerStop, isEditMode, setIsE
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color={Colors.black}/>
-                    <Text style={styles.daysTitleText}>{title}</Text>
+                    <Text style={styles.daysTitleText}>계획</Text>
                 </View>
                 {editIcon}
             </View>
@@ -145,4 +110,4 @@ const ShowSchedule: FC<parentType> = ({tense, setIsTimerStop, isEditMode, setIsE
     )
 }
 
-export default ShowSchedule
+export default ShowTimerMode

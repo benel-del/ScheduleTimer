@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react"
-import { View, Text, Alert, ScrollView } from "react-native"
+import React, { useCallback, useState } from "react"
+import { View, Text, Alert } from "react-native"
 import { Colors } from "react-native-paper"
-import { styles } from './styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon3 from 'react-native-vector-icons/MaterialIcons'
+import { styles } from './styles'
 import { getTense, getDayFormatting } from "./function/date"
 import { getStatisticsOfDay } from './function/statistics'
 import { newSchedule } from './function/schedule'
-import ShowSchedule from "./ShowSchedule"
+import ShowTimerMode from "./ShowTimerMode"
+import ShowEditMode from "./ShowEditMode"
 
 const iconSize = 40
 const iconSize_mini = 21
@@ -31,8 +32,6 @@ export default function Days() {
         newSchedule(date, "ㅔ테5", 0, 1)
     ])
 
-    console.log(schedules.length)
-
     let statistics = getStatisticsOfDay(schedules)
 
     const beforePage = useCallback(() => {
@@ -47,6 +46,7 @@ export default function Days() {
             tense = getTense(date)
         }
     }, [])
+
     const nextPage = useCallback(() => {
         if(isEditMode)
             Alert.alert("경고", "편집 모드입니다.")
@@ -59,6 +59,12 @@ export default function Days() {
             tense = getTense(date)
         }
     }, [])
+
+    let showContent
+    if(isEditMode)
+        showContent = <ShowEditMode setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules}/>
+    else
+        showContent = <ShowTimerMode tense={tense} setIsTimerStop={setIsTimerStop} setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules}/>
     
     return (
         <View style={styles.container}>
@@ -68,7 +74,7 @@ export default function Days() {
                 <Icon3 name="navigate-next" size={iconSize} color={Colors.white} onPress={nextPage}/>
             </View>
             
-            <ShowSchedule tense={tense} setIsTimerStop={setIsTimerStop} isEditMode={isEditMode} setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules}/>
+            {showContent}
 
             <View style={[styles.statisticsView, styles.flexRowCenter, styles.topBoundary]}>
                 <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
