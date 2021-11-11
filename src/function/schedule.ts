@@ -20,9 +20,9 @@ export const newSchedule = (date: Date, name: string, timeSetting_hour: number, 
 
 export const newTempSchedule = () => {
     const sch: iSchedule = {
-        index: 0,
+        index: -1,
         date: new Date(),
-        name: "temp",
+        name: "",
         timeSetting_hour: 0,
         timeSetting_minute: 0,
         timeRemaining: 0,
@@ -86,4 +86,3 @@ export const getTimeSetting = (schedule: iSchedule) => {
         time += schedule.timeSetting_minute + "분"
     return time
 }
-

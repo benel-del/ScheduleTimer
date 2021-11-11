@@ -13,7 +13,7 @@ const iconSize = 40
 const iconSize_mini = 21
 
 export default function Days() {
-    let isEditMode = false
+    const [isEditMode, setIsEditMode] = useState(false)
     const [isTimerStop, setIsTimerStop] = useState(true)
     const [date, setDate] = useState(new Date())
     
@@ -23,52 +23,43 @@ export default function Days() {
         newSchedule(date, "뇌행", 0, 1),
         newSchedule(date, "컴특", 0, 1),
         newSchedule(date, "테테", 0, 1),
-        newSchedule(date, "모소 기획서", 0, 1)
+        newSchedule(date, "모소 기획서", 0, 1),
+        newSchedule(date, "테테1", 0, 1),
+        newSchedule(date, "ㅔ테2", 0, 1),
+        newSchedule(date, "ㅔ테3", 0, 1),
+        newSchedule(date, "ㅔ테4", 0, 1),
+        newSchedule(date, "ㅔ테5", 0, 1)
     ])
+
+    console.log(schedules.length)
 
     let statistics = getStatisticsOfDay(schedules)
 
     const beforePage = useCallback(() => {
-        if(isTimerStop){
+        if(isEditMode)
+            Alert.alert("경고", "편집 모드입니다.")
+        if(!isTimerStop)
+            Alert.alert("경고", "타이머가 돌아가고 있습니다.")
+        else{
             setDate((date: Date) => {
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate()-1)
             })
             tense = getTense(date)
         }
-        else
-            Alert.alert("경고", "타이머가 돌아가고 있습니다.")
-        
-    }, [isTimerStop])
+    }, [])
     const nextPage = useCallback(() => {
-        if(isTimerStop){
+        if(isEditMode)
+            Alert.alert("경고", "편집 모드입니다.")
+        if(!isTimerStop)
+            Alert.alert("경고", "타이머가 돌아가고 있습니다.")
+        else{
             setDate((date: Date) => {
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate()+1)
             })
             tense = getTense(date)
         }
-        else
-            Alert.alert("경고", "타이머가 돌아가고 있습니다.")
-    }, [isTimerStop])
-
-    const startEdit = useCallback(() => {
-        if(isTimerStop){
-            Alert.alert(tense + ", " + date);
-            isEditMode = true
-        }
-        else
-            Alert.alert("경고", "타이머가 돌아가고 있습니다.")
-    }, [isTimerStop, date])
-
-    const stopEdit = () => {
-
-    }
-
-    let editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.black} onPress={startEdit}/>
-    if(tense == "Past" || !isTimerStop)
-        editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.white}/>
-    else if(isEditMode)
-        editIcon = <Icon name="calendar-check" size={iconSize} color={Colors.black} onPress={stopEdit}/>
-
+    }, [])
+    
     return (
         <View style={styles.container}>
             <View style={[styles.topView, styles.flexRowBetween]}>
@@ -76,15 +67,8 @@ export default function Days() {
                 <Text style={[styles.topText, styles.alignCenter]}>{getDayFormatting(date)}</Text>
                 <Icon3 name="navigate-next" size={iconSize} color={Colors.white} onPress={nextPage}/>
             </View>
-            <View style={[styles.daysTitleView, styles.textIconView]}>
-                <View style={styles.iconTextView}>
-                    <Icon name="calendar-today" size={iconSize} color={Colors.black}/>
-                    <Text style={styles.daysTitleText}>계획</Text>
-                </View>
-                {editIcon}
-            </View>
             
-            <ShowSchedule setIsTimerStop={setIsTimerStop} isEditMode={isEditMode} schedules={schedules} setSchedules={setSchedules}/>
+            <ShowSchedule tense={tense} setIsTimerStop={setIsTimerStop} isEditMode={isEditMode} setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules}/>
 
             <View style={[styles.statisticsView, styles.flexRowCenter, styles.topBoundary]}>
                 <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>

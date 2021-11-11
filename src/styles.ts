@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     },
     daysContentView: {
         padding: 5,
-        height: "73%"
+        height: 485
     },
     daysScrollView: {
         paddingHorizontal: 10,
