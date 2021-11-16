@@ -1,11 +1,11 @@
-import { useRef, useCallback } from "react"
 import { iSchedule } from "../typeDeclare"
+import { getDayFormatting } from "./date"
 
 let scheduleIndex = 0
 export const newSchedule = (date: Date, name: string, timeSetting_hour: number, timeSetting_minute: number) => {
     const sch: iSchedule = {
         index: scheduleIndex,
-        date: date,
+        date: getDayFormatting(date),
         name: name,
         timeSetting_hour: timeSetting_hour,
         timeSetting_minute: timeSetting_minute,
@@ -21,7 +21,7 @@ export const newSchedule = (date: Date, name: string, timeSetting_hour: number, 
 export const newTempSchedule = () => {
     const sch: iSchedule = {
         index: -1,
-        date: new Date(),
+        date: "",
         name: "",
         timeSetting_hour: 0,
         timeSetting_minute: 0,

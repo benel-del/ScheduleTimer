@@ -6,6 +6,7 @@ import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
 import { setTimerIcon, setTimeRemaining, setTimeOver, newTempSchedule } from './function/schedule'
 import { initTimer, newTimer } from './function/timer'
+import { getDayFormatting } from './function/date'
 import ShowScheduleTimer from './ShowScheduleTimer'
 import ShowTimer from './ShowTimer'
 
@@ -14,15 +15,17 @@ export type parentType = {
     setIsTimerStop: Dispatch<SetStateAction<boolean>>,
     setIsEditMode: Dispatch<SetStateAction<boolean>>,
     schedules: iSchedule[],
-    setSchedules: Dispatch<SetStateAction<iSchedule[]>>
+    setSchedules: Dispatch<SetStateAction<iSchedule[]>>,
+    date: Date
 }
 
 let tmStop = false
 let exitTimer = true
 const iconSize = 40
 
-const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, schedules, setSchedules}) => {
+const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, schedules, setSchedules, date}) => {
     let newSch = newTempSchedule()
+    let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
     const [timer, setTimer] = useState(initTimer())
 
     const startTimer = useCallback((schedule:iSchedule) => {
@@ -81,7 +84,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
     if(tense == "Past" || !exitTimer)
         editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.white}/>
 
-    let scheduleList = schedules.map((schedule, index) => {
+    let scheduleList = todaySchedules.map((schedule, index) => {
             return <ShowScheduleTimer schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
         })
     

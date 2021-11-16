@@ -25,6 +25,30 @@ export function getTense(day: Date){
     }
 }
 
+export function getTenseByString(day: string){
+    let interval = Number(day.substring(0, 4)) - today.getFullYear()
+    if(interval > 0)
+        return "Future"
+    else if(interval < 0)
+        return "Past"
+    else{
+        interval = Number(day.substring(5, 7)) - today.getMonth() - 1
+        if(interval > 0)
+            return "Future"
+        else if(interval < 0)
+            return "Past"
+        else{
+            interval = Number(day.substring(8, 10)) - today.getDate()
+            if(interval > 0)
+                return "Future"
+            else if(interval < 0)
+                return "Past"
+            else
+                return "Today"
+        }
+    }
+}
+
 export function getDayFormatting(day: Date){
     return day.getFullYear() + "." + (day.getMonth() + 1) + "." + day.getDate() + " " + daysKor[day.getDay()]
 }

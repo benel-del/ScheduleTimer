@@ -1,6 +1,6 @@
 export type iSchedule = {
     index: number,
-    date: Date,
+    date: string,
     name: string,
     timeSetting_hour: number,
     timeSetting_minute: number,

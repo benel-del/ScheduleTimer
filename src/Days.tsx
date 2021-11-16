@@ -25,19 +25,16 @@ export default function Days() {
         newSchedule(date, "컴특", 0, 1),
         newSchedule(date, "테테", 0, 1),
         newSchedule(date, "모소 기획서", 0, 1),
-        newSchedule(date, "테테1", 0, 1),
-        newSchedule(date, "ㅔ테2", 0, 1),
-        newSchedule(date, "ㅔ테3", 0, 1),
-        newSchedule(date, "ㅔ테4", 0, 1),
-        newSchedule(date, "ㅔ테5", 0, 1)
+        newSchedule(new Date(date.getFullYear(), date.getMonth(), date.getDate()+1), "테스트", 0, 2)
     ])
 
-    let statistics = getStatisticsOfDay(schedules)
+    let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
+    let statistics = getStatisticsOfDay(todaySchedules)
 
     const beforePage = useCallback(() => {
         if(isEditMode)
             Alert.alert("경고", "편집 모드입니다.")
-        if(!isTimerStop)
+        else if(!isTimerStop)
             Alert.alert("경고", "타이머가 돌아가고 있습니다.")
         else{
             setDate((date: Date) => {
@@ -45,12 +42,12 @@ export default function Days() {
             })
             tense = getTense(date)
         }
-    }, [])
+    }, [isEditMode, isTimerStop])
 
     const nextPage = useCallback(() => {
         if(isEditMode)
             Alert.alert("경고", "편집 모드입니다.")
-        if(!isTimerStop)
+        else if(!isTimerStop)
             Alert.alert("경고", "타이머가 돌아가고 있습니다.")
         else{
             setDate((date: Date) => {
@@ -58,13 +55,13 @@ export default function Days() {
             })
             tense = getTense(date)
         }
-    }, [])
+    }, [isEditMode, isTimerStop])
 
     let showContent
     if(isEditMode)
-        showContent = <ShowEditMode setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules}/>
+        showContent = <ShowEditMode setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules} date={date}/>
     else
-        showContent = <ShowTimerMode tense={tense} setIsTimerStop={setIsTimerStop} setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules}/>
+        showContent = <ShowTimerMode tense={tense} setIsTimerStop={setIsTimerStop} setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules} date={date}/>
     
     return (
         <View style={styles.container}>

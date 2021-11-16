@@ -17,7 +17,7 @@ const getStudyTimeAndCheck = (scheduleList: iSchedule[]) => {
 
 const getFormatting = (time: number, countCheck: number, numOfSchedule: number) => {
     const studyTime = Math.floor(time / 3600) + "시간 " + Math.floor(time/60) % 60 + "분" 
-    const gauge = Math.floor(countCheck / numOfSchedule * 100)
+    const gauge = numOfSchedule != 0 ? Math.floor(countCheck / numOfSchedule * 100): 0
     return [studyTime, gauge]
 }
 

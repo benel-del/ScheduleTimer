@@ -7,7 +7,7 @@ import IconTimerSand from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
-import { getTense } from './function/date'
+import { getTenseByString } from './function/date'
 import { getTimeSetting } from './function/schedule'
 
 export type parentType = {
@@ -18,7 +18,7 @@ export type parentType = {
 
 const ShowScheduleTimer: FC<parentType> = ({schedule, startTimer, stopTimer}) => {
     const getIcon = (schedule: iSchedule) => { 
-        const tense = getTense(schedule.date)
+        const tense = getTenseByString(schedule.date)
         if (tense == "Today" && schedule.timerIcon == "timer")
             return <IconTimer name={schedule.timerIcon} size={32} color={Colors.black} onPress={() => {startTimer(schedule)}}/>
         else if(tense == "Today" && schedule.timerIcon == "timer-sand")
