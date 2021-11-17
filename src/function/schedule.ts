@@ -48,14 +48,14 @@ export const setTimerIcon = (schedule: iSchedule, newIcon: string) => {
     return sch
 }
 
-export const setTimeRemaining = (schedule: iSchedule, timeRemaining: number) => {
+export const setTimeRemaining = (schedule: iSchedule, time: number) => {
     const sch: iSchedule = {
         index: schedule.index,
         date: schedule.date,
         name: schedule.name,
         timeSetting_hour: schedule.timeSetting_hour,
         timeSetting_minute: schedule.timeSetting_minute,
-        timeRemaining: timeRemaining,
+        timeRemaining: time,
         timerIcon: schedule.timerIcon,
         isChecked: schedule.isChecked,
         checkIcon: schedule.checkIcon

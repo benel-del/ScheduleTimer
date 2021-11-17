@@ -24,81 +24,76 @@ let exitTimer = true
 const iconSize = 40
 
 const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, schedules, setSchedules, date}) => {
-    let newSch = newTempSchedule()
     let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
     const [timer, setTimer] = useState(initTimer())
 
     const startTimer = useCallback((schedule:iSchedule) => {
+        const countDown = () => {
+            let time = schedule.timeRemaining
+            setTimer(newTimer(time))
+            const start = setInterval(() => {
+                if(time < 1){
+                    exitTimer = true
+                    setIsTimerStop(exitTimer)
+                    stopCountDown(setTimeOver(schedule))
+                }
+                else if(exitTimer)
+                    stopCountDown(setTimeRemaining(setTimerIcon(schedule, "timer"), time))              
+                else if(!tmStop){
+                    time -= 1
+                    setTimer(newTimer(time))
+                }
+                 
+            }, 1000)
+    
+            const stopCountDown = (newSch: iSchedule) => {
+                setSchedules(
+                    schedules.map(sch => sch.index == newSch.index? newSch: sch)
+                )
+                setTimer(initTimer())
+                clearInterval(start)
+            }
+        }
+
         if(exitTimer){
-            newSch = setTimerIcon(schedule, "timer-sand")
             setSchedules(
-                schedules.map(sch => sch.index == schedule.index? newSch: sch)
+                schedules.map(sch => sch.index == schedule.index? setTimerIcon(schedule, "timer-sand"): sch)
             )
             tmStop = false
             exitTimer = false
             setIsTimerStop(exitTimer)
-            setTimer(newTimer(newSch.timeRemaining))
             countDown()
         }
         else{
             Alert.alert("경고", "다른 타이머가 돌아가고 있습니다.")
         }
-    }, [])
+    }, [todaySchedules])
 
     const stopTimer = useCallback((schedule:iSchedule) => {
         tmStop = true
-        newSch = schedule
         Alert.alert("타이머를 종료하겠습니까?", "", [
             {text: "종료", onPress: () => {exitTimer = true, setIsTimerStop(exitTimer)}},
             {text: "취소", onPress: () => {tmStop = false}}
         ])
     }, [])
 
-    const countDown = () => {
-        let time = newSch.timeRemaining
-        const start = setInterval(() => {
-            if(time < 1){
-                exitTimer = true
-                setIsTimerStop(exitTimer)
-                stop(setTimeOver(newSch))
-            }
-            else if(exitTimer)
-                stop(setTimeRemaining(setTimerIcon(newSch, "timer"), time))              
-            else if(!tmStop){
-                time -= 1
-                setTimer(newTimer(time))
-            }
-             
-        }, 1000)
-
-        const stop = (schedule: iSchedule) => {
-            clearInterval(start)
-            setSchedules(
-                schedules.map(sch => sch.index == schedule.index? schedule: sch)
-            )
-            setTimer(initTimer())
-        }
-    }
-
     let editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.black} onPress={() => {setIsEditMode(true)}}/>
     if(tense == "Past" || !exitTimer)
         editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.white}/>
 
     let scheduleList = todaySchedules.map((schedule, index) => {
-            return <ShowScheduleTimer schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
-        })
+        return <ShowScheduleTimer schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
+    })
     
-    let timerView
-    if(exitTimer)
-        timerView = null
-    else
+    let timerView = null
+    if(!exitTimer)
         timerView = <ShowTimer timer={timer}></ShowTimer>
 
     return (
         <View>
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
-                    <Icon name="calendar-today" size={iconSize} color={Colors.black}/>
+                    <Icon name="calendar-today" size={iconSize} color={Colors.black}/>                                                                                
                     <Text style={styles.daysTitleText}>계획</Text>
                 </View>
                 {editIcon}

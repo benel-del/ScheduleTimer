@@ -11,7 +11,7 @@ import ShowTimerMode from "./ShowTimerMode"
 import ShowEditMode from "./ShowEditMode"
 
 const iconSize = 40
-const iconSize_mini = 21
+const iconSize_mini = 25
 
 export default function Days() {
     const [isEditMode, setIsEditMode] = useState(false)
@@ -28,7 +28,7 @@ export default function Days() {
         newSchedule(new Date(date.getFullYear(), date.getMonth(), date.getDate()+1), "테스트", 0, 2)
     ])
 
-    let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
+    const todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
     let statistics = getStatisticsOfDay(todaySchedules)
 
     const beforePage = useCallback(() => {
@@ -57,11 +57,9 @@ export default function Days() {
         }
     }, [isEditMode, isTimerStop])
 
-    let showContent
+    let showContent = <ShowTimerMode tense={tense} setIsTimerStop={setIsTimerStop} setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules} date={date}/>
     if(isEditMode)
         showContent = <ShowEditMode setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules} date={date}/>
-    else
-        showContent = <ShowTimerMode tense={tense} setIsTimerStop={setIsTimerStop} setIsEditMode={setIsEditMode} schedules={schedules} setSchedules={setSchedules} date={date}/>
     
     return (
         <View style={styles.container}>

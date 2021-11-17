@@ -17,7 +17,7 @@ export type parentType = {
 }
 
 const ShowScheduleTimer: FC<parentType> = ({schedule, startTimer, stopTimer}) => {
-    const getIcon = (schedule: iSchedule) => { 
+    const getIcon = () => { 
         const tense = getTenseByString(schedule.date)
         if (tense == "Today" && schedule.timerIcon == "timer")
             return <IconTimer name={schedule.timerIcon} size={32} color={Colors.black} onPress={() => {startTimer(schedule)}}/>
@@ -31,8 +31,9 @@ const ShowScheduleTimer: FC<parentType> = ({schedule, startTimer, stopTimer}) =>
             <View style={[styles.iconTextView]}>
                 <IconCheck name={schedule.checkIcon} size={25} color={Colors.black}/>
                 <Text style={styles.daysScheduleText}>{schedule.name} {getTimeSetting(schedule)}</Text>
+                <Text>{schedule.timeRemaining}</Text>
             </View>
-            {getIcon(schedule)}
+            {getIcon()}
         </View>
     )
 }

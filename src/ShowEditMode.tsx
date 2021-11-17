@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react'
+import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
 import { View, ScrollView, Alert, Text } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -27,7 +27,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, d
         setModalVisible(true)
     }
 
-    const removeSchedule = (schedule: iSchedule) => {
+    const removeSchedule = useCallback((schedule: iSchedule) => {
         const info = "[" + schedule.name + " " + getTimeSetting(schedule) + "]"
         Alert.alert(info + " 계획을 삭제하겠습니까?", "", [
             {text: "삭제", onPress: () => {remove()}},
@@ -38,7 +38,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, d
                 schedules.filter(sch => sch.index !== schedule.index)
             )
         }
-    }
+    }, [todaySchedules])
 
     let scheduleList = todaySchedules.map((schedule, index) => {
             return <ShowScheduleEdit schedule={schedule} updateSchedule={removeSchedule} key={index}/>
