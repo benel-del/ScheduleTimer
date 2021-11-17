@@ -1,5 +1,6 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react'
-import { View, Text, Button, Modal, TextInput } from 'react-native'
+import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
+import { View, Text, Button, Modal, TextInput, Alert } from 'react-native'
+import { getDayFormatting } from './function/date'
 import { newSchedule } from './function/schedule'
 import { iSchedule } from './typeDeclare'
 
@@ -14,7 +15,29 @@ export type parentType = {
 const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules, setSchedules, date}) => {
     const [name, onChangeName] = useState("")
     const [timeSetting_hour, onChangeHour] = useState(0)
-    const [timeSetting_minute, onChangeMiniute] = useState(0)
+    const [timeSetting_minute, onChangeMinute] = useState(0)
+
+    const onChangeText = useCallback((type: string, text: string) => {
+        const check = /[~!@\#$%^&*\()\-=+_'\;<>\/.\`:\"\\,\[\]?|{}]/gi
+        if(text.match(check))
+            Alert.alert("경고", "불필요한 문자 포함")
+        else{
+            if(type == "hour"){
+                const num = Number(text)
+                if(num < 0 || num > 11)   // timeSetting_hour's maximun: 11
+                    Alert.alert("경고", "시간 설정 범위: 0 ~ 11")
+                else
+                    onChangeHour(num)
+            }
+            else if(type == "minute"){
+                const num = Number(text)
+                if(num < 0 || num > 59)   // timeSetting_hour's maximun: 11
+                    Alert.alert("경고", "분 설정 범위: 0 ~ 59")
+                else
+                    onChangeMinute(num)
+            }
+        }
+    }, [])
 
     const insert = () =>{
         setSchedules([...schedules, newSchedule(date, name, timeSetting_hour, timeSetting_minute)])
@@ -25,6 +48,7 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules
         <View>
             <Modal animationType="slide" transparent={false} visible={modalVisible} style={[{height: "50%", width: "50%"}]}>
                 <View>
+                    <Text>{getDayFormatting(date)}</Text>
                     <Text>계획 추가하기</Text>
                 </View>
                 <View>
@@ -32,9 +56,9 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules
                         <TextInput placeholder="계획 이름" onChangeText={text => onChangeName(text)}/>
                     </View>
                     <View>
-                        <TextInput placeholder="시" keyboardType="number-pad" onChangeText={(number) => onChangeHour(Number(number))}/>
+                        <TextInput placeholder="시" keyboardType="number-pad" onChangeText={(number) => onChangeText("hour", number)}/>
 
-                        <TextInput placeholder="분" keyboardType="number-pad" onChangeText={(number) => onChangeMiniute(Number(number))}/>
+                        <TextInput placeholder="분" keyboardType="number-pad" onChangeText={(number) => onChangeText("minute", number)}/>
                         
                     </View>
                 </View>
