@@ -1,7 +1,6 @@
 import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
 import { View, Text, Button, Modal, TextInput, Alert } from 'react-native'
-import { getDayFormatting } from './function/date'
-import { newSchedule } from './function/schedule'
+import { getDayFormatting, newSchedule } from './function'
 import { iSchedule } from './typeDeclare'
 
 export type parentType = {

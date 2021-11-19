@@ -7,8 +7,7 @@ import IconTimerSand from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
-import { getTenseByString } from './function/date'
-import { getTimeSetting } from './function/schedule'
+import { getTenseByString, getTimeSetting } from './function'
 
 export type parentType = {
     schedule: iSchedule,

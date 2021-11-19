@@ -5,7 +5,7 @@ import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconCheck from 'react-native-vector-icons/Feather'
-import { getTimeSetting } from './function/schedule'
+import { getTimeSetting } from './function'
 
 export type parentType = {
     schedule: iSchedule,

@@ -4,9 +4,7 @@ import { Colors } from "react-native-paper"
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon3 from 'react-native-vector-icons/MaterialIcons'
 import { styles } from './styles'
-import { getTense, getDayFormatting } from "./function/date"
-import { getStatisticsOfDay } from './function/statistics'
-import { newSchedule } from './function/schedule'
+import { getTense, getDayFormatting, getStatisticsOfDay, newSchedule } from "./function"
 import ShowTimerMode from "./ShowTimerMode"
 import ShowEditMode from "./ShowEditMode"
 

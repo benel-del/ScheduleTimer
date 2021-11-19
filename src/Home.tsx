@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { View, Text, ScrollView } from "react-native"
 import { Colors } from "react-native-paper";
 import { styles } from './styles'
-import { getDayFormatting } from "./function/date"
+import { getDayFormatting } from "./function"
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon2 from 'react-native-vector-icons/Feather'
 
