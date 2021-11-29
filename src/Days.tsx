@@ -15,9 +15,6 @@ export default function Days() {
     const [isEditMode, setIsEditMode] = useState(false)
     const [isTimerStop, setIsTimerStop] = useState(true)
     const [date, setDate] = useState(new Date())
-    
-    let tense = getTense(date)
-
     const [schedules, setSchedules] = useState([
         newSchedule(date, "뇌행", 0, 1),
         newSchedule(date, "컴특", 0, 1),
@@ -25,8 +22,9 @@ export default function Days() {
         newSchedule(date, "모소 기획서", 0, 1),
         newSchedule(new Date(date.getFullYear(), date.getMonth(), date.getDate()+1), "테스트", 0, 2)
     ])
-
     const todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
+
+    let tense = getTense(date)
     let statistics = getStatisticsOfDay(todaySchedules)
 
     const beforePage = useCallback(() => {

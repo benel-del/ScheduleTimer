@@ -1,6 +1,7 @@
-import React, { Dispatch, FC, SetStateAction, useState, useCallback } from 'react'
+import React, { Dispatch, FC, SetStateAction, useState, useCallback, useEffect } from 'react'
 import { View, ScrollView, Alert, Text } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { Colors } from 'react-native-paper'
+import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
@@ -22,6 +23,14 @@ let exitTimer = true
 const iconSize = 40
 
 const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, schedules, setSchedules, date}) => {
+    const focused = useIsFocused()
+    useEffect(()=>{
+        if(!focused){
+            exitTimer = true
+            setIsTimerStop(exitTimer)
+        }
+    }), [focused];
+
     let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
     const [timer, setTimer] = useState(initTimer())
 
@@ -84,7 +93,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
     })
 
     return (
-        <View>
+        <View style={styles.contentView}>
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color={Colors.black}/>                                                                                

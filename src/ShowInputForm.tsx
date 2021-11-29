@@ -79,11 +79,11 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules
                     {show && <DateTimePicker value={timeSetting} mode="time" display="spinner" is24Hour={true} onChange={onChange}/>}
                 </View>
                 <View style={styles.flexRowCenter}>
-                    <TouchableOpacity style={styles.modalButton} onPress={insert}>
-                        <Text style={[styles.buttonText, {fontSize: 20}]}>추가</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={styles.modalButton} onPress={() => {reset(), setModalVisible(false)}}>
                         <Text style={[styles.buttonText, {fontSize: 20}]}>취소</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.modalButton} onPress={insert}>
+                        <Text style={[styles.buttonText, {fontSize: 20}]}>추가</Text>
                     </TouchableOpacity>
                 </View> 
             </Modal>

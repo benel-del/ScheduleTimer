@@ -5,3 +5,16 @@ npm i react-native-vector-icons
 npm i -D @types/react-native-vector-icons
 npx react-native link react-native-vector-icons
 npm i @react-native-community/datetimepicker
+
+npm i react-native-appearance
+npm i react-native-gesture-handler
+npm i react-native-reanimated
+npm i react-native-safe-area-context
+npm i react-native-screens
+npm i @react-navigation/native
+npm i @react-navigation/bottom-tabs
+npm i @react-native-community/masked-view
+npx react-native link react-native-appearance
+
++ months에서 날짜 누르면 days로 이동
++ topView 날짜 누르면 캘린더 뜸 >> 페이지 이동

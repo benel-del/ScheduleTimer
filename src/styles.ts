@@ -15,6 +15,9 @@ export const styles = StyleSheet.create({
         flex: 1,
         padding: 5,
     },
+    contentView: {
+        height: "84%"
+    },
     topView: {
         height: 50,
         padding: 5,
@@ -67,8 +70,8 @@ export const styles = StyleSheet.create({
         padding: 5
     },
     daysContentView: {
-        padding: 5,
-        height: 485
+        height: "85%",
+        padding: 5
     },
     daysScrollView: {
         paddingHorizontal: 10,
@@ -77,11 +80,11 @@ export const styles = StyleSheet.create({
     timerView: {
         marginHorizontal: 10,
         width: "90%",
-        height: "30%"
+        height: "27%"
     },
     timerInnerView: {
         width: "70%",
-        height: "80%",
+        height: "70%",
         padding: 10
     },
     timeView: {

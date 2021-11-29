@@ -1,6 +1,7 @@
-import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
+import React, { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { View, ScrollView, Alert, Text } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { Colors } from 'react-native-paper'
+import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
@@ -18,11 +19,16 @@ export type parentType = {
 const iconSize = 40
 
 const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, date}) => {
+    const focused = useIsFocused()
+    useEffect(()=>{
+        if(!focused)
+            setIsEditMode(false)
+    }), [focused];
+    
     let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
     const [modalVisible, setModalVisible] = useState(false)
 
     const insertSchedule = (schedule: iSchedule) => {
-        //Alert.alert("계획을 추가하겠습니까?", "")
         setModalVisible(true)
     }
 
@@ -40,12 +46,12 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, d
     }, [todaySchedules])
 
     let scheduleList = todaySchedules.map((schedule, index) => {
-            return <ShowScheduleEdit schedule={schedule} updateSchedule={removeSchedule} key={index}/>
-        })
+        return <ShowScheduleEdit schedule={schedule} updateSchedule={removeSchedule} key={index}/>
+    })
     scheduleList.push(<ShowScheduleEdit schedule={newTempSchedule()} updateSchedule={insertSchedule} key={scheduleList.length}/>)
 
     return (
-        <View>
+        <View style={styles.contentView}>
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color={Colors.black}/>

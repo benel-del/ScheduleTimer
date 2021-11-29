@@ -1,12 +1,11 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
-import { styles } from './src/styles'
 import Navigator from "./Navigator";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App(){
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <NavigationContainer>
       <Navigator/>
-    </SafeAreaView>
+    </NavigationContainer>
   )
 }
