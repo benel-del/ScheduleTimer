@@ -82,10 +82,6 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
     let scheduleList = todaySchedules.map((schedule, index) => {
         return <ShowScheduleTimer schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
     })
-    
-    let timerView = null
-    if(!exitTimer)
-        timerView = <ShowTimer timer={timer}></ShowTimer>
 
     return (
         <View>
@@ -100,7 +96,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
                 <ScrollView style={[styles.daysScrollView, styles.alignCenter, styles.topBoundary]} horizontal={false}>
                     {scheduleList}
                 </ScrollView>
-                {timerView}
+                {!exitTimer && <ShowTimer timer={timer}></ShowTimer>}
             </View>
         </View>
     )

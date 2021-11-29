@@ -4,3 +4,4 @@ npm i -D @types/color
 npm i react-native-vector-icons
 npm i -D @types/react-native-vector-icons
 npx react-native link react-native-vector-icons
+npm i @react-native-community/datetimepicker

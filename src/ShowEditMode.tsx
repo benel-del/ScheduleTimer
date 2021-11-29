@@ -28,7 +28,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, d
 
     const removeSchedule = useCallback((schedule: iSchedule) => {
         const info = "[" + schedule.name + " " + getTimeSetting(schedule) + "]"
-        Alert.alert(info + " 계획을 삭제하겠습니까?", "", [
+        Alert.alert(info, " 계획을 삭제하겠습니까?", [
             {text: "삭제", onPress: () => {remove()}},
             {text: "취소", onPress: () => {}}
         ])
@@ -42,7 +42,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, d
     let scheduleList = todaySchedules.map((schedule, index) => {
             return <ShowScheduleEdit schedule={schedule} updateSchedule={removeSchedule} key={index}/>
         })
-        scheduleList.push(<ShowScheduleEdit schedule={newTempSchedule()} updateSchedule={insertSchedule} key={scheduleList.length}/>)
+    scheduleList.push(<ShowScheduleEdit schedule={newTempSchedule()} updateSchedule={insertSchedule} key={scheduleList.length}/>)
 
     return (
         <View>
