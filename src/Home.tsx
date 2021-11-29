@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { View, Text, ScrollView } from "react-native"
-import { Colors } from "react-native-paper";
 import { styles } from './styles'
 import { getDayFormatting } from "./function"
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -8,7 +7,7 @@ import Icon2 from 'react-native-vector-icons/Feather'
 
 const iconSize = 25
 const iconSize_mini = 21
-const iconColor = Colors.black
+const iconColor = 'black'
 
 export default function Home() {
     let date = getDayFormatting(new Date())

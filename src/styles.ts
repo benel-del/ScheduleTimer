@@ -1,4 +1,3 @@
-import Color from "color";
 import { StyleSheet } from "react-native";
 import { Colors } from 'react-native-paper';
 
@@ -13,7 +12,7 @@ export const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: 5,
+        padding: 5
     },
     contentView: {
         height: "84%"
@@ -65,12 +64,13 @@ export const styles = StyleSheet.create({
         paddingLeft: 20
     },
     daysTitleView: {
-        marginTop: 20,
+        marginTop: 30,
+        marginBottom: 10,
         marginHorizontal: 10,
         padding: 5
     },
     daysContentView: {
-        height: "85%",
+        height: "83%",
         padding: 5
     },
     daysScrollView: {
@@ -116,6 +116,25 @@ export const styles = StyleSheet.create({
         borderWidth:1,
         borderColor: lightBoundaryColor
     },
+    calendarView: {
+        height: "95%"
+    },
+    scheduleCircle: {
+        width: 6,
+        height: 6,
+        borderRadius: 50,
+        margin: 2
+    },
+    calendarDateView: {
+        height: 55,
+        margin: 4,
+        width: 50,
+        paddingHorizontal: 5
+    },
+    calendarCircleView: {
+        width:"100%",
+        overflow: 'hidden'
+    },
 
 
     topBoundary: {
@@ -132,7 +151,7 @@ export const styles = StyleSheet.create({
     },
     statisticsRightBoundary: {
         borderWidth: 1,
-        borderColor: Colors.white,
+        borderColor: 'white',
         borderStyle: "dashed"
     },
     scheduleBoundary: {
@@ -154,43 +173,43 @@ export const styles = StyleSheet.create({
     topText: {
         fontSize: 25,
         marginTop: 2,
-        color: Colors.white
+        color: 'white'
     },
     todayText: {
         fontSize: 25,
         fontWeight: "bold",
-        color: Colors.black
+        color: 'black'
     },
     homeTitleText: {
         margin: 7,
         padding: 3,
         fontSize: 20,
         fontWeight: "bold",
-        color: Colors.black,
+        color: 'black',
         borderRadius: 10,
         backgroundColor: Colors.deepPurple50
     },
     daysTitleText: {
         marginLeft: 7,
         fontSize: 23,
-        color: Colors.black,
+        color: 'black',
     },
     daysDateText: {
         width: "50%",
         fontSize: 25,
         fontWeight: "bold",
-        color: Colors.black,
+        color: 'black',
         paddingLeft: 5
     },
     homeTodayContentText: {
         marginLeft: 5,
         fontSize: 20,
-        color: Colors.black
+        color: 'black'
     },
     homeStatisticsContentText: {
         marginLeft: 5,
         fontSize: 18,
-        color: Colors.black
+        color: 'black'
     },
     scrollViewText: {
         fontSize: 15,
@@ -199,7 +218,7 @@ export const styles = StyleSheet.create({
     daysScheduleText: {
         fontSize: 18,
         marginLeft: 10,
-        color: Colors.black
+        color: 'black'
     },
     timerMiniText:{
         fontSize: 12,
@@ -213,18 +232,24 @@ export const styles = StyleSheet.create({
     },
     timerText: {
         fontSize: 30,
-        color: Colors.black,
+        color: 'black',
         textAlign: "center"
     },
     buttonText: {
-        color: Colors.white,
+        color: 'white',
         alignSelf: "center"
     },
-
     textInput: {
         padding: 5,
         fontSize: 20,
     },
+    calendarDateText: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'black',
+        marginVertical: 3
+    },
+
 
     timeSettingButton: {
         width: 90,
@@ -241,6 +266,7 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: buttonColor
     },
+    
 
 
     alignCenter: {

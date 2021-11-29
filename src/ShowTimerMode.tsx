@@ -1,6 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useState, useCallback, useEffect } from 'react'
 import { View, ScrollView, Alert, Text } from 'react-native'
-import { Colors } from 'react-native-paper'
 import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
@@ -84,9 +83,9 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
         ])
     }, [])
 
-    let editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.black} onPress={() => {setIsEditMode(true)}}/>
+    let editIcon = <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>
     if(tense == "Past" || !exitTimer)
-        editIcon = <Icon name="calendar-edit" size={iconSize} color={Colors.white}/>
+        editIcon = <Icon name="calendar-edit" size={iconSize} color='white'/>
 
     let scheduleList = todaySchedules.map((schedule, index) => {
         return <ShowScheduleTimer schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
@@ -96,7 +95,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
         <View style={styles.contentView}>
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
-                    <Icon name="calendar-today" size={iconSize} color={Colors.black}/>                                                                                
+                    <Icon name="calendar-today" size={iconSize} color='black'/>                                                                                
                     <Text style={styles.daysTitleText}>계획</Text>
                 </View>
                 {editIcon}

@@ -16,5 +16,4 @@ npm i @react-navigation/bottom-tabs
 npm i @react-native-community/masked-view
 npx react-native link react-native-appearance
 
-+ months에서 날짜 누르면 days로 이동
-+ topView 날짜 누르면 캘린더 뜸 >> 페이지 이동
+npm i react-native-calendars

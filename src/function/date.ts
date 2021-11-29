@@ -54,5 +54,5 @@ export function getDayFormatting(day: Date){
 }
 
 export function getMonthFormatting(day: Date){
-    return day.getFullYear() + "." + day.getMonth()
+    return day.getFullYear() + "." + (day.getMonth() + 1)
 }

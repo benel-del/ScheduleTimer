@@ -28,7 +28,7 @@ export default function Navigator(){
                 backgroundColor: Colors.deepPurple400
             },
             headerTitleStyle: {
-                color: Colors.white,
+                color: 'white',
                 fontSize: 22,
             },
             headerShown: false,

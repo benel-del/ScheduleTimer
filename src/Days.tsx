@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react"
 import { View, Text, Alert } from "react-native"
-import { Colors } from "react-native-paper"
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon3 from 'react-native-vector-icons/MaterialIcons'
 import { styles } from './styles'
@@ -60,9 +59,9 @@ export default function Days() {
     return (
         <View style={styles.container}>
             <View style={[styles.topView, styles.flexRowBetween]}>
-                <Icon3 name="navigate-before" size={iconSize} color={Colors.white} onPress={beforePage}/>
+                <Icon3 name="navigate-before" size={iconSize} color='white' onPress={beforePage}/>
                 <Text style={[styles.topText, styles.alignCenter]}>{getDayFormatting(date)}</Text>
-                <Icon3 name="navigate-next" size={iconSize} color={Colors.white} onPress={nextPage}/>
+                <Icon3 name="navigate-next" size={iconSize} color='white' onPress={nextPage}/>
             </View>
             
             {showContent}
@@ -70,13 +69,13 @@ export default function Days() {
             <View style={[styles.statisticsView, styles.flexRowCenter, styles.topBoundary]}>
                 <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
                     <View style={[styles.iconTextView]}>
-                        <Icon name="calendar-clock" size={iconSize_mini} color={Colors.black}/>
+                        <Icon name="calendar-clock" size={iconSize_mini} color='black'/>
                         <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statistics[0]}</Text>
                     </View>
                 </View>
                 <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsRightBoundary]}>
                     <View style={styles.iconTextView}>
-                        <Icon name="gauge" size={iconSize_mini} color={Colors.black}/>
+                        <Icon name="gauge" size={iconSize_mini} color='black'/>
                         <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statistics[1]}% 달성</Text>
                     </View>
                 </View>

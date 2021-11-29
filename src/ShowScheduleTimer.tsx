@@ -1,6 +1,5 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC } from 'react'
 import { View, Text } from 'react-native'
-import { Colors } from 'react-native-paper'
 import IconCheck from 'react-native-vector-icons/Feather'
 import IconTimer from 'react-native-vector-icons/MaterialIcons'
 import IconTimerSand from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -19,16 +18,16 @@ const ShowScheduleTimer: FC<parentType> = ({schedule, startTimer, stopTimer}) =>
     const getIcon = () => { 
         const tense = getTenseByString(schedule.date)
         if (tense == "Today" && schedule.timerIcon == "timer")
-            return <IconTimer name={schedule.timerIcon} size={32} color={Colors.black} onPress={() => {startTimer(schedule)}}/>
+            return <IconTimer name={schedule.timerIcon} size={32} color='black' onPress={() => {startTimer(schedule)}}/>
         else if(tense == "Today" && schedule.timerIcon == "timer-sand")
-            return <IconTimerSand name={schedule.timerIcon} size={32} color={Colors.black} onPress={() => {stopTimer(schedule)}}/>
-        return <IconTimer name="timer" size={32} color={Colors.white}/>
+            return <IconTimerSand name={schedule.timerIcon} size={32} color='black' onPress={() => {stopTimer(schedule)}}/>
+        return <IconTimer name="timer" size={32} color='white'/>
     }
 
     return (
         <View style={[styles.textIconView, styles.scheduleBoundary]}>
             <View style={[styles.iconTextView]}>
-                <IconCheck name={schedule.checkIcon} size={25} color={Colors.black}/>
+                <IconCheck name={schedule.checkIcon} size={25} color='black'/>
                 <Text style={styles.daysScheduleText}>{schedule.name} {getTimeSetting(schedule)}</Text>
                 <Text>{schedule.timeRemaining}</Text>
             </View>

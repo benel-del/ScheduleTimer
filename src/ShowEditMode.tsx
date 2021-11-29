@@ -1,6 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { View, ScrollView, Alert, Text } from 'react-native'
-import { Colors } from 'react-native-paper'
 import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
@@ -54,10 +53,10 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, d
         <View style={styles.contentView}>
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
-                    <Icon name="calendar-today" size={iconSize} color={Colors.black}/>
+                    <Icon name="calendar-today" size={iconSize} color='black'/>
                     <Text style={styles.daysTitleText}>계획 편집</Text>
                 </View>
-                <Icon name="calendar-check" size={iconSize} color={Colors.black} onPress={() => {setIsEditMode(false)}}/>
+                <Icon name="calendar-check" size={iconSize} color='black' onPress={() => {setIsEditMode(false)}}/>
             </View>
             <View style={styles.daysContentView}>
                 <ScrollView style={[styles.daysScrollView, styles.alignCenter, styles.topBoundary]} horizontal={false}>
