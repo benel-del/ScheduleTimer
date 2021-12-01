@@ -3,6 +3,7 @@ import { View, Text, Alert } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useIsFocused } from "@react-navigation/native"
+import DateTimePicker from "@react-native-community/datetimepicker"
 
 import { styles } from './styles'
 import { getTense, getStatisticsFormat, getDateForm } from "./function"
@@ -16,10 +17,11 @@ const iconSize_mini = 25
 export default function Daily() {
     const [isEditMode, setIsEditMode] = useState(false)
     const [isTimerStop, setIsTimerStop] = useState(true)
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false)
     const {today, theDate, updateTheDate} = useTodayDateContext()
     const {theDateSchedules} = useScheduleContext()
-
     const focused = useIsFocused()
+
     useEffect(()=>{
         if(!focused)
             updateTheDate(today)
@@ -55,11 +57,18 @@ export default function Daily() {
         }
     }, [isEditMode, isTimerStop, theDate])
 
+    const onChange = useCallback((event: Event, date: Date) => {
+        setIsCalendarOpen(false)
+        if(date != undefined)
+            updateTheDate(date)        
+    }, [])
+
     return (
         <View style={styles.container}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={beforePage}/>
-                <Text style={[styles.topText, styles.alignCenter]}>{getDateForm(theDate)}</Text>
+                <Text style={[styles.topText, styles.alignCenter]} onPress={() => setIsCalendarOpen(true)}>{getDateForm(theDate)}</Text>
+                {isCalendarOpen && <DateTimePicker value={theDate} mode="date" display="calendar" onChange={onChange}/>}
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={nextPage}/>
             </View>
             
