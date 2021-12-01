@@ -67,7 +67,7 @@ export function getDateFormByString(day: string){
     const dd = Number(day.substring(8, 10))
 
     return {
-        dateForm: new Date(yy, mm, dd),
-        stringForm: yy + "." + mm + "." + dd
+        dateForm: new Date(yy, mm-1, dd),
+        stringForm: yy + "." + (mm < 10 ? "0" + mm : mm) + "." + (dd < 10 ? "0" + dd : dd)
     }
 }

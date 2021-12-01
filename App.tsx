@@ -15,12 +15,18 @@ export default function App(){
 
   useLayoutEffect(() => {
     if(schedules != []){
+      const monthSchedules = schedules.find(dates => dates.month == getMonthForm(theMonth))
+      setTheMonthSchedules(monthSchedules)
+    }
+  }, [schedules, theMonth])
+
+  useLayoutEffect(() => {
+    if(schedules != []){
       const monthSchedules = schedules.find(dates => dates.month == getMonthForm(theDate))
       const dateSchedules = monthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(theDate))
-      setTheMonthSchedules(monthSchedules)
       setTheDateSchedules(dateSchedules)
     }
-  }, [schedules, theDate, theDateSchedules, theMonthSchedules])
+  }, [schedules, theDate])
 
   const updateTheDate = useCallback((type: string | Date) => {
     if(typeof(type) == "string")
@@ -32,10 +38,11 @@ export default function App(){
   }, [theDate])
 
   const updateTheMonth = useCallback((type: string | Date) => {
-    if(typeof(type) == "string")
-      setTheMonth(
-        new Date(theMonth.getFullYear(), theMonth.getMonth() + (type == "before" ? -1 : 1))
-      )
+    if(typeof(type) == "string"){
+      const dd = new Date(theMonth.getFullYear(), theMonth.getMonth() + (type == "before" ? -1 : 1))
+      setTheDate(dd)
+      setTheMonth(dd)
+    }
     else
       setTheMonth(type)
   }, [theMonth])

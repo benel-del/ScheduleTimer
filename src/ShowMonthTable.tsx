@@ -10,7 +10,7 @@ import { getDateFormByString } from "./function"
 const ShowMonthTable = () => {
     const navigation = useNavigation()
     const {theMonth, updateTheDate} = useTodayDateContext()
-    const {schedules} = useScheduleContext()
+    const {theMonthSchedules} = useScheduleContext()
     const theme = {
         textMonthFontSize: 0,
         textDayFontSize: 24,
@@ -38,7 +38,7 @@ const ShowMonthTable = () => {
     const ShowCalendar = useCallback(() => {
         return (
             <View style={styles.calendarView}>
-                <Calendar
+            <Calendar
                 current = {theMonth}
                 monthFormat={'yyyy MM'}
                 onDayPress={(day) => {console.log('selected day', day)}}
@@ -50,38 +50,31 @@ const ShowMonthTable = () => {
                 theme={theme}
                 dayComponent={({date, state}) => {
                     const calendarDate = getDateFormByString(date.dateString)
-                    const dotsOfTheDay = schedules?.map((month, index) => {
-                        month.schedulesOfMonth.map((day, index) => {
-                            const scheduleDate = day.date.split(' ')[0]
-                            if(scheduleDate == calendarDate.stringForm){
-                                const dots = day.scheduleOfDate.map((sch, index) => {
-                                    if(index < 4){
-                                        let color = 'grey'
-                                        if(sch.isChecked)
-                                            color = 'black'
-                                        return <View style={[styles.scheduleCircle, {backgroundColor:color}]} key={index}></View>
-                                    }
-                                })
-                                return dots
-                            }
-                        })
+                    const day = theMonthSchedules?.schedulesOfMonth.find(day => day.date.split(' ')[0] == calendarDate.stringForm)
+                    const dots = day?.scheduleOfDate.map((sch, index) => {
+                        if(index < 4){
+                            let color = 'grey'
+                            if(sch.isChecked)
+                                color = 'black'
+                            return <View style={[styles.scheduleCircle, {backgroundColor:color}]} key={index}></View>
+                        }
                     })
+                    
                     return (
                       <View style={styles.calendarDateView}>
                         <Text style={styles.calendarDateText} onPress={() => navigate(calendarDate.dateForm)}>
                           {date.day}
                         </Text>
                         <View style={[styles.flexRowCenter, styles.calendarCircleView]}>
-                            {dotsOfTheDay}
+                            {dots}
                         </View>
                       </View>
                     );
                   }}
             />
             </View>
-            
         )
-    }, [theMonth, schedules])
+    }, [theMonth, theMonthSchedules])
 
     return (
         <View style={styles.contentView}>
