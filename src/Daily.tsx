@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { View, Text, Alert } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useIsFocused } from "@react-navigation/native"
 
 import { styles } from './styles'
 import { getTense, getStatisticsFormat, getDateForm } from "./function"
@@ -12,11 +13,18 @@ import { useScheduleContext, useTodayDateContext } from "./provider"
 const iconSize = 40
 const iconSize_mini = 25
 
-export default function Days() {
+export default function Daily() {
     const [isEditMode, setIsEditMode] = useState(false)
     const [isTimerStop, setIsTimerStop] = useState(true)
-    const {theDate, updateTheDate} = useTodayDateContext()
+    const {today, theDate, updateTheDate} = useTodayDateContext()
     const {theDateSchedules} = useScheduleContext()
+
+    const focused = useIsFocused()
+    useEffect(()=>{
+        if(!focused)
+            updateTheDate(today)
+    }), [focused];
+
     const statisticsOfDate = () => {
         if(theDateSchedules == undefined)
             return ["0시간 0분", "0% 달성"]

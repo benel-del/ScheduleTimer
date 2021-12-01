@@ -22,14 +22,22 @@ export default function App(){
     }
   }, [schedules, theDate, theDateSchedules, theMonthSchedules])
 
-  const updateTheDate = useCallback((type: string) => {
-    const dd = new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
-    setTheDate(dd)
+  const updateTheDate = useCallback((type: string | Date) => {
+    if(typeof(type) == "string")
+      setTheDate(
+        new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
+      )
+    else
+        setTheDate(type)
   }, [theDate])
 
-  const updateTheMonth = useCallback((type: string) => {
-    const mm = new Date(theMonth.getFullYear(), theMonth.getMonth() + (type == "before" ? -1 : 1))
-    setTheMonth(mm)
+  const updateTheMonth = useCallback((type: string | Date) => {
+    if(typeof(type) == "string")
+      setTheMonth(
+        new Date(theMonth.getFullYear(), theMonth.getMonth() + (type == "before" ? -1 : 1))
+      )
+    else
+      setTheMonth(type)
   }, [theMonth])
 
   const updateSchedules = useCallback((type: string, schedule: iSchedule) => {

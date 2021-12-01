@@ -4,8 +4,8 @@ export type TodayDateContextType = {
     today: Date,
     theDate: Date,
     theMonth: Date,
-    updateTheDate: (arg0: string) => void,
-    updateTheMonth: (arg0: string) => void
+    updateTheDate: (arg0: string | Date) => void,
+    updateTheMonth: (arg0: string | Date) => void
 }
 
 const dd = new Date()
@@ -22,8 +22,8 @@ type TodayDateContextProperties = {
     today: Date,
     theDate: Date,
     theMonth: Date,
-    updateTheDate: (arg0: string) => void,
-    updateTheMonth: (arg0: string) => void
+    updateTheDate: (arg0: string | Date) => void,
+    updateTheMonth: (arg0: string | Date) => void
 }
 
 export const TodayDateProvider: FC<TodayDateContextProperties> = ({children, today, theDate, theMonth, updateTheDate, updateTheMonth}) => {

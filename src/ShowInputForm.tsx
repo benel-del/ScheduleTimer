@@ -1,10 +1,11 @@
 import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
 import { View, Text, Modal, TextInput, Alert, TouchableOpacity } from 'react-native'
-import DateTimePicker from "@react-native-community/datetimepicker"
+import { Picker } from '@react-native-picker/picker'
 
 import { styles } from './styles'
 import { useScheduleContext, useTodayDateContext } from './provider'
 import { getDateForm, newSchedule } from './function'
+import { Colors } from 'react-native-paper'
 
 export type parentType = {
     modalVisible: boolean,
@@ -14,17 +15,14 @@ export type parentType = {
 const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
     const {theDate} = useTodayDateContext()
     const {updateSchedules} = useScheduleContext()
-    const [show, setShow] = useState(false)
     const [name, onChangeName] = useState("")
     const [timeSetting_hour, onChangeHour] = useState(0)
     const [timeSetting_minute, onChangeMinute] = useState(0)
-    const [timeSetting, setTimeSetting] = useState(new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate(), 0, 0))
 
     const reset = useCallback(() => {
         onChangeName("")
         onChangeHour(0)
         onChangeMinute(0)
-        setTimeSetting(new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate(), 0, 0))
     }, [])
 
     const insert = useCallback(() =>{
@@ -39,20 +37,53 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
         }
     }, [name, timeSetting_hour, timeSetting_minute])
 
-    const onChange = useCallback((event: Event, date: Date) => {
-        setShow(false)
-        if(date != undefined){
-            const hour = date.getHours()
-            const minute = date.getMinutes()
-            if(hour > 11)
-                Alert.alert("경고", "시간 설정 범위: 0 ~ 11")
-            else{
-                onChangeHour(hour)
-                onChangeMinute(minute)
-                setTimeSetting(date)
-            }
-        }
-    }, [])
+    const HourSelect = useCallback(() => {
+        const hourItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((index) => {
+            const time = index + "시간"
+            return <Picker.Item label={time} value={index} key={index} style={{fontSize: 18}}/>
+        })
+
+        return (
+            <View style={[styles.flexRowBetween]}>
+                <View style={{width: 150, height: 60, borderWidth: 1, borderColor: Colors.blue900, borderRadius: 12}}>
+                    <Picker
+                        mode="dialog"
+                        prompt="시간 설정"
+                        selectedValue={timeSetting_hour}
+                        onValueChange={(itemValue) => {onChangeHour(itemValue)}}
+                        style={{maxWidth: 200, height: 50, maxHeight: 100}}
+                        dropdownIconColor={Colors.blue900}
+                    >
+                        {hourItem}
+                    </Picker>
+                </View>
+            </View>
+        )
+    }, [timeSetting_hour])
+    
+    const MinuteSelect = useCallback(() => {
+        const minuteItem = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((index) => {
+            const time = index + "분"
+            return <Picker.Item label={time} value={index} key={index} style={{fontSize: 18}}/>
+        })
+
+        return (
+            <View style={[styles.flexRowBetween]}>
+                <View style={{width: 150, height: 60, borderWidth: 1, borderColor: Colors.blue900, borderRadius: 12}}>
+                    <Picker
+                        mode="dialog"
+                        prompt="분 설정"
+                        selectedValue={timeSetting_minute}
+                        onValueChange={(itemValue) => {onChangeMinute(itemValue)}}
+                        style={{maxWidth: 200, height: 50, maxHeight: 100}}
+                        dropdownIconColor={Colors.blue900}
+                    >
+                        {minuteItem}
+                    </Picker>
+                </View>
+            </View>
+        )
+    }, [timeSetting_minute])
 
     return (
         <View>
@@ -61,23 +92,16 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
                     <Text style={[styles.todayText, styles.alignCenter]}>{getDateForm(theDate)}</Text>
                 </View>
                 <View style={styles.inputFormView}>
-                    <View style={styles.inputTextView}>
+                    <View style={styles.inputView}>
                         <TextInput style={styles.textInput} placeholder="계획 내용을 입력하세요" maxLength={10} onChangeText={text => onChangeName(text)}/>
                     </View>
                     <View>
                         <Text style={{padding:10}}>계획 내용: 최대 10자</Text>
                     </View>
-                    <View style={[styles.flexRowBetween, styles.inputTimeView]}>
-                        <Text style={[styles.homeTodayContentText, styles.alignCenter]}>{timeSetting_hour}시간 {timeSetting_minute}분</Text>
-                        <TouchableOpacity style={styles.timeSettingButton} onPress={() => setShow(true)}>
-                            <Text style={[styles.buttonText, {fontSize: 15}]}>시간 설정</Text>
-                        </TouchableOpacity>
+                    <View style={[styles.flexRowBetween, {marginVertical: 10}]}>
+                        <HourSelect />
+                        <MinuteSelect />
                     </View>
-                    <View>
-                        <Text style={{padding:10}}>시간 설정 범위: 00시 1분 ~ 11시 59분</Text>
-                    </View>
-                    
-                    {show && <DateTimePicker value={timeSetting} mode="time" display="spinner" is24Hour={true} onChange={onChange}/>}
                 </View>
                 <View style={styles.flexRowCenter}>
                     <TouchableOpacity style={styles.modalButton} onPress={() => {reset(), setModalVisible(false)}}>

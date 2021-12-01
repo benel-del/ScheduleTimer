@@ -50,10 +50,24 @@ export function getTenseByString(day: string){
 }
 
 export function getDateForm(day: Date){
+    const mm = day.getMonth() + 1
     const dd = day.getDate()
-    return day.getFullYear() + "." + (day.getMonth() + 1) + "." + (dd < 10 ? "0" + dd: dd) + " " + daysKor[day.getDay()]
+    return day.getFullYear() + "." + (mm < 10 ? "0" + mm : mm) + "." + (dd < 10 ? "0" + dd : dd) + " " + daysKor[day.getDay()]
 }
 
 export function getMonthForm(day: Date){
-    return day.getFullYear() + "." + (day.getMonth() + 1)
+    const mm = day.getMonth() + 1
+    return day.getFullYear() + "." + (mm < 10 ? "0" + mm : mm)
+}
+
+export function getDateFormByString(day: string){
+    // day: yyyy-mm-dd
+    const yy = Number(day.substring(0, 4))
+    const mm = Number(day.substring(5, 7))
+    const dd = Number(day.substring(8, 10))
+
+    return {
+        dateForm: new Date(yy, mm, dd),
+        stringForm: yy + "." + mm + "." + dd
+    }
 }
