@@ -1,19 +1,51 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { View, Text, ScrollView } from "react-native"
-import { styles } from './styles'
-import { getDayFormatting } from "./function"
+import IconCheck from 'react-native-vector-icons/Feather'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Icon2 from 'react-native-vector-icons/Feather'
+
+import { styles } from './styles'
+import { useScheduleContext, useTodayDateContext } from "./provider"
+import { getDailyStatistics, getDateForm, getMonthForm, getMonthlyStatistics, getStatisticsFormat } from "./function"
 
 const iconSize = 25
 const iconSize_mini = 21
 const iconColor = 'black'
 
 export default function Home() {
-    let date = getDayFormatting(new Date())
-    const todayInfo = ["5시간 2분", "75"]
-    const statisticesOfDays = ["2시간 12분", "87"]
-    const statisticesOfMonths = ["152시간 38분", "56"]
+    const initStatistics = ["0시간 0분", "0% 달성"]
+    const {today} = useTodayDateContext()
+    const {schedules} = useScheduleContext()
+    const toMonthSchedules = schedules.find(dates => dates.month == getMonthForm(today))
+    const todaySchedules = toMonthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(today))
+
+    const statisticsOfToday = useCallback(() => {
+        if(todaySchedules == undefined)
+            return initStatistics
+        else
+            return getStatisticsFormat(todaySchedules.statisticsOfDate)
+    }, [todaySchedules])
+    const statisticsOfDaily = useCallback(() => {
+        if(toMonthSchedules == undefined)
+            return initStatistics
+        else
+            return getDailyStatistics(toMonthSchedules.statisticsOfMonth)
+    }, [toMonthSchedules])
+    const statisticsOfMonthly = useCallback(() => {
+        if(toMonthSchedules == undefined)
+            return initStatistics
+        else
+            return getMonthlyStatistics(schedules)
+    }, [schedules])
+
+    const scheduleList = todaySchedules?.scheduleOfDate.map((schedule, index) => {        
+        return (
+            <View style={[styles.scrollInnerView, styles.iconTextView]} key={index}>
+                {!schedule.isChecked && <IconCheck name="square" size={iconSize_mini} color={iconColor}/>}
+                {schedule.isChecked && <IconCheck name="check-square" size={iconSize_mini} color={iconColor}/>}
+                <Text style={styles.scrollViewText}>{schedule.name}</Text>
+            </View>
+        )
+    })
 
     return (
         <View style={styles.container}>
@@ -21,10 +53,10 @@ export default function Home() {
                 <Text style={[styles.topText, styles.alignCenter]}>Study Timer</Text>
             </View>
             <View style={[styles.homeDateView, styles.bottomBoundary, styles.alignCenter, {width: "50%"}]}>
-                <Text style={[styles.todayText, styles.alignCenter]}>{date}</Text>
+                <Text style={[styles.todayText, styles.alignCenter]}>{getDateForm(today)}</Text>
             </View>
             <View style={[styles.homeContentView, styles.bottomBoundary]}>
-                <View style={{width: "30%"}}>
+                <View style={[styles.homeTitleView, {width: "30%"}]}>
                     <Text style={styles.homeTitleText}>오늘의...</Text>
                 </View>
                 <View style={styles.innerView}>
@@ -33,62 +65,48 @@ export default function Home() {
                         <Text style={styles.homeTodayContentText}>계획</Text>
                     </View>
                     <ScrollView style={styles.homeScrollView} horizontal={false}>
-                        <View style={[styles.scrollInnerView, styles.iconTextView]}>
-                            <Icon2 name="check-square" size={iconSize_mini} color={iconColor}/>
-                            <Text style={styles.scrollViewText}>토익 2시간</Text>
-                        </View>
-                        <View style={[styles.scrollInnerView, styles.iconTextView]}>
-                            <Icon2 name="check-square" size={iconSize_mini} color={iconColor}/>
-                            <Text style={styles.scrollViewText}>뇌행 1시간 20분</Text>
-                        </View>
-                        <View style={[styles.scrollInnerView, styles.iconTextView]}>
-                            <Icon2 name="check-square" size={iconSize_mini} color={iconColor}/>
-                            <Text style={styles.scrollViewText}>컴특 1시간 20분</Text>
-                        </View>
-                        <View style={[styles.scrollInnerView, styles.iconTextView]}>
-                            <Icon2 name="square" size={iconSize_mini} color={iconColor}/>
-                            <Text style={styles.scrollViewText}>모소 기획서 3시간</Text>
-                        </View>
+                        {scheduleList}
                     </ScrollView>
                 </View>
+
                 <View style={styles.innerView}>
                     <View style={styles.iconTextView}>
                         <Icon name="calendar-clock" size={iconSize} color={iconColor}/>
-                        <Text style={styles.homeTodayContentText}>공부 시간: {todayInfo[0]}</Text>
+                        <Text style={styles.homeTodayContentText}>공부 시간: {statisticsOfToday()[0]}</Text>
                     </View>
                 </View>
                 <View style={styles.innerView}>
                     <View style={styles.iconTextView}>
                         <Icon name="gauge" size={iconSize} color={iconColor}/>
-                        <Text style={styles.homeTodayContentText}>계획 달성률: {todayInfo[1]}%</Text>
+                        <Text style={styles.homeTodayContentText}>계획 달성률: {statisticsOfToday()[1]}</Text>
                     </View>
                 </View>
             </View>
             <View style={[styles.statisticsView, styles.flexRowCenter]}>
                 <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
-                    <View style={{width: "70%"}}>
+                    <View style={[styles.homeTitleView, {width: "70%"}]}>
                         <Text style={styles.homeTitleText}>일별 통계</Text>
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="calendar-clock" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticesOfDays[0]}</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfDaily()[0]}</Text>
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="gauge" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticesOfDays[1]}% 달성</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfDaily()[1]}</Text>
                     </View>
                 </View>
                 <View style={[styles.statisticsInnerView, styles.statisticsRightBoundary]}>
-                    <View style={{width: "70%"}}>
+                    <View style={[styles.homeTitleView, {width: "70%"}]}>
                         <Text style={styles.homeTitleText}>월별 통계</Text>
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="calendar-clock" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticesOfMonths[0]}</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfMonthly()[0]}</Text>
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="gauge" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticesOfMonths[1]}% 달성</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfMonthly()[1]}</Text>
                     </View>
                 </View>
             </View>

@@ -2,26 +2,25 @@ import React, { Dispatch, FC, SetStateAction, useState, useCallback, useEffect }
 import { View, ScrollView, Alert, Text } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
 import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
-import { setTimerIcon, setTimeRemaining, setTimeOver, initTimer, newTimer, getDayFormatting } from './function'
-import ShowScheduleTimer from './ShowScheduleTimer'
 import ShowTimer from './ShowTimer'
+import ShowScheduleTimer from './ShowScheduleTimer'
+import { useScheduleContext } from './provider'
+import { setTimerIcon, setTimeRemaining, setTimeOver, initTimer, newTimer } from './function'
 
 export type parentType = {
     tense: string,
     setIsTimerStop: Dispatch<SetStateAction<boolean>>,
-    setIsEditMode: Dispatch<SetStateAction<boolean>>,
-    schedules: iSchedule[],
-    setSchedules: Dispatch<SetStateAction<iSchedule[]>>,
-    date: Date
+    setIsEditMode: Dispatch<SetStateAction<boolean>>
 }
 
 let tmStop = false
 let exitTimer = true
 const iconSize = 40
 
-const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, schedules, setSchedules, date}) => {
+const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) => {
     const focused = useIsFocused()
     useEffect(()=>{
         if(!focused){
@@ -30,7 +29,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
         }
     }), [focused];
 
-    let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
+    const {updateSchedules, theDateSchedules} = useScheduleContext()
     const [timer, setTimer] = useState(initTimer())
 
     const startTimer = useCallback((schedule:iSchedule) => {
@@ -53,18 +52,14 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
             }, 1000)
     
             const stopCountDown = (newSch: iSchedule) => {
-                setSchedules(
-                    schedules.map(sch => sch.index == newSch.index? newSch: sch)
-                )
+                updateSchedules("modify", newSch)
                 setTimer(initTimer())
                 clearInterval(start)
             }
         }
 
         if(exitTimer){
-            setSchedules(
-                schedules.map(sch => sch.index == schedule.index? setTimerIcon(schedule, "timer-sand"): sch)
-            )
+            updateSchedules("modify", setTimerIcon(schedule, "timer-sand"))
             tmStop = false
             exitTimer = false
             setIsTimerStop(exitTimer)
@@ -73,7 +68,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
         else{
             Alert.alert("경고", "다른 타이머가 돌아가고 있습니다.")
         }
-    }, [todaySchedules])
+    }, [theDateSchedules])
 
     const stopTimer = useCallback((schedule:iSchedule) => {
         tmStop = true
@@ -83,12 +78,8 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
         ])
     }, [])
 
-    let editIcon = <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>
-    if(tense == "Past" || !exitTimer)
-        editIcon = <Icon name="calendar-edit" size={iconSize} color='white'/>
-
-    let scheduleList = todaySchedules.map((schedule, index) => {
-        return <ShowScheduleTimer schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
+    const scheduleList = theDateSchedules?.scheduleOfDate.map((schedule, index) => {
+        return <ShowScheduleTimer tense={tense} schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
     })
 
     return (
@@ -98,7 +89,8 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode, sc
                     <Icon name="calendar-today" size={iconSize} color='black'/>                                                                                
                     <Text style={styles.daysTitleText}>계획</Text>
                 </View>
-                {editIcon}
+                {(tense == "Past" || !exitTimer) && <Icon name="calendar-edit" size={iconSize} color='white'/>}
+                {(tense != "Past" && exitTimer) && <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>} 
             </View>
             <View style={styles.daysContentView}>
                 <ScrollView style={[styles.daysScrollView, styles.alignCenter, styles.topBoundary]} horizontal={false}>

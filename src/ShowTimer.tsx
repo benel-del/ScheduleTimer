@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import { View, Text } from 'react-native'
+
 import { styles } from './styles'
 import { iTimer } from './typeDeclare'
 

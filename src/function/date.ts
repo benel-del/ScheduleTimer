@@ -49,10 +49,11 @@ export function getTenseByString(day: string){
     }
 }
 
-export function getDayFormatting(day: Date){
-    return day.getFullYear() + "." + (day.getMonth() + 1) + "." + day.getDate() + " " + daysKor[day.getDay()]
+export function getDateForm(day: Date){
+    const dd = day.getDate()
+    return day.getFullYear() + "." + (day.getMonth() + 1) + "." + (dd < 10 ? "0" + dd: dd) + " " + daysKor[day.getDay()]
 }
 
-export function getMonthFormatting(day: Date){
+export function getMonthForm(day: Date){
     return day.getFullYear() + "." + (day.getMonth() + 1)
 }

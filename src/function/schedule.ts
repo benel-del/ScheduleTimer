@@ -1,11 +1,11 @@
-import { iSchedule } from "../typeDeclare"
-import { getDayFormatting } from "./date"
+import { getMonthForm, newStatistics, updateStatisticsOfDate, updateStatisticsOfMonth } from "."
+import { iSchedule, iSchedulesOfDate, iSchedulesOfMonth } from "../typeDeclare"
+import { getDateForm } from "./date"
 
 let scheduleIndex = 0
-export const newSchedule = (date: Date, name: string, timeSetting_hour: number, timeSetting_minute: number) => {
+export const newSchedule = (name: string, timeSetting_hour: number, timeSetting_minute: number) => {
     const sch: iSchedule = {
         index: scheduleIndex,
-        date: getDayFormatting(date),
         name: name,
         timeSetting_hour: timeSetting_hour,
         timeSetting_minute: timeSetting_minute,
@@ -21,7 +21,6 @@ export const newSchedule = (date: Date, name: string, timeSetting_hour: number, 
 export const newTempSchedule = () => {
     const sch: iSchedule = {
         index: -1,
-        date: "",
         name: "",
         timeSetting_hour: 0,
         timeSetting_minute: 0,
@@ -36,7 +35,6 @@ export const newTempSchedule = () => {
 export const setTimerIcon = (schedule: iSchedule, newIcon: string) => {
     const sch: iSchedule = {
         index: schedule.index,
-        date: schedule.date,
         name: schedule.name,
         timeSetting_hour: schedule.timeSetting_hour,
         timeSetting_minute: schedule.timeSetting_minute,
@@ -51,7 +49,6 @@ export const setTimerIcon = (schedule: iSchedule, newIcon: string) => {
 export const setTimeRemaining = (schedule: iSchedule, time: number) => {
     const sch: iSchedule = {
         index: schedule.index,
-        date: schedule.date,
         name: schedule.name,
         timeSetting_hour: schedule.timeSetting_hour,
         timeSetting_minute: schedule.timeSetting_minute,
@@ -66,7 +63,6 @@ export const setTimeRemaining = (schedule: iSchedule, time: number) => {
 export const setTimeOver = (schedule: iSchedule) => {
     const sch: iSchedule = {
         index: schedule.index,
-        date: schedule.date,
         name: schedule.name,
         timeSetting_hour: schedule.timeSetting_hour,
         timeSetting_minute: schedule.timeSetting_minute,
@@ -85,4 +81,45 @@ export const getTimeSetting = (schedule: iSchedule) => {
     if(schedule.timeSetting_minute != 0)
         time += schedule.timeSetting_minute + "분"
     return time
+}
+
+export const newSchedulesOfDate = (date: Date, newSch: iSchedule) => {
+    const temp: iSchedulesOfDate = {
+        date: getDateForm(date),
+        scheduleOfDate: [newSch],
+        statisticsOfDate: newStatistics()
+    }
+    return temp
+}
+
+export const newSchedulesofMonth = (date: Date, newSch: iSchedule) => {
+    const temp: iSchedulesOfMonth = {
+        month: getMonthForm(date),
+        schedulesOfMonth: [newSchedulesOfDate(date, newSch)],
+        statisticsOfMonth: updateStatisticsOfDate([newSch])
+    }
+    return temp
+}
+
+export const updateScheduleOfDate = (theOldDate: iSchedulesOfDate, newSchedules: iSchedule[]) => {
+    const theNewDate: iSchedulesOfDate = {
+        date: theOldDate.date,
+        scheduleOfDate: newSchedules,
+        statisticsOfDate: updateStatisticsOfDate(newSchedules)
+    }
+    return theNewDate
+}
+
+export const updateScheduleOfMonth = (theOldMonth: iSchedulesOfMonth, updateDate: iSchedulesOfDate, type: string) => {
+    let newList
+    if(type == "add")
+        newList = [...theOldMonth.schedulesOfMonth, updateDate]
+    else
+        newList = theOldMonth.schedulesOfMonth.map(oldDate => oldDate.date == updateDate.date? updateDate : oldDate)
+    const theNewMonth: iSchedulesOfMonth = {
+        month: theOldMonth.month,
+        schedulesOfMonth: newList,
+        statisticsOfMonth: updateStatisticsOfMonth(newList)
+    }
+    return theNewMonth
 }

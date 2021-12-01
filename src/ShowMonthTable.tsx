@@ -1,26 +1,13 @@
-import React, { FC, useCallback, useState } from "react"
+import React, { FC, useCallback } from "react"
 import { Text, View } from "react-native"
 import { Calendar } from 'react-native-calendars'
+
 import { styles } from './styles'
-import { newSchedule } from "./function"
+import { useScheduleContext, useTodayDateContext } from "./provider"
 
-export type parentType = {
-    month: Date
-}
-
-const ShowMonthTable: FC<parentType> = ({month}) => {
-    const date = new Date()
-
-    const [schedules, setSchedules] = useState([
-        newSchedule(date, "뇌행", 0, 1),
-        newSchedule(date, "컴특", 0, 1),
-        newSchedule(date, "테테", 0, 1),
-        newSchedule(date, "테테", 0, 1),
-        newSchedule(date, "모소 기획서", 0, 1),
-        newSchedule(new Date(date.getFullYear(), date.getMonth(), date.getDate()+1), "테스트", 0, 2),
-        
-    ])
-
+const ShowMonthTable = () => {
+    const {theMonth} = useTodayDateContext()
+    const {theMonthSchedules} = useScheduleContext()
     const theme = {
         textMonthFontSize: 0,
         textDayFontSize: 24,
@@ -41,7 +28,7 @@ const ShowMonthTable: FC<parentType> = ({month}) => {
         return (
             <View style={styles.calendarView}>
                 <Calendar
-                current = {month}
+                current = {theMonth}
                 onDayPress={(day) => {console.log(day)}}
                 monthFormat={'yyyy MM'}
                 disableMonthChange={true}
@@ -51,15 +38,18 @@ const ShowMonthTable: FC<parentType> = ({month}) => {
                 disableArrowRight={true}
                 theme={theme}
                 dayComponent={({date, state}) => {
-                    let count = 0
-                    const dots = schedules.map((sch, index) => {
-                        const dd = sch.date.split(' ')[0].split('.').join('-')
-                        if(count != 4 && dd == date.dateString){
-                            count++
-                            let color = 'grey'
-                            if(sch.isChecked)
-                                color = 'black'
-                            return <View style={[styles.scheduleCircle, {backgroundColor:color}]} key={index}></View>
+                    const dotsOfTheDay = theMonthSchedules?.schedulesOfMonth.map((day, index) => {
+                        const dd = day.date.split(' ')[0].split('.').join('-')
+                        if(dd == date.dateString){
+                            const dots = day.scheduleOfDate.map((sch, index) => {
+                                if(index < 4){
+                                    let color = 'grey'
+                                    if(sch.isChecked)
+                                        color = 'black'
+                                    return <View style={[styles.scheduleCircle, {backgroundColor:color}]} key={index}></View>
+                                }
+                            })
+                            return dots
                         }
                     })
                     return (
@@ -67,8 +57,8 @@ const ShowMonthTable: FC<parentType> = ({month}) => {
                         <Text style={styles.calendarDateText}>
                           {date.day}
                         </Text>
-                        <View style={[styles.flexRowBetween, styles.calendarCircleView]}>
-                            {dots}
+                        <View style={[styles.flexRowCenter, styles.calendarCircleView]}>
+                            {dotsOfTheDay}
                         </View>
                       </View>
                     );
@@ -77,7 +67,7 @@ const ShowMonthTable: FC<parentType> = ({month}) => {
             </View>
             
         )
-    }, [month])
+    }, [theMonth, theMonthSchedules])
 
     return (
         <View style={styles.contentView}>

@@ -1,29 +1,30 @@
 import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
 import { View, Text, Modal, TextInput, Alert, TouchableOpacity } from 'react-native'
 import DateTimePicker from "@react-native-community/datetimepicker"
-import { getDayFormatting, newSchedule } from './function'
+
 import { styles } from './styles'
-import { iSchedule } from './typeDeclare'
+import { useScheduleContext, useTodayDateContext } from './provider'
+import { getDateForm, newSchedule } from './function'
 
 export type parentType = {
     modalVisible: boolean,
-    setModalVisible: Dispatch<SetStateAction<boolean>>,
-    schedules: iSchedule[],
-    setSchedules: Dispatch<SetStateAction<iSchedule[]>>,
-    date: Date
+    setModalVisible: Dispatch<SetStateAction<boolean>>
 }
 
-const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules, setSchedules, date}) => {
+const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
+    const {theDate} = useTodayDateContext()
+    const {updateSchedules} = useScheduleContext()
+    const [show, setShow] = useState(false)
     const [name, onChangeName] = useState("")
     const [timeSetting_hour, onChangeHour] = useState(0)
     const [timeSetting_minute, onChangeMinute] = useState(0)
-    const [timeSetting, setTimeSetting] = useState(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0));
-    const [show, setShow] = useState(false)
+    const [timeSetting, setTimeSetting] = useState(new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate(), 0, 0))
 
     const reset = useCallback(() => {
         onChangeName("")
         onChangeHour(0)
         onChangeMinute(0)
+        setTimeSetting(new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate(), 0, 0))
     }, [])
 
     const insert = useCallback(() =>{
@@ -32,11 +33,11 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules
         else if(timeSetting_hour + timeSetting_minute == 0)
             Alert.alert("경고", "시간을 설정하세요")
         else{
-            setSchedules([...schedules, newSchedule(date, name, timeSetting_hour, timeSetting_minute)])
+            updateSchedules("insert", newSchedule(name, timeSetting_hour, timeSetting_minute))
             setModalVisible(false)
             reset()
         }
-    }, [timeSetting_hour, timeSetting_minute])
+    }, [name, timeSetting_hour, timeSetting_minute])
 
     const onChange = useCallback((event: Event, date: Date) => {
         setShow(false)
@@ -57,7 +58,7 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules
         <View>
             <Modal animationType="slide" transparent={false} visible={modalVisible}>
                 <View style={[styles.daysTitleView, styles.bottomBoundary, styles.alignCenter, {width: "50%"}]}>
-                    <Text style={[styles.todayText, styles.alignCenter]}>{getDayFormatting(date)}</Text>
+                    <Text style={[styles.todayText, styles.alignCenter]}>{getDateForm(theDate)}</Text>
                 </View>
                 <View style={styles.inputFormView}>
                     <View style={styles.inputTextView}>
@@ -82,7 +83,7 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible, schedules
                     <TouchableOpacity style={styles.modalButton} onPress={() => {reset(), setModalVisible(false)}}>
                         <Text style={[styles.buttonText, {fontSize: 20}]}>취소</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.modalButton} onPress={insert}>
+                    <TouchableOpacity style={styles.modalButton} onPress={() => insert()}>
                         <Text style={[styles.buttonText, {fontSize: 20}]}>추가</Text>
                     </TouchableOpacity>
                 </View> 

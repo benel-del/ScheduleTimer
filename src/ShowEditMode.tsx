@@ -2,52 +2,51 @@ import React, { Dispatch, FC, SetStateAction, useCallback, useEffect, useState }
 import { View, ScrollView, Alert, Text } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
 import { styles } from './styles'
 import { iSchedule } from './typeDeclare'
-import { newTempSchedule, getTimeSetting, getDayFormatting } from './function'
-import ShowScheduleEdit from './ShowScheduleEdit'
 import ShowInputForm from './ShowInputForm'
+import ShowScheduleEdit from './ShowScheduleEdit'
+import { useScheduleContext } from './provider'
+import { newTempSchedule, getTimeSetting } from './function'
 
 export type parentType = {
-    setIsEditMode: Dispatch<SetStateAction<boolean>>,
-    schedules: iSchedule[],
-    setSchedules: Dispatch<SetStateAction<iSchedule[]>>,
-    date: Date
+    setIsEditMode: Dispatch<SetStateAction<boolean>>
 }
 
 const iconSize = 40
 
-const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, date}) => {
+const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
     const focused = useIsFocused()
     useEffect(()=>{
         if(!focused)
             setIsEditMode(false)
     }), [focused];
-    
-    let todaySchedules = schedules.filter(sch => sch.date == getDayFormatting(date))
+
+    const {updateSchedules, theDateSchedules} = useScheduleContext()
     const [modalVisible, setModalVisible] = useState(false)
 
-    const insertSchedule = (schedule: iSchedule) => {
+    const insertSchedule = useCallback((schedule: iSchedule) => {
         setModalVisible(true)
-    }
+    }, [])
 
     const removeSchedule = useCallback((schedule: iSchedule) => {
         const info = "[" + schedule.name + " " + getTimeSetting(schedule) + "]"
         Alert.alert(info, " 계획을 삭제하겠습니까?", [
-            {text: "삭제", onPress: () => {remove()}},
+            {text: "삭제", onPress: () => {updateSchedules("remove", schedule)}},
             {text: "취소", onPress: () => {}}
         ])
-        const remove = () => {
-            setSchedules(
-                schedules.filter(sch => sch.index !== schedule.index)
-            )
-        }
-    }, [todaySchedules])
+    }, [theDateSchedules])
 
-    let scheduleList = todaySchedules.map((schedule, index) => {
-        return <ShowScheduleEdit schedule={schedule} updateSchedule={removeSchedule} key={index}/>
-    })
-    scheduleList.push(<ShowScheduleEdit schedule={newTempSchedule()} updateSchedule={insertSchedule} key={scheduleList.length}/>)
+    let scheduleList
+    if(theDateSchedules != undefined){
+        scheduleList = theDateSchedules.scheduleOfDate.map((schedule, index) => {
+            return <ShowScheduleEdit schedule={schedule} updateSchedule={removeSchedule} key={index}/>
+        })
+        scheduleList.push(<ShowScheduleEdit schedule={newTempSchedule()} updateSchedule={insertSchedule} key={scheduleList.length}/>)
+    } 
+    else
+        scheduleList = <ShowScheduleEdit schedule={newTempSchedule()} updateSchedule={insertSchedule} key={-1}/>
 
     return (
         <View style={styles.contentView}>
@@ -65,7 +64,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode, schedules, setSchedules, d
             </View>
             
             <View>
-                <ShowInputForm modalVisible={modalVisible} setModalVisible={setModalVisible} schedules={schedules} setSchedules={setSchedules} date={date}/>
+                <ShowInputForm modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             </View>
         </View>
     )
