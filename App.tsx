@@ -78,7 +78,7 @@ export default function App(){
       const theNewMonth = newSchedulesofMonth(theDate, schedule)
       setSchedules([...schedules, theNewMonth])
     }
-  }, [schedules, theDate])
+  }, [theDate, theDateSchedules])
 
   const dd = new Date()
   if(getDateForm(today) != getDateForm(dd)){
