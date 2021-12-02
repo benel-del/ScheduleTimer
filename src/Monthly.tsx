@@ -19,8 +19,8 @@ export default function Monthly() {
     const focused = useIsFocused()
 
     useEffect(()=>{
-        if(!focused)
-            updateTheMonth(today)
+        //if(!focused)      // 있으면 오류
+            //updateTheMonth(today)
     }), [focused];
 
     const statisticsOfMonth = () => {

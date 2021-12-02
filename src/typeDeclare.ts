@@ -19,7 +19,7 @@ export type iStatistics = {
     numOfSchedules: number,
     numOfCompleteSchedules: number,
     amountOfCompleteTime: number,
-    numOfDates: number
+    numOfDatesInMonth: number
 }
 
 export type iSchedulesOfDate = {

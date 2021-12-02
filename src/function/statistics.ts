@@ -5,17 +5,26 @@ export const newStatistics = () => {
         numOfSchedules: 1,
         numOfCompleteSchedules: 0,
         amountOfCompleteTime: 0,
-        numOfDates: 1
+        numOfDatesInMonth: 0
     }
     return temp;
 }
 
+const newTempStatistics = () => {
+    const temp: iStatistics = {
+        numOfSchedules: 0,
+        numOfCompleteSchedules: 0,
+        amountOfCompleteTime: 0,
+        numOfDatesInMonth: 0
+    }
+    return temp;
+} 
+
 export const updateStatisticsOfDate = (schedules: iSchedule[]) => {
-    let statistics = newStatistics()
+    let statistics = newTempStatistics()
     schedules.forEach(schedule => {
         statistics.numOfSchedules += 1
         if(schedule.isChecked){
-            statistics.amountOfCompleteTime += 1
             statistics.numOfCompleteSchedules += 1
         }
         const planTime = schedule.timeSetting_hour * 3600 + schedule.timeSetting_minute * 60
@@ -25,13 +34,13 @@ export const updateStatisticsOfDate = (schedules: iSchedule[]) => {
 }
 
 export const updateStatisticsOfMonth = (schedulesList: iSchedulesOfDate[]) => {
-    let statistics = newStatistics()
+    let statistics = newTempStatistics()
     schedulesList.forEach(schedules => {
         const st = updateStatisticsOfDate(schedules.scheduleOfDate)
         statistics.numOfSchedules += st.numOfSchedules
         statistics.numOfCompleteSchedules += st.numOfCompleteSchedules
         statistics.amountOfCompleteTime += st.amountOfCompleteTime
-        statistics.numOfDates += 1
+        statistics.numOfDatesInMonth += 1
     })
     return statistics
 }
@@ -43,7 +52,7 @@ export const getStatisticsFormat = (statistics: iStatistics) => {
 }
 
 export const getDailyStatistics = (toMonthStatistics: iStatistics) => {
-    const numOfDates = toMonthStatistics.numOfDates
+    const numOfDates = toMonthStatistics.numOfDatesInMonth
     const aveTime = Math.floor(toMonthStatistics.amountOfCompleteTime / numOfDates)
     const studyTime = Math.floor(aveTime / 3600) + "시간 " + Math.floor(aveTime / 60) % 60 + "분"
     const aveNumOfSchedules = Math.floor(toMonthStatistics.numOfSchedules / numOfDates)

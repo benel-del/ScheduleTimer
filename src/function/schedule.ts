@@ -92,16 +92,16 @@ export const newSchedulesOfDate = (date: Date, newSch: iSchedule) => {
     return temp
 }
 
-export const newSchedulesofMonth = (date: Date, newSch: iSchedule) => {
+export const newSchedulesofMonth = (date: Date, newDate: iSchedulesOfDate) => {
     const temp: iSchedulesOfMonth = {
         month: getMonthForm(date),
-        schedulesOfMonth: [newSchedulesOfDate(date, newSch)],
-        statisticsOfMonth: updateStatisticsOfDate([newSch])
+        schedulesOfMonth: [newDate],
+        statisticsOfMonth: updateStatisticsOfDate(newDate.scheduleOfDate)
     }
     return temp
 }
 
-export const updateScheduleOfDate = (theOldDate: iSchedulesOfDate, newSchedules: iSchedule[]) => {
+const updateScheduleOfDate = (theOldDate: iSchedulesOfDate, newSchedules: iSchedule[]) => {
     const theNewDate: iSchedulesOfDate = {
         date: theOldDate.date,
         scheduleOfDate: newSchedules,
@@ -110,16 +110,20 @@ export const updateScheduleOfDate = (theOldDate: iSchedulesOfDate, newSchedules:
     return theNewDate
 }
 
-export const updateScheduleOfMonth = (theOldMonth: iSchedulesOfMonth, updateDate: iSchedulesOfDate, type: string) => {
-    let newList
-    if(type == "add")
-        newList = [...theOldMonth.schedulesOfMonth, updateDate]
-    else
-        newList = theOldMonth.schedulesOfMonth.map(oldDate => oldDate.date == updateDate.date? updateDate : oldDate)
+const updateScheduleOfMonth = (theOldMonth: iSchedulesOfMonth, newList: iSchedulesOfDate[]) => {
     const theNewMonth: iSchedulesOfMonth = {
         month: theOldMonth.month,
         schedulesOfMonth: newList,
         statisticsOfMonth: updateStatisticsOfMonth(newList)
     }
     return theNewMonth
+}
+
+export const getTheMonthScehudules = (schedules: iSchedulesOfMonth[], theDate: Date) => {
+    return schedules?.find(dates => dates.month == getMonthForm(theDate))
+}
+
+export const getTheDateSchedules = (schedules: iSchedulesOfMonth[], theDate: Date) => {
+    const monthSchedules = getTheMonthScehudules(schedules, theDate)
+    return monthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(theDate))
 }
