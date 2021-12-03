@@ -15,6 +15,7 @@ export default function App(){
   const [theMonthSchedules, setTheMonthSchedules] = useState<iSchedulesOfMonth | undefined>()
 
   useLayoutEffect(() => {
+    //AsyncStorage.clear()
     AsyncStorage.getItem('@StudyTimer:Schedules').then((state)=> {
       if(state != null){
         const data:iSchedulesOfMonth[] = JSON.parse(state)
@@ -29,7 +30,9 @@ export default function App(){
     if(typeof(type) == "string")
       type = new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
     setTheDate(type)
+    setTheMonth(type)
     setTheDateSchedules(getTheDateSchedules(schedules, type))
+    setTheMonthSchedules(getTheMonthScehudules(schedules, type))
   }, [theDate, schedules])
 
   const updateTheMonth = useCallback((type: string | Date) => {
@@ -56,7 +59,6 @@ export default function App(){
   },[theDate])
 
   const update = useCallback((type: string, schedule: iSchedule, schedules: iSchedulesOfMonth[]) => {
-    console.log(theDate)
     let newSchedules: iSchedulesOfMonth[]
     let theNewDate: iSchedulesOfDate
     let theNewMonth: iSchedulesOfMonth

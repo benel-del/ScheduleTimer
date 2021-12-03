@@ -9,6 +9,7 @@ import Home from "./src/Home";
 import Monthly from "./src/Monthly";
 import Daily from "./src/Daily";
 import { getDateForm, getMonthForm } from "./src/function";
+import { useTodayDateContext } from "./src/provider";
 
 const Tab = createBottomTabNavigator()
 type TabBarIconProps = {
@@ -37,7 +38,7 @@ export default function Navigator(){
             headerShown: false,
             tabBarIcon: ({focused, color, size}: TabBarIconProps) => {
                 const {name} = route
-                const focusedSize = focused ? size + 4 : size
+                const focusedSize = focused ? size + 3 : size
                 const focusedColor = focused ? Colors.blue900 : color
                 const [icon, iconOutline] = icons[name]
                 const iconName = focused ? icon : iconOutline

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect } from "react"
 import { View, Text, ScrollView } from "react-native"
 import IconCheck from 'react-native-vector-icons/Feather'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import { useScheduleContext, useTodayDateContext } from "./provider"
 import { getDailyStatistics, getDateForm, getMonthForm, getMonthlyStatistics, getStatisticsFormat } from "./function"
+import { useIsFocused } from "@react-navigation/core"
 
 const iconSize = 25
 const iconSize_mini = 21
@@ -13,10 +14,16 @@ const iconColor = 'black'
 
 export default function Home() {
     const initStatistics = ["0시간 0분", "0% 달성"]
-    const {today} = useTodayDateContext()
+    const {today, updateTheDate} = useTodayDateContext()
     const {schedules} = useScheduleContext()
     const toMonthSchedules = schedules.find(dates => dates.month == getMonthForm(today))
     const todaySchedules = toMonthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(today))
+    const focused = useIsFocused()
+
+    useEffect(()=>{
+        if(focused)
+            updateTheDate(today)
+    }), [focused];
 
     const statisticsOfToday = useCallback(() => {
         if(todaySchedules == undefined)
@@ -24,12 +31,14 @@ export default function Home() {
         else
             return getStatisticsFormat(todaySchedules.statisticsOfDate)
     }, [todaySchedules])
+
     const statisticsOfDaily = useCallback(() => {
         if(toMonthSchedules == undefined)
             return initStatistics
         else
             return getDailyStatistics(toMonthSchedules.statisticsOfMonth)
     }, [toMonthSchedules])
+
     const statisticsOfMonthly = useCallback(() => {
         if(toMonthSchedules == undefined)
             return initStatistics

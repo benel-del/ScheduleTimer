@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react"
 import { View, Text, Alert } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useIsFocused } from "@react-navigation/native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 
 import { styles } from './styles'
@@ -20,12 +19,6 @@ export default function Daily() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
     const {today, theDate, updateTheDate} = useTodayDateContext()
     const {theDateSchedules} = useScheduleContext()
-    const focused = useIsFocused()
-
-    useEffect(()=>{
-        //if(!focused)
-        //    updateTheDate(today)
-    }), [focused];
 
     const statisticsOfDate = () => {
         if(theDateSchedules == undefined)

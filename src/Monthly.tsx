@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react"
 import { Text, View } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useIsFocused } from "@react-navigation/native"
 
 import { styles } from './styles'
 import ShowMonthTable from "./ShowMonthTable"
@@ -13,15 +12,9 @@ const iconSize = 40
 const iconSize_mini = 25
 
 export default function Monthly() {
-    const {today, theMonth, updateTheMonth} = useTodayDateContext()
+    const {theMonth, updateTheMonth} = useTodayDateContext()
     const {theMonthSchedules} = useScheduleContext()
     const theMonthString = getMonthForm(theMonth)
-    const focused = useIsFocused()
-
-    useEffect(()=>{
-        //if(!focused)      // 있으면 오류
-            //updateTheMonth(today)
-    }), [focused];
 
     const statisticsOfMonth = () => {
         if(theMonthSchedules == undefined)

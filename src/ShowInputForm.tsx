@@ -48,7 +48,6 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
                 <View style={{width: 150, height: 60, borderWidth: 1, borderColor: Colors.blue900, borderRadius: 12}}>
                     <Picker
                         mode="dialog"
-                        prompt="시간 설정"
                         selectedValue={timeSetting_hour}
                         onValueChange={(itemValue) => {onChangeHour(itemValue)}}
                         style={{maxWidth: 200, height: 50, maxHeight: 100}}
@@ -72,7 +71,6 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
                 <View style={{width: 150, height: 60, borderWidth: 1, borderColor: Colors.blue900, borderRadius: 12}}>
                     <Picker
                         mode="dialog"
-                        prompt="분 설정"
                         selectedValue={timeSetting_minute}
                         onValueChange={(itemValue) => {onChangeMinute(itemValue)}}
                         style={{maxWidth: 200, height: 50, maxHeight: 100}}
