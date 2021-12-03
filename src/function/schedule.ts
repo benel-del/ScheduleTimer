@@ -105,7 +105,7 @@ export const updateScheduleOfMonth = (theOldMonth: iSchedulesOfMonth, newList: i
 }
 
 export const getTheMonthScehudules = (schedules: iSchedulesOfMonth[], theDate: Date) => {
-    return schedules?.find(dates => dates.month == getMonthForm(theDate))
+    return schedules.find(dates => dates.month == getMonthForm(theDate))
 }
 
 export const getTheDateSchedules = (schedules: iSchedulesOfMonth[], theDate: Date) => {

@@ -41,7 +41,6 @@ const ShowMonthTable = () => {
             <Calendar
                 current = {theMonth}
                 monthFormat={'yyyy MM'}
-                onDayPress={(day) => {console.log('selected day', day)}}
                 disableMonthChange={false}
                 hideArrows={true}
                 hideExtraDays={true}

@@ -36,6 +36,7 @@ const ShowTimer: FC<parentType> = ({timer}) => {
                         <Text style={styles.timerText}>{timer.second}</Text>
                     </View>
                 </View>
+                <Text style={styles.timerInfoText}>탭 이동 시 타이머가 중단됩니다.</Text>
             </View>
         </View>
     )
