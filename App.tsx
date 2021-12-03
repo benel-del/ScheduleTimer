@@ -1,9 +1,9 @@
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import Navigator from "./Navigator";
 import { NavigationContainer } from "@react-navigation/native";
 import { iSchedule, iSchedulesOfDate, iSchedulesOfMonth } from "./src/typeDeclare"
 import { SchedulesProvider, TodayDateProvider } from "./src/provider";
-import { getDateForm, getMonthForm, newSchedulesOfDate, newSchedulesofMonth, updateScheduleOfDate, updateScheduleOfMonth } from "./src/function";
+import { getDateForm, getTheDateSchedules, getTheMonthScehudules, newSchedule, newSchedulesOfDate, newSchedulesofMonth, updateScheduleOfDate, updateScheduleOfMonth } from "./src/function";
 
 export default function App(){
   const [today, setToday] = useState(new Date())
@@ -13,72 +13,88 @@ export default function App(){
   const [theDateSchedules, setTheDateSchedules] = useState<iSchedulesOfDate>()
   const [theMonthSchedules, setTheMonthSchedules] = useState<iSchedulesOfMonth>()
 
-  useLayoutEffect(() => {
-    if(schedules != []){
-      const monthSchedules = schedules.find(dates => dates.month == getMonthForm(theMonth))
-      setTheMonthSchedules(monthSchedules)
-    }
-  }, [schedules, theMonth])
+  //testCode
+  if(schedules.length == 0){
+    console.log("testDate")
+    let date = newSchedulesOfDate(today, newSchedule("test", 0, 1))
+    date.scheduleOfDate.push(newSchedule("test2", 0, 1))
+    const month = newSchedulesofMonth(today, date)
+    setSchedules([month])
+  }
+
 
   useLayoutEffect(() => {
-    if(schedules != []){
-      const monthSchedules = schedules.find(dates => dates.month == getMonthForm(theDate))
-      const dateSchedules = monthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(theDate))
+    if(schedules.length != 0){
+      const monthSchedules = getTheMonthScehudules(schedules, theMonth)
+      const dateSchedules = getTheDateSchedules(schedules, theDate)
+      setTheMonthSchedules(monthSchedules)
       setTheDateSchedules(dateSchedules)
     }
-  }, [schedules, theDate])
+  }, [theDate, theMonth, schedules])
+
+  useEffect(() => {
+    console.log("schedules change!")
+    theDateSchedules?.scheduleOfDate.map(sch => console.log(sch))
+  }, [theDateSchedules])
 
   const updateTheDate = useCallback((type: string | Date) => {
     if(typeof(type) == "string")
-      setTheDate(
-        new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
-      )
-    else
-        setTheDate(type)
+      type = new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
+    setTheDate(type)
   }, [theDate])
 
   const updateTheMonth = useCallback((type: string | Date) => {
-    if(typeof(type) == "string"){
-      const dd = new Date(theMonth.getFullYear(), theMonth.getMonth() + (type == "before" ? -1 : 1))
-      setTheDate(dd)
-      setTheMonth(dd)
-    }
-    else
-      setTheMonth(type)
+    if(typeof(type) == "string")
+      type = new Date(theMonth.getFullYear(), theMonth.getMonth() + (type == "before" ? -1 : 1))
+    setTheMonth(type)
   }, [theMonth])
 
   const updateSchedules = useCallback((type: string, schedule: iSchedule) => {
-    if(theMonthSchedules != undefined){
-      if(theDateSchedules != undefined){
-        const oldDateScheduleList = theDateSchedules.scheduleOfDate
+    let newSchedules: iSchedulesOfMonth[]
+    let theNewDate: iSchedulesOfDate
+    let theNewMonth: iSchedulesOfMonth
+
+    const monthSchedules = getTheMonthScehudules(schedules, theMonth)
+    const dateSchedules = getTheDateSchedules(schedules, theDate)
+
+    if(monthSchedules != undefined){
+      let newMonthScheduleList: iSchedulesOfDate[]
+      if(dateSchedules != undefined){
+        let oldDateScheduleList = dateSchedules.scheduleOfDate
         let newDateScheduleList: iSchedule[]
+        console.log("command: " + type)
         if(type == "insert")
           newDateScheduleList = [...oldDateScheduleList, schedule]
         else if(type == "remove")
           newDateScheduleList = oldDateScheduleList.filter(sch => sch.index !== schedule.index)
-        else  // "modify"
+        else{  // "modify"
+          oldDateScheduleList.map(sch => console.log(sch))
           newDateScheduleList = oldDateScheduleList.map(sch => sch.index == schedule.index? schedule : sch)
         
-        const theNewDate = updateScheduleOfDate(theDateSchedules, newDateScheduleList)
-        const theNewMonth = updateScheduleOfMonth(theMonthSchedules, theNewDate, "")
-        setSchedules(
-          schedules.map(month => month.month == theNewMonth.month? theNewMonth : month)
-        )
+        }
+        theNewDate = updateScheduleOfDate(dateSchedules, newDateScheduleList)
+        newMonthScheduleList = monthSchedules.schedulesOfMonth.map(oldDate => oldDate.date == theNewDate.date? theNewDate : oldDate)
+
+        theNewDate.scheduleOfDate.map((date) => {
+          console.log(date.name + ": " + date.timeRemaining)
+        })
       }
       else{   // theDateSchedules: undefined
-        const theNewDate = newSchedulesOfDate(theDate, schedule)
-        const theNewMonth = updateScheduleOfMonth(theMonthSchedules, theNewDate, "add")
-        setSchedules(
-          schedules.map(month => month.month == theNewMonth.month? theNewMonth : month)
-        )
+        theNewDate = newSchedulesOfDate(theDate, schedule)
+        newMonthScheduleList = [...monthSchedules.schedulesOfMonth, theNewDate]
       }
-      
+      theNewMonth = updateScheduleOfMonth(monthSchedules, newMonthScheduleList)
+      newSchedules = schedules.map(month => month.month == theNewMonth.month? theNewMonth : month)
     }
     else{   // theMonthSchedules: undefined
-      const theNewMonth = newSchedulesofMonth(theDate, schedule)
-      setSchedules([...schedules, theNewMonth])
+      theNewDate = newSchedulesOfDate(theDate, schedule)
+      theNewMonth = newSchedulesofMonth(theDate, theNewDate)
+      newSchedules = [...schedules, theNewMonth]
     }
-  }, [theDate, theDateSchedules])
+    setTheDateSchedules(theNewDate)
+    setTheMonthSchedules(theNewMonth)
+    setSchedules(newSchedules)
+  }, [theDate, theDateSchedules?.scheduleOfDate.length, theDateSchedules?.statisticsOfDate.amountOfCompleteTime])
 
   const dd = new Date()
   if(getDateForm(today) != getDateForm(dd)){

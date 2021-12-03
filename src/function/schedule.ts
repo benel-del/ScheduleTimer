@@ -34,38 +34,23 @@ export const newTempSchedule = () => {
 
 export const setTimerIcon = (schedule: iSchedule, newIcon: string) => {
     const sch: iSchedule = {
-        index: schedule.index,
-        name: schedule.name,
-        timeSetting_hour: schedule.timeSetting_hour,
-        timeSetting_minute: schedule.timeSetting_minute,
-        timeRemaining: schedule.timeRemaining,
-        timerIcon: newIcon,
-        isChecked: schedule.isChecked,
-        checkIcon: schedule.checkIcon
+        ...schedule,
+        timerIcon: newIcon
     }
     return sch
 }
 
 export const setTimeRemaining = (schedule: iSchedule, time: number) => {
     const sch: iSchedule = {
-        index: schedule.index,
-        name: schedule.name,
-        timeSetting_hour: schedule.timeSetting_hour,
-        timeSetting_minute: schedule.timeSetting_minute,
-        timeRemaining: time,
-        timerIcon: schedule.timerIcon,
-        isChecked: schedule.isChecked,
-        checkIcon: schedule.checkIcon
+        ...schedule,
+        timeRemaining: time
     }
     return sch
 }
 
 export const setTimeOver = (schedule: iSchedule) => {
     const sch: iSchedule = {
-        index: schedule.index,
-        name: schedule.name,
-        timeSetting_hour: schedule.timeSetting_hour,
-        timeSetting_minute: schedule.timeSetting_minute,
+        ...schedule,
         timeRemaining: 0,
         timerIcon: "",
         isChecked: true,
@@ -101,7 +86,7 @@ export const newSchedulesofMonth = (date: Date, newDate: iSchedulesOfDate) => {
     return temp
 }
 
-const updateScheduleOfDate = (theOldDate: iSchedulesOfDate, newSchedules: iSchedule[]) => {
+export const updateScheduleOfDate = (theOldDate: iSchedulesOfDate, newSchedules: iSchedule[]) => {
     const theNewDate: iSchedulesOfDate = {
         date: theOldDate.date,
         scheduleOfDate: newSchedules,
@@ -110,7 +95,7 @@ const updateScheduleOfDate = (theOldDate: iSchedulesOfDate, newSchedules: iSched
     return theNewDate
 }
 
-const updateScheduleOfMonth = (theOldMonth: iSchedulesOfMonth, newList: iSchedulesOfDate[]) => {
+export const updateScheduleOfMonth = (theOldMonth: iSchedulesOfMonth, newList: iSchedulesOfDate[]) => {
     const theNewMonth: iSchedulesOfMonth = {
         month: theOldMonth.month,
         schedulesOfMonth: newList,

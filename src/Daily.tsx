@@ -23,8 +23,8 @@ export default function Daily() {
     const focused = useIsFocused()
 
     useEffect(()=>{
-        if(!focused)
-            updateTheDate(today)
+        //if(!focused)
+        //    updateTheDate(today)
     }), [focused];
 
     const statisticsOfDate = () => {
