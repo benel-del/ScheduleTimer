@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useEffect } from "react"
 import { View, Text, ScrollView } from "react-native"
 import IconCheck from 'react-native-vector-icons/Feather'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -6,45 +6,26 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import { useScheduleContext, useTodayDateContext } from "./provider"
 import { getDailyStatistics, getDateForm, getMonthForm, getMonthlyStatistics, getStatisticsFormat } from "./function"
-import { useIsFocused } from "@react-navigation/core"
+import { useIsFocused } from "@react-navigation/native"
 
 const iconSize = 25
 const iconSize_mini = 21
 const iconColor = 'black'
 
 export default function Home() {
-    const initStatistics = ["0시간 0분", "0% 달성"]
     const {today, updateTheDate} = useTodayDateContext()
     const {schedules} = useScheduleContext()
     const toMonthSchedules = schedules.find(dates => dates.month == getMonthForm(today))
     const todaySchedules = toMonthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(today))
+    const statisticsOfToday = getStatisticsFormat(todaySchedules?.statisticsOfDate)
+    const statisticsOfDaily = getDailyStatistics(toMonthSchedules?.statisticsOfMonth)
+    const statisticsOfMonthly = getMonthlyStatistics(schedules)
     const focused = useIsFocused()
 
     useEffect(()=>{
         if(focused)
             updateTheDate(today)
     }), [focused];
-
-    const statisticsOfToday = useCallback(() => {
-        if(todaySchedules == undefined)
-            return initStatistics
-        else
-            return getStatisticsFormat(todaySchedules.statisticsOfDate)
-    }, [todaySchedules])
-
-    const statisticsOfDaily = useCallback(() => {
-        if(toMonthSchedules == undefined)
-            return initStatistics
-        else
-            return getDailyStatistics(toMonthSchedules.statisticsOfMonth)
-    }, [toMonthSchedules])
-
-    const statisticsOfMonthly = useCallback(() => {
-        if(toMonthSchedules == undefined)
-            return initStatistics
-        else
-            return getMonthlyStatistics(schedules)
-    }, [schedules])
 
     const scheduleList = todaySchedules?.scheduleOfDate.map((schedule, index) => {        
         return (
@@ -81,13 +62,13 @@ export default function Home() {
                 <View style={styles.innerView}>
                     <View style={styles.iconTextView}>
                         <Icon name="calendar-clock" size={iconSize} color={iconColor}/>
-                        <Text style={styles.homeTodayContentText}>공부 시간: {statisticsOfToday()[0]}</Text>
+                        <Text style={styles.homeTodayContentText}>공부 시간: {statisticsOfToday[0]}</Text>
                     </View>
                 </View>
                 <View style={styles.innerView}>
                     <View style={styles.iconTextView}>
                         <Icon name="gauge" size={iconSize} color={iconColor}/>
-                        <Text style={styles.homeTodayContentText}>계획 달성률: {statisticsOfToday()[1]}</Text>
+                        <Text style={styles.homeTodayContentText}>계획 달성률: {statisticsOfToday[1]}</Text>
                     </View>
                 </View>
             </View>
@@ -98,11 +79,11 @@ export default function Home() {
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="calendar-clock" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticsOfDaily()[0]}</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfDaily[0]}</Text>
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="gauge" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticsOfDaily()[1]}</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfDaily[1]}</Text>
                     </View>
                 </View>
                 <View style={[styles.statisticsInnerView, styles.statisticsRightBoundary]}>
@@ -111,11 +92,11 @@ export default function Home() {
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="calendar-clock" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticsOfMonthly()[0]}</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfMonthly[0]}</Text>
                     </View>
                     <View style={styles.iconTextView}>
                         <Icon name="gauge" size={iconSize_mini} color={iconColor}/>
-                        <Text style={styles.homeStatisticsContentText}>{statisticsOfMonthly()[1]}</Text>
+                        <Text style={styles.homeStatisticsContentText}>{statisticsOfMonthly[1]}</Text>
                     </View>
                 </View>
             </View>

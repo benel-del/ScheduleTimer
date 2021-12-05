@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback } from "react"
 import { Text, View } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -15,28 +15,18 @@ export default function Monthly() {
     const {theMonth, updateTheMonth} = useTodayDateContext()
     const {theMonthSchedules} = useScheduleContext()
     const theMonthString = getMonthForm(theMonth)
+    const statisticsOfMonth = getStatisticsFormat(theMonthSchedules?.statisticsOfMonth)
 
-    const statisticsOfMonth = () => {
-        if(theMonthSchedules == undefined)
-            return ["0시간 0분", "0% 달성"]
-        else
-            return getStatisticsFormat(theMonthSchedules.statisticsOfMonth)
-    }
-
-    const beforePage = useCallback(() => {
-        updateTheMonth("before")
-    }, [theMonth])
-
-    const nextPage = useCallback(() => {
-        updateTheMonth("after")
+    const changeMonth = useCallback((type: string) => {
+        updateTheMonth(type)
     }, [theMonth])
 
     return(
         <View style={styles.container}>
             <View style={[styles.topView, styles.flexRowBetween]}>
-                <IconArrow name="navigate-before" size={iconSize} color='white' onPress={beforePage}/>
+                <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeMonth("before")}/>
                 <Text style={[styles.topText, styles.alignCenter]}>{theMonthString}</Text>
-                <IconArrow name="navigate-next" size={iconSize} color='white' onPress={nextPage}/>
+                <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeMonth("after")}/>
             </View>
 
             <ShowMonthTable/>
@@ -45,13 +35,13 @@ export default function Monthly() {
                 <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
                     <View style={[styles.iconTextView]}>
                         <IconStatistics name="calendar-clock" size={iconSize_mini} color='black'/>
-                        <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth()[0]}</Text>
+                        <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[0]}</Text>
                     </View>
                 </View>
                 <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsRightBoundary]}>
                     <View style={styles.iconTextView}>
                         <IconStatistics name="gauge" size={iconSize_mini} color='black'/>
-                        <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth()[1]}</Text>
+                        <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[1]}</Text>
                     </View>
                 </View>
             </View>

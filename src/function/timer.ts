@@ -1,4 +1,3 @@
-import { useCallback } from "react"
 import { iTimer } from '../typeDeclare'
 
 export const initTimer = () => {

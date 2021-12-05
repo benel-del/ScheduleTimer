@@ -2,8 +2,7 @@ import { getMonthForm, newStatistics, updateStatisticsOfDate, updateStatisticsOf
 import { iSchedule, iSchedulesOfDate, iSchedulesOfMonth } from "../typeDeclare"
 import { getDateForm } from "./date"
 
-let scheduleIndex = 0
-export const newSchedule = (name: string, timeSetting_hour: number, timeSetting_minute: number) => {
+export const newSchedule = (scheduleIndex: number, name: string, timeSetting_hour: number, timeSetting_minute: number) => {
     const sch: iSchedule = {
         index: scheduleIndex,
         name: name,
@@ -14,7 +13,6 @@ export const newSchedule = (name: string, timeSetting_hour: number, timeSetting_
         isChecked: false,
         checkIcon: "square"
     }
-    scheduleIndex += 1
     return sch
 }
 
@@ -66,6 +64,13 @@ export const getTimeSetting = (schedule: iSchedule) => {
     if(schedule.timeSetting_minute != 0)
         time += schedule.timeSetting_minute + "분"
     return time
+}
+
+export const getLastScheduleIndex = (schedulesOfDate: iSchedulesOfDate | undefined) => {
+    let numOfschedules = schedulesOfDate?.statisticsOfDate.numOfSchedules
+    if(schedulesOfDate == undefined || numOfschedules == undefined || numOfschedules == 0)
+        return 0
+    return schedulesOfDate.scheduleOfDate[numOfschedules-1].index
 }
 
 export const newSchedulesOfDate = (date: Date, newSch: iSchedule) => {

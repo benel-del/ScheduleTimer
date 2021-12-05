@@ -17,14 +17,14 @@ export type parentType = {
 const iconSize = 40
 
 const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
+    const {updateSchedules, theDateSchedules} = useScheduleContext()
+    const [modalVisible, setModalVisible] = useState(false)
     const focused = useIsFocused()
+
     useEffect(()=>{
         if(!focused)
             setIsEditMode(false)
     }), [focused];
-
-    const {updateSchedules, theDateSchedules} = useScheduleContext()
-    const [modalVisible, setModalVisible] = useState(false)
 
     const insertSchedule = useCallback((schedule: iSchedule) => {
         setModalVisible(true)
@@ -62,7 +62,6 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
                     {scheduleList}
                 </ScrollView>
             </View>
-            
             <View>
                 <ShowInputForm modalVisible={modalVisible} setModalVisible={setModalVisible}/>
             </View>

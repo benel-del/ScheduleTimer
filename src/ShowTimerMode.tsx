@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useState, useCallback, useEffect } from 'react'
-import { View, ScrollView, Alert, Text } from 'react-native'
+import { View, ScrollView, Alert, Text, ToastAndroid } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -21,16 +21,15 @@ let exitTimer = true
 const iconSize = 40
 
 const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) => {
-    const focused = useIsFocused()
-    useEffect(()=>{
-        if(!focused){
-            exitTimer = true
-            setIsTimerStop(exitTimer)
-        }
-    }), [focused];
-
     const {updateSchedules, theDateSchedules} = useScheduleContext()
     const [timer, setTimer] = useState(initTimer())
+    const focused = useIsFocused()
+    
+    useEffect(() => {
+        if(!focused){
+            exitTimer = true, setIsTimerStop(exitTimer)
+        }
+    }, [focused])
 
     const startTimer = useCallback((schedule:iSchedule) => {
         const countDown = () => {
@@ -43,7 +42,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
                     stopCountDown(setTimeOver(schedule))
                 }
                 else if(exitTimer)
-                    stopCountDown(setTimeRemaining(setTimerIcon(schedule, "timer"), time))              
+                    stopCountDown(setTimeRemaining(setTimerIcon(schedule, "timer"), time))
                 else if(!tmStop){
                     time -= 1
                     setTimer(newTimer(time))
@@ -65,10 +64,9 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
             setIsTimerStop(exitTimer)
             countDown()
         }
-        else{
-            Alert.alert("경고", "다른 타이머가 돌아가고 있습니다.")
-        }
-    }, [theDateSchedules])
+        else
+            ToastAndroid.show("다른 타이머가 돌아가고 있습니다.", ToastAndroid.SHORT)
+    }, [theDateSchedules, focused])
 
     const stopTimer = useCallback((schedule:iSchedule) => {
         tmStop = true

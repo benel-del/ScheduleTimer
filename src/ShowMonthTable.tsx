@@ -26,14 +26,10 @@ const ShowMonthTable = () => {
         }
     }
 
-    const goDays = useCallback(() => {
+    const navigate = useCallback((date: Date) => {
+        updateTheDate(date)
         navigation.navigate("Daily")
     }, [])
-
-    const navigate = (date: Date) => {
-        updateTheDate(date)
-        goDays()
-    }
 
     const ShowCalendar = useCallback(() => {
         return (

@@ -9,7 +9,6 @@ import Home from "./src/Home";
 import Monthly from "./src/Monthly";
 import Daily from "./src/Daily";
 import { getDateForm, getMonthForm } from "./src/function";
-import { useTodayDateContext } from "./src/provider";
 
 const Tab = createBottomTabNavigator()
 type TabBarIconProps = {

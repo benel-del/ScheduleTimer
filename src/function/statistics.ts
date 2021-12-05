@@ -24,9 +24,8 @@ export const updateStatisticsOfDate = (schedules: iSchedule[]) => {
     let statistics = newTempStatistics()
     schedules.forEach(schedule => {
         statistics.numOfSchedules += 1
-        if(schedule.isChecked){
+        if(schedule.isChecked)
             statistics.numOfCompleteSchedules += 1
-        }
         const planTime = schedule.timeSetting_hour * 3600 + schedule.timeSetting_minute * 60
         statistics.amountOfCompleteTime += planTime - schedule.timeRemaining
     });
@@ -45,13 +44,17 @@ export const updateStatisticsOfMonth = (schedulesList: iSchedulesOfDate[]) => {
     return statistics
 }
 
-export const getStatisticsFormat = (statistics: iStatistics) => {
+export const getStatisticsFormat = (statistics: iStatistics | undefined) => {
+    if(statistics == undefined || statistics.numOfSchedules == 0)
+        return ["0시간 0분", "0% 달성"]
     const studyTime = Math.floor(statistics.amountOfCompleteTime / 3600) + "시간 " + Math.floor(statistics.amountOfCompleteTime / 60) % 60 + "분" 
     const gauge = Math.floor(statistics.numOfCompleteSchedules / statistics.numOfSchedules * 100) + "% 달성"
     return [studyTime, gauge]
 }
 
-export const getDailyStatistics = (toMonthStatistics: iStatistics) => {
+export const getDailyStatistics = (toMonthStatistics: iStatistics | undefined) => {
+    if(toMonthStatistics == undefined)
+        return ["0시간 0분", "0% 달성"]
     const numOfDates = toMonthStatistics.numOfDatesInMonth
     const aveTime = Math.floor(toMonthStatistics.amountOfCompleteTime / numOfDates)
     const studyTime = Math.floor(aveTime / 3600) + "시간 " + Math.floor(aveTime / 60) % 60 + "분"

@@ -1,10 +1,10 @@
-import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
-import { View, Text, Modal, TextInput, Alert, TouchableOpacity } from 'react-native'
+import React, { Dispatch, FC, SetStateAction, useCallback, useRef, useState } from 'react'
+import { View, Text, Modal, TextInput, TouchableOpacity, ToastAndroid } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 
 import { styles } from './styles'
 import { useScheduleContext, useTodayDateContext } from './provider'
-import { getDateForm, newSchedule } from './function'
+import { getDateForm, getLastScheduleIndex, newSchedule } from './function'
 import { Colors } from 'react-native-paper'
 
 export type parentType = {
@@ -14,10 +14,11 @@ export type parentType = {
 
 const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
     const {theDate} = useTodayDateContext()
-    const {updateSchedules} = useScheduleContext()
+    const {theDateSchedules, updateSchedules} = useScheduleContext()
     const [name, onChangeName] = useState("")
     const [timeSetting_hour, onChangeHour] = useState(0)
     const [timeSetting_minute, onChangeMinute] = useState(0)
+    const newScheduleIndex = getLastScheduleIndex(theDateSchedules) + 1
 
     const reset = useCallback(() => {
         onChangeName("")
@@ -27,15 +28,16 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
 
     const insert = useCallback(() =>{
         if(name == "")
-            Alert.alert("경고", "계획 내용을 입력하세요")
+            ToastAndroid.show("계획 내용을 입력하세요", ToastAndroid.LONG)
         else if(timeSetting_hour + timeSetting_minute == 0)
-            Alert.alert("경고", "시간을 설정하세요")
+            ToastAndroid.show("시간을 설정하세요", ToastAndroid.LONG)
         else{
-            updateSchedules("insert", newSchedule(name, timeSetting_hour, timeSetting_minute))
+            updateSchedules("insert", newSchedule(newScheduleIndex, name, timeSetting_hour, timeSetting_minute))
             setModalVisible(false)
             reset()
+            console.log(newScheduleIndex)
         }
-    }, [name, timeSetting_hour, timeSetting_minute])
+    }, [name, timeSetting_hour, timeSetting_minute, newScheduleIndex])
 
     const HourSelect = useCallback(() => {
         const hourItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((index) => {
