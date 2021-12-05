@@ -29,7 +29,6 @@ const ShowScheduleTimer: FC<parentType> = ({tense, schedule, startTimer, stopTim
             <View style={[styles.iconTextView]}>
                 <IconCheck name={schedule.checkIcon} size={25} color='black'/>
                 <Text style={styles.daysScheduleText}>{schedule.name} {getTimeSetting(schedule)}</Text>
-                <Text>{schedule.timeRemaining}</Text>
             </View>
             <Icon/>
         </View>

@@ -53,7 +53,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color='black'/>
-                    <Text style={styles.daysTitleText}>계획 편집</Text>
+                    <Text style={[styles.daysTitleText, {marginTop: 3}]}>계획 편집</Text>
                 </View>
                 <Icon name="calendar-check" size={iconSize} color='black' onPress={() => {setIsEditMode(false)}}/>
             </View>

@@ -30,8 +30,8 @@ export default function App(){
     if(typeof(type) == "string")
       type = new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
     setTheDate(type)
-    setTheMonth(type)
     setTheDateSchedules(getTheDateSchedules(schedules, type))
+    setTheMonth(type)
     setTheMonthSchedules(getTheMonthScehudules(schedules, type))
   }, [theDate, schedules])
 

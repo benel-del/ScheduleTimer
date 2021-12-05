@@ -85,7 +85,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color='black'/>                                                                                
-                    <Text style={styles.daysTitleText}>계획</Text>
+                    <Text style={[styles.daysTitleText, {marginTop: 3}]}>계획</Text>
                 </View>
                 {(tense == "Past" || !exitTimer) && <Icon name="calendar-edit" size={iconSize} color='white'/>}
                 {(tense != "Past" && exitTimer) && <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>} 

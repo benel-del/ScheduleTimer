@@ -22,26 +22,26 @@ export default function Monthly() {
     }, [theMonth])
 
     return(
-        <View style={styles.container}>
+        <View>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeMonth("before")}/>
                 <Text style={[styles.topText, styles.alignCenter]}>{theMonthString}</Text>
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeMonth("after")}/>
             </View>
-
-            <ShowMonthTable/>
-
-            <View style={[styles.statisticsView, styles.flexRowCenter, styles.topBoundary]}>
-                <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
-                    <View style={[styles.iconTextView]}>
-                        <IconStatistics name="calendar-clock" size={iconSize_mini} color='black'/>
-                        <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[0]}</Text>
+            <View style={styles.container}>
+                <ShowMonthTable/>
+                <View style={[styles.statisticsView, styles.flexRowCenter, styles.topBoundary]}>
+                    <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
+                        <View style={[styles.iconTextView]}>
+                            <IconStatistics name="calendar-clock" size={iconSize_mini} color='black'/>
+                            <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[0]}</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsRightBoundary]}>
-                    <View style={styles.iconTextView}>
-                        <IconStatistics name="gauge" size={iconSize_mini} color='black'/>
-                        <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[1]}</Text>
+                    <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsRightBoundary]}>
+                        <View style={styles.iconTextView}>
+                            <IconStatistics name="gauge" size={iconSize_mini} color='black'/>
+                            <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[1]}</Text>
+                        </View>
                     </View>
                 </View>
             </View>
