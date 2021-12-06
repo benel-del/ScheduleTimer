@@ -26,6 +26,13 @@ export default function App(){
     })
   }, [])
 
+  useLayoutEffect(() => {
+    const dd = new Date()
+    if(getDateForm(today) != getDateForm(dd)){
+      setToday(dd)
+    }
+  })
+
   const updateTheDate = useCallback((type: string | Date) => {
     if(typeof(type) == "string")
       type = new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
@@ -96,11 +103,6 @@ export default function App(){
     }
     saveData(newSchedules)
   }, [theDate, schedules])
-
-  const dd = new Date()
-  if(getDateForm(today) != getDateForm(dd)){
-    setToday(dd)
-  }
 
   return (
     <TodayDateProvider today={today} theDate={theDate} theMonth={theMonth} updateTheDate={updateTheDate} updateTheMonth={updateTheMonth}>
