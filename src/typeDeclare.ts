@@ -18,8 +18,10 @@ export type iTimer = {
 export type iStatistics = {
     numOfSchedules: number,
     numOfCompleteSchedules: number,
+    amountOfTime: number,
     amountOfCompleteTime: number,
     numOfDatesInMonth: number
+    numOf100PercentDatesInMonth: number
 }
 
 export type iSchedulesOfDate = {

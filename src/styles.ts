@@ -26,8 +26,9 @@ export const styles = StyleSheet.create({
         padding: 5
     },
     homeTitleView: {
-        marginBottom: 8,
+        marginBottom: 5,
         borderRadius: 5,
+        width: "30%"
     },
     innerView: {
         padding: 5,
@@ -45,13 +46,13 @@ export const styles = StyleSheet.create({
         padding: 5,
         margin: 10,
         marginBottom: 0,
-        height: "61.5%"
+        height: "58%"
     },
     homeScrollView: {
         marginTop: 15,
         paddingVertical: 5,
         paddingHorizontal: 20,
-        height: "46%",
+        height: "43%",
         borderWidth: 1,
         borderColor: baseColor,
         borderStyle: 'dashed'
@@ -201,22 +202,15 @@ export const styles = StyleSheet.create({
         color: 'black',
         paddingLeft: 5
     },
-    homeTodayContentText: {
-        marginLeft: 5,
-        fontSize: 20,
+    homeContentText: {
+        marginHorizontal: 5,
+        fontSize: 18,
         color: 'black'
     },
-    homeStatisticsTitleText: {
-        margin: 5,
-        fontSize: 20,
-        fontWeight: "bold",
-        color: baseColor,
-    },
-    homeStatisticsContentText: {
+    statisticsContentText: {
         marginLeft: 10,
         fontSize: 18,
-        color: 'black',
-        fontWeight: '300'
+        color: 'black'
     },
     scrollViewText: {
         fontSize: 16,

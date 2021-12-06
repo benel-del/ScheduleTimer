@@ -35,7 +35,6 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
             updateSchedules("insert", newSchedule(newScheduleIndex, name, timeSetting_hour, timeSetting_minute))
             setModalVisible(false)
             reset()
-            console.log(newScheduleIndex)
         }
     }, [name, timeSetting_hour, timeSetting_minute, newScheduleIndex])
 

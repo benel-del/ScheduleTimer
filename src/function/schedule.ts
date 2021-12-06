@@ -68,7 +68,7 @@ export const getTimeSetting = (schedule: iSchedule) => {
 
 export const getLastScheduleIndex = (schedulesOfDate: iSchedulesOfDate | undefined) => {
     let numOfschedules = schedulesOfDate?.statisticsOfDate.numOfSchedules
-    if(schedulesOfDate == undefined || numOfschedules == undefined || numOfschedules == 0)
+    if(schedulesOfDate == undefined || schedulesOfDate.scheduleOfDate == undefined || numOfschedules == undefined || numOfschedules == 0)
         return 0
     return schedulesOfDate.scheduleOfDate[numOfschedules-1].index
 }
@@ -77,7 +77,7 @@ export const newSchedulesOfDate = (date: Date, newSch: iSchedule) => {
     const temp: iSchedulesOfDate = {
         date: getDateForm(date),
         scheduleOfDate: [newSch],
-        statisticsOfDate: newStatistics()
+        statisticsOfDate: newStatistics(undefined)
     }
     return temp
 }

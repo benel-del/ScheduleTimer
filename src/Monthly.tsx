@@ -34,13 +34,13 @@ export default function Monthly() {
                     <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
                         <View style={[styles.iconTextView]}>
                             <IconStatistics name="calendar-clock" size={iconSize_mini} color='black'/>
-                            <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[0]}</Text>
+                            <Text style={[styles.statisticsContentText, styles.alignCenter]}>{statisticsOfMonth[0]}</Text>
                         </View>
                     </View>
                     <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsRightBoundary]}>
                         <View style={styles.iconTextView}>
                             <IconStatistics name="gauge" size={iconSize_mini} color='black'/>
-                            <Text style={[styles.homeStatisticsContentText, styles.alignCenter]}>{statisticsOfMonth[1]}</Text>
+                            <Text style={[styles.statisticsContentText, styles.alignCenter]}>{statisticsOfMonth[1]}</Text>
                         </View>
                     </View>
                 </View>
