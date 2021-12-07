@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
         padding: 5
     },
     contentView: {
-        height: height * 0.8
+        height: height * 0.75
     },
     topView: {
         height: height * 0.07,
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     },
     homeTitleView: {
         marginVertical: 5,
-        width: width * 0.25
+        width: width * 0.28
     },
     innerView: {
         padding: 5,
@@ -47,12 +47,12 @@ export const styles = StyleSheet.create({
         padding: 5,
         margin: 10,
         marginBottom: 0,
-        height: height * 0.52
+        height: height * 0.46
     },
     homeScrollView: {
         marginVertical: 8,
         paddingVertical: 5,
-        height: height * 0.23,
+        height: height * 0.15,
         borderWidth: 1,
         borderColor: baseColor,
         borderStyle: 'dashed',
@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
         padding: 5
     },
     daysContentView: {
-        height: height * 0.69,
+        height: height * 0.615,
         padding: 5
     },
     daysScrollView: {
@@ -129,7 +129,7 @@ export const styles = StyleSheet.create({
         margin: 2
     },
     calendarDateView: {
-        height: height * 0.086,
+        height: height * 0.07,
         width: width * 0.13,
         marginVertical: 5
     },
@@ -246,7 +246,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: 'center',
         padding: 10,
-        marginBottom: 10,
+        marginBottom: 5,
         borderRadius: 25
     },
     todayColorText:{
