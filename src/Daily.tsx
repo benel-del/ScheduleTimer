@@ -44,8 +44,8 @@ export default function Daily() {
         <View style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeDate("before")}/>
-                <Text style={[styles.topText, styles.alignCenter]} onPress={() => setIsCalendarOpen(true)}>   {getDateForm(theDate).split(' ')[0]} =</Text>
-                {isCalendarOpen && isTimerStop && !isEditMode && <DateTimePicker value={theDate} mode="date" display="calendar" onChange={onChange}/>}
+                <Text style={[styles.topText, styles.alignCenter]} onPress={() => {if(isTimerStop && !isEditMode) setIsCalendarOpen(true)}}>   {getDateForm(theDate).split(' ')[0]} =</Text>
+                {isCalendarOpen && <DateTimePicker value={theDate} mode="date" display="calendar" onChange={onChange}/>}
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeDate("after")}/>
             </View>
             <View style={styles.container}>
