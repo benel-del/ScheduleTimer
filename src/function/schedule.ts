@@ -60,9 +60,9 @@ export const setTimeOver = (schedule: iSchedule) => {
 export const getTimeSetting = (schedule: iSchedule) => {
     let time = ""
     if(schedule.timeSetting_hour != 0)
-        time += schedule.timeSetting_hour + "시간 "
+        time += schedule.timeSetting_hour + "시간"
     if(schedule.timeSetting_minute != 0)
-        time += schedule.timeSetting_minute + "분"
+        time += (time != "" ? " " : "") + schedule.timeSetting_minute + "분"
     return time
 }
 

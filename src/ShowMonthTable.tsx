@@ -79,7 +79,7 @@ const ShowMonthTable = () => {
     return (
         <View style={styles.contentView}>
             <ShowCalendar/>
-            <Text style={{paddingLeft: 10}}>계획 4개까지 표현  |  날짜 클릭 시 daily로 이동</Text>
+            <Text style={[styles.timerInfoText]}>계획 4개까지 표현  |  날짜 클릭 시 daily로 이동</Text>
         </View>
     )
 }

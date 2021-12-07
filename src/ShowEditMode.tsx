@@ -32,7 +32,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
     }, [])
 
     const removeSchedule = useCallback((schedule: iSchedule) => {
-        const info = "[" + schedule.name + " " + getTimeSetting(schedule) + "]"
+        const info = "" + schedule.name + " " + getTimeSetting(schedule) + ""
         Alert.alert(info, " 계획을 삭제하겠습니까?", [
             {text: "삭제", onPress: () => {updateSchedules("remove", schedule)}},
             {text: "취소", onPress: () => {}}
@@ -54,7 +54,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color='black'/>
-                    <TextBold style={[styles.daysTitleText, {marginTop: 3}]}>계획 편집</TextBold>
+                    <TextBold style={styles.daysTitleText}>계획 편집</TextBold>
                 </View>
                 <Icon name="calendar-check" size={iconSize} color='black' onPress={() => {setIsEditMode(false)}}/>
             </View>

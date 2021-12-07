@@ -67,7 +67,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
         }
         else
             ToastAndroid.show("다른 타이머가 돌아가고 있습니다.", ToastAndroid.SHORT)
-    }, [theDateSchedules, focused])
+    }, [theDateSchedules])
 
     const stopTimer = useCallback((schedule:iSchedule) => {
         tmStop = true
@@ -86,7 +86,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color='black'/>                                                                                
-                    <TextBold style={[styles.daysTitleText, {marginTop: 3}]}>계획</TextBold>
+                    <TextBold style={styles.daysTitleText}>계획</TextBold>
                 </View>
                 {(tense == "Past" || !exitTimer) && <Icon name="calendar-edit" size={iconSize} color='white'/>}
                 {(tense != "Past" && exitTimer) && <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>} 

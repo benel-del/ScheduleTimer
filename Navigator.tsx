@@ -41,17 +41,17 @@ export default function Navigator(){
         <Tab.Navigator screenOptions = {screenOptions}>
             <Tab.Screen name = "Home" component = {Home} options={() => ({
                 tabBarLabel: "home",
-                tabBarLabelStyle: {fontSize: 16},
+                tabBarLabelStyle: {fontSize: 21, fontFamily: 'BinggraeSamanco'},
                 tabBarLabelPosition: "beside-icon"
             })}/>
             <Tab.Screen name = "Daily" component = {Daily} options={() => ({
                 tabBarLabel: "daily",
-                tabBarLabelStyle: {fontSize: 16},
+                tabBarLabelStyle: {fontSize: 21, fontFamily: 'BinggraeSamanco'},
                 tabBarLabelPosition: "beside-icon"
             })}/>
             <Tab.Screen name = "Monthly" component = {Monthly} options={() => ({
                 tabBarLabel: "monthly",
-                tabBarLabelStyle: {fontSize: 16},
+                tabBarLabelStyle: {fontSize: 21, fontFamily: 'BinggraeSamanco'},
                 tabBarLabelPosition: "beside-icon"
             })}/>
         </Tab.Navigator>

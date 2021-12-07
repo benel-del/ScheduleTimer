@@ -1,21 +1,23 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { Colors } from 'react-native-paper';
 
+const {width, height} = Dimensions.get("window")
 const baseColor = Colors.blue900
 const lightColor = Colors.blue800
 
 export const styles = StyleSheet.create({
     safeAreaView: {
-        flex: 1
+        flex: 1,
+        backgroundColor: 'white'
     },
     container: {
         padding: 5
     },
     contentView: {
-        height: "87%"
+        height: height * 0.8
     },
     topView: {
-        height: 55,
+        height: height * 0.07,
         paddingHorizontal: 5,
         paddingVertical: 7,
         backgroundColor: baseColor
@@ -26,9 +28,8 @@ export const styles = StyleSheet.create({
         padding: 5
     },
     homeTitleView: {
-        marginBottom: 5,
-        borderRadius: 5,
-        width: "30%"
+        marginVertical: 5,
+        width: width * 0.25
     },
     innerView: {
         padding: 5,
@@ -46,30 +47,28 @@ export const styles = StyleSheet.create({
         padding: 5,
         margin: 10,
         marginBottom: 0,
-        height: "58%"
+        height: height * 0.52
     },
     homeScrollView: {
-        marginTop: 15,
+        marginVertical: 8,
         paddingVertical: 5,
-        paddingHorizontal: 20,
-        height: "43%",
+        height: height * 0.23,
         borderWidth: 1,
         borderColor: baseColor,
-        borderStyle: 'dashed'
+        borderStyle: 'dashed',
+        borderRadius: 8
     },
     scrollInnerView:{
-        height: 25
+        height: 25,
+        marginVertical: 5
     },
     statisticsView: {
         padding: 10,
         marginTop: 0,
     },
     statisticsInnerView: {
-        width: "50%",
-        height: "100%",
-        padding: 5,
-        paddingTop: 0,
-        paddingLeft: 20
+        flex: 1,
+        padding: 5
     },
     daysTitleView: {
         marginTop: 30,
@@ -78,21 +77,21 @@ export const styles = StyleSheet.create({
         padding: 5
     },
     daysContentView: {
-        height: "83%",
+        height: height * 0.69,
         padding: 5
     },
     daysScrollView: {
         paddingHorizontal: 10,
-        width: "90%"
+        width: width * 0.88
     },
     timerView: {
         marginHorizontal: 10,
-        width: "90%",
-        height: "27%"
+        width: width * 0.88,
+        height: height * 0.18
     },
     timerInnerView: {
-        width: "70%",
-        height: "70%",
+        width: width * 0.55,
+        height: height * 0.11,
         padding: 10
     },
     timeView: {
@@ -101,9 +100,11 @@ export const styles = StyleSheet.create({
     },
     inputFormView: {
         padding: 20,
-        margin: 20,
+        marginBottom: 20,
+        marginHorizontal: 20,
         borderWidth: 1,
-        borderColor: baseColor
+        borderColor: baseColor,
+        borderRadius: 10
     },
     inputScrollView: {
         height: 40,
@@ -128,10 +129,9 @@ export const styles = StyleSheet.create({
         margin: 2
     },
     calendarDateView: {
-        height: 55,
-        margin: 4,
-        width: 50,
-        paddingHorizontal: 5
+        height: height * 0.086,
+        width: width * 0.13,
+        marginVertical: 5
     },
     calendarCircleView: {
         width:"100%",
@@ -150,11 +150,6 @@ export const styles = StyleSheet.create({
     statisticsLeftBoundary: {
         borderRightWidth: 1,
         borderColor: baseColor,
-    },
-    statisticsRightBoundary: {
-        borderWidth: 1,
-        borderColor: 'white',
-        borderStyle: "dashed"
     },
     scheduleBoundary: {
         borderBottomWidth: 1,
@@ -178,15 +173,17 @@ export const styles = StyleSheet.create({
         color: 'white'
     },
     todayText: {
-        fontSize: 33
+        fontSize: 33,
+        alignSelf: "center"
     },
     homeTitleText: {
         margin: 5,
-        fontSize: 28,
+        fontSize: 30,
         color: baseColor,
         alignSelf: "center"
     },
     daysTitleText: {
+        marginTop: 3,
         marginLeft: 7,
         fontSize: 30
     },
@@ -196,11 +193,12 @@ export const styles = StyleSheet.create({
         paddingLeft: 5
     },
     homeContentText: {
+        marginVertical: 3,
         marginHorizontal: 5,
         fontSize: 22
     },
     statisticsContentText: {
-        marginLeft: 10,
+        marginLeft: 5,
         fontSize: 23
     },
     scrollViewText: {
@@ -237,25 +235,26 @@ export const styles = StyleSheet.create({
     },
     inputInfoText: {
         fontSize: 20,
-        padding: 5,
+        padding: 10,
         marginVertical: 5,
         color: Colors.grey700
     },
     calendarDateText: {
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         fontSize: 23,
         textAlign: 'center',
-        paddingTop: 7,
-        marginVertical: 3,
-        borderRadius: 20,
+        alignSelf: 'center',
+        padding: 10,
+        marginBottom: 10,
+        borderRadius: 25
     },
     todayColorText:{
         color: 'white',
         backgroundColor: baseColor
     },
     dateColorText: {
-        backgroundColor: Colors.grey200
+        backgroundColor: Colors.grey100
     },
 
     timeSettingButton: {

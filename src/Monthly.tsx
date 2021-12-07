@@ -22,7 +22,7 @@ export default function Monthly() {
     }, [theMonth])
 
     return(
-        <View style={{backgroundColor: 'white'}}>
+        <View style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeMonth("before")}/>
                 <Text style={[styles.topText, styles.alignCenter]}>{getMonthForm(theMonth)}</Text>
@@ -31,16 +31,16 @@ export default function Monthly() {
             <View style={styles.container}>
                 <ShowMonthTable/>
                 <View style={[styles.statisticsView, styles.flexRowCenter, styles.topBoundary]}>
-                    <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
-                        <View style={[styles.iconTextView]}>
+                    <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsLeftBoundary]}>
+                        <View style={styles.iconTextView}>
                             <IconStatistics name="calendar-clock" size={iconSize_mini} color='black'/>
-                            <Text style={[styles.statisticsContentText, styles.alignCenter]}>{statisticsOfMonth[0]}</Text>
+                            <Text style={styles.statisticsContentText}>{statisticsOfMonth[0]}</Text>
                         </View>
                     </View>
-                    <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsRightBoundary]}>
+                    <View style={[styles.statisticsInnerView, styles.flexRowCenter]}>
                         <View style={styles.iconTextView}>
                             <IconStatistics name="gauge" size={iconSize_mini} color='black'/>
-                            <Text style={[styles.statisticsContentText, styles.alignCenter]}>{statisticsOfMonth[1]}</Text>
+                            <Text style={styles.statisticsContentText}>{statisticsOfMonth[1]}</Text>
                         </View>
                     </View>
                 </View>

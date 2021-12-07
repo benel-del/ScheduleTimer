@@ -23,7 +23,7 @@ const ShowScheduleEidt: FC<parentType> = ({schedule, updateSchedule}) => {
     return (
         <View style={[styles.textIconView, styles.scheduleBoundary]}>
             <View style={[styles.iconTextView]}>
-                <IconCheck name={schedule.checkIcon} size={25} color='black'/>
+                <IconCheck name={schedule.checkIcon} size={25} color='black' style={{marginTop: 2}}/>
                 <Text style={styles.daysScheduleText}>{schedule.name} {getTimeSetting(schedule)}</Text>
             </View>
             <Icon />

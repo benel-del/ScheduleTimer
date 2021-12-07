@@ -41,7 +41,7 @@ export default function Daily() {
     }, [])
 
     return (
-        <View style={{backgroundColor: 'white'}}>
+        <View style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeDate("before")}/>
                 <Text style={[styles.topText, styles.alignCenter]} onPress={() => setIsCalendarOpen(true)}>   {getDateForm(theDate).split(' ')[0]} =</Text>
@@ -52,16 +52,16 @@ export default function Daily() {
                 {isEditMode && <ShowEditMode setIsEditMode={setIsEditMode}/>}
                 {!isEditMode && <ShowTimerMode tense={tense} setIsTimerStop={setIsTimerStop} setIsEditMode={setIsEditMode}/>}
                 <View style={[styles.statisticsView, styles.flexRowCenter, styles.topBoundary]}>
-                    <View style={[styles.statisticsInnerView, styles.statisticsLeftBoundary]}>
-                        <View style={[styles.iconTextView]}>
+                    <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsLeftBoundary]}>
+                        <View style={styles.iconTextView}>
                             <IconStatistics name="calendar-clock" size={iconSize_mini} color='black'/>
-                            <Text style={[styles.statisticsContentText, styles.alignCenter]}>{statisticsOfDate[0]}</Text>
+                            <Text style={styles.statisticsContentText}>{statisticsOfDate[0]}</Text>
                         </View>
                     </View>
-                    <View style={[styles.statisticsInnerView, styles.flexRowCenter, styles.statisticsRightBoundary]}>
+                    <View style={[styles.statisticsInnerView, styles.flexRowCenter]}>
                         <View style={styles.iconTextView}>
                             <IconStatistics name="gauge" size={iconSize_mini} color='black'/>
-                            <Text style={[styles.statisticsContentText, styles.alignCenter]}>{statisticsOfDate[1]}</Text>
+                            <Text style={styles.statisticsContentText}>{statisticsOfDate[1]}</Text>
                         </View>
                     </View>
                 </View>

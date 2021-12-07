@@ -1,5 +1,6 @@
 import React, { Dispatch, FC, SetStateAction, useCallback, useMemo, useState } from 'react'
 import { View,  Modal, TextInput, TouchableOpacity, ToastAndroid } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Picker } from '@react-native-picker/picker'
 
 import { styles } from './styles'
@@ -89,7 +90,13 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
         <View>
             <Modal animationType="slide" transparent={false} visible={modalVisible}>
                 <View style={[styles.daysTitleView, styles.bottomBoundary, styles.alignCenter, {width: "50%"}]}>
-                    <TextBold style={[styles.todayText, styles.alignCenter]}>{getDateForm(theDate)}</TextBold>
+                    <TextBold style={styles.todayText}>{getDateForm(theDate)}</TextBold>
+                </View>
+                <View style={styles.daysTitleView}>
+                    <View style={styles.iconTextView}>
+                        <Icon name="calendar-plus" size={40} color='black'/>                                                                                
+                        <TextBold style={styles.daysTitleText}>계획 추가하기</TextBold>
+                    </View>
                 </View>
                 <View style={styles.inputFormView}>
                     <View style={styles.inputView}>
@@ -98,9 +105,12 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
                     <View>
                         <Text style={styles.inputInfoText}>계획 내용: 최대 11자</Text>
                     </View>
-                    <View style={[styles.flexRowBetween, {marginVertical: 10}]}>
+                    <View style={[styles.flexRowBetween, {marginTop: 10}]}>
                         <HourSelect />
                         <MinuteSelect />
+                    </View>
+                    <View>
+                        <Text style={styles.inputInfoText}>시간 범위: 0분 ~ 11시 55분</Text>
                     </View>
                 </View>
                 <View style={styles.flexRowCenter}>
