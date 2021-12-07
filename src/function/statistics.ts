@@ -65,14 +65,14 @@ export const getTotalStatistics = (schedules: iSchedulesOfMonth[]) => {
         studyTime[1] += monthStatistics.amountOfTime
     })
 
-    const date = numOfDates[0] + "/" + numOfDates[1]
-    const schedule = numOfSchedules[0] + "/" + numOfSchedules[1]
-    const time = getTimeFormat(studyTime[0]) + "/" + getTimeFormat(studyTime[1])
+    const date = numOfDates[0] + " 일 / " + numOfDates[1] + " 일"
+    const schedule = numOfSchedules[0] + " 개 / " + numOfSchedules[1] + " 개"
+    const time = getTimeFormat(studyTime[0]) + " / " + getTimeFormat(studyTime[1])
     return [date, schedule, time]
 }
 
 const getTimeFormat = (time : number) => {
     if(time == 0)
-        return "0분"
-    return Math.floor(time / 60)  + "분" 
+        return "0 분"
+    return Math.floor(time / 60)  + " 분" 
 }

@@ -1,2 +1,2 @@
-export { SchedulesProvider, useScheduleContext} from "./ScheduleManagerProvider"
-export { TodayDateProvider, useTodayDateContext} from "./TodayDateProvider"
+export { SchedulesProvider, useScheduleContext} from "./SchedulesProvider"
+export { DateProvider, useDateContext} from "./DateProvider"

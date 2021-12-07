@@ -1,9 +1,10 @@
 import React, { Dispatch, FC, SetStateAction, useState, useCallback, useEffect } from 'react'
-import { View, ScrollView, Alert, Text, ToastAndroid } from 'react-native'
+import { View, ScrollView, Alert, ToastAndroid } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
+import { Text, TextBold } from "./theme/Text"
 import { iSchedule } from './typeDeclare'
 import ShowTimer from './ShowTimer'
 import ShowScheduleTimer from './ShowScheduleTimer'
@@ -85,7 +86,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
             <View style={[styles.daysTitleView, styles.textIconView]}>
                 <View style={styles.iconTextView}>
                     <Icon name="calendar-today" size={iconSize} color='black'/>                                                                                
-                    <Text style={[styles.daysTitleText, {marginTop: 3}]}>계획</Text>
+                    <TextBold style={[styles.daysTitleText, {marginTop: 3}]}>계획</TextBold>
                 </View>
                 {(tense == "Past" || !exitTimer) && <Icon name="calendar-edit" size={iconSize} color='white'/>}
                 {(tense != "Past" && exitTimer) && <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>} 

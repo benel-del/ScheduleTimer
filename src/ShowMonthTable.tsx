@@ -1,20 +1,21 @@
-import React, { useCallback, useEffect } from "react"
-import { Text, View } from "react-native"
+import React, { useCallback } from "react"
+import { View } from "react-native"
 import { Calendar } from 'react-native-calendars'
 import { useNavigation } from "@react-navigation/native"
 
 import { styles } from './styles'
-import { useScheduleContext, useTodayDateContext } from "./provider"
+import { Text } from "./theme/Text"
+import { useScheduleContext, useDateContext } from "./provider"
 import { getDateForm, getDateFormByString } from "./function"
 
 const ShowMonthTable = () => {
     const navigation = useNavigation()
-    const {today, theDate, theMonth, updateTheDate} = useTodayDateContext()
+    const {today, theDate, theMonth, updateTheDate} = useDateContext()
     const {theMonthSchedules} = useScheduleContext()
     const theme = {
         textMonthFontSize: 0,
-        textDayFontSize: 24,
-        textDayHeaderFontSize: 15,
+        textDayHeaderFontSize: 21,
+        textDayHeaderFontFamily: 'BinggraeSamanco',
         'stylesheet.calendar.header': {
             dayTextAtIndex0: {color: 'red'},
             dayTextAtIndex1: {color: 'black'},
@@ -61,7 +62,7 @@ const ShowMonthTable = () => {
                     })
                     return (
                       <View style={styles.calendarDateView}>
-                        <Text style={[styles.calendarDateText, isToday? styles.todayColorText : {}]} onPress={() => navigate(calendarDate.dateForm)}>
+                        <Text style={[styles.calendarDateText, isToday? styles.todayColorText : styles.dateColorText]} onPress={() => navigate(calendarDate.dateForm)}>
                           {date.day}
                         </Text>
                         <View style={[styles.flexRowCenter, styles.calendarCircleView]}>

@@ -1,10 +1,11 @@
 import React, { useEffect } from "react"
-import { View, Text, ScrollView } from "react-native"
+import { View, ScrollView } from "react-native"
 import IconCheck from 'react-native-vector-icons/Feather'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
-import { useScheduleContext, useTodayDateContext } from "./provider"
+import { Text, TextBold } from "./theme/Text"
+import { useScheduleContext, useDateContext } from "./provider"
 import { getTotalStatistics, getDateForm, getMonthForm, getStatisticsFormat, getTimeSetting } from "./function"
 import { useIsFocused } from "@react-navigation/native"
 
@@ -13,7 +14,7 @@ const iconSize_mini = 23
 const iconColor = 'black'
 
 export default function Home() {
-    const {today, updateTheDate} = useTodayDateContext()
+    const {today, updateTheDate} = useDateContext()
     const {schedules} = useScheduleContext()
     const toMonthSchedules = schedules.find(dates => dates.month == getMonthForm(today))
     const todaySchedules = toMonthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(today))
@@ -37,17 +38,17 @@ export default function Home() {
     })
 
     return (
-        <View>
+        <View style={{backgroundColor: 'white'}}>
             <View style={styles.topView}>
-                <Text style={[styles.topText, styles.alignCenter, {paddingTop: 2}]}>Study Timer</Text>
+                <TextBold style={[styles.topText, styles.alignCenter, {paddingTop: 2}]}>Schedule Timer</TextBold>
             </View>
             <View style={styles.container}>
                 <View style={[styles.homeDateView, styles.bottomBoundary, styles.alignCenter, {width: "50%"}]}>
-                    <Text style={[styles.todayText, styles.alignCenter]}>{getDateForm(today)}</Text>
+                    <TextBold style={[styles.todayText, styles.alignCenter]}>{getDateForm(today)}</TextBold>
                 </View>
                 <View style={[styles.homeContentView, styles.bottomBoundary]}>
                     <View style={styles.homeTitleView}>
-                        <Text style={styles.homeTitleText}>오늘의...</Text>
+                        <TextBold style={styles.homeTitleText}>오늘의...</TextBold>
                     </View>
                     <View style={styles.innerView}>
                         <View style={styles.iconTextView}>
@@ -75,27 +76,27 @@ export default function Home() {
                 <View style={[styles.statisticsView]}>
                     <View style={{paddingHorizontal: 10}}>
                         <View style={styles.homeTitleView}>
-                            <Text style={styles.homeTitleText}>전체 통계</Text>
+                            <TextBold style={styles.homeTitleText}>전체 통계</TextBold>
                         </View>
                         <View style={{paddingHorizontal: 5}}>
                             <View style={[styles.flexRowBetween, {marginVertical: 1}]}>
                                 <View style={styles.iconTextView}>
                                     <Icon name="check" size={20} color={iconColor}/>
-                                    <Text style={styles.homeContentText}>100% 달성한 날짜 수:</Text>
+                                    <Text style={styles.homeContentText}>100% 달성한 날짜 :</Text>
                                 </View>
                                 <Text style={styles.homeContentText}>{statisticsOfTotal[0]}</Text>
                             </View>
                             <View style={[styles.flexRowBetween, {marginVertical: 1}]}>
                                 <View style={styles.iconTextView}>
                                     <Icon name="check" size={20} color={iconColor}/>
-                                    <Text style={styles.homeContentText}>달성한 계획 수:</Text>
+                                    <Text style={styles.homeContentText}>달성한 계획 :</Text>
                                 </View>
                                 <Text style={styles.homeContentText}>{statisticsOfTotal[1]}</Text>
                             </View>
                             <View style={[styles.flexRowBetween, {marginVertical: 1}]}>
                                 <View style={styles.iconTextView}>
                                     <Icon name="check" size={20} color={iconColor}/>
-                                    <Text style={styles.homeContentText}>공부한 시간:</Text>
+                                    <Text style={styles.homeContentText}>공부한 시간 :</Text>
                                 </View>
                                 <Text style={styles.homeContentText}>{statisticsOfTotal[2]}</Text>
                             </View>

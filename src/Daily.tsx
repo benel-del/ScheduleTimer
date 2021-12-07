@@ -1,14 +1,15 @@
 import React, { useCallback, useState } from "react"
-import { View, Text, ToastAndroid } from "react-native"
+import { View, ToastAndroid } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
 import DateTimePicker from "@react-native-community/datetimepicker"
 
 import { styles } from './styles'
+import { Text } from "./theme/Text"
 import { getTense, getStatisticsFormat, getDateForm } from "./function"
 import ShowEditMode from "./ShowEditMode"
 import ShowTimerMode from "./ShowTimerMode"
-import { useScheduleContext, useTodayDateContext } from "./provider"
+import { useScheduleContext, useDateContext } from "./provider"
 
 const iconSize = 40
 const iconSize_mini = 25
@@ -17,7 +18,7 @@ export default function Daily() {
     const [isEditMode, setIsEditMode] = useState(false)
     const [isTimerStop, setIsTimerStop] = useState(true)
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
-    const {theDate, updateTheDate} = useTodayDateContext()
+    const {theDate, updateTheDate} = useDateContext()
     const {theDateSchedules} = useScheduleContext()
     const statisticsOfDate = getStatisticsFormat(theDateSchedules?.statisticsOfDate)
 
@@ -40,7 +41,7 @@ export default function Daily() {
     }, [])
 
     return (
-        <View>
+        <View style={{backgroundColor: 'white'}}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeDate("before")}/>
                 <Text style={[styles.topText, styles.alignCenter]} onPress={() => setIsCalendarOpen(true)}>   {getDateForm(theDate).split(' ')[0]} =</Text>

@@ -1,9 +1,10 @@
 import React, { FC, useCallback } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import IconCheck from 'react-native-vector-icons/Feather'
 import IconEdit from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
+import { Text } from "./theme/Text"
 import { iSchedule } from './typeDeclare'
 import { getTimeSetting } from './function'
 

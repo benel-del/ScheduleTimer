@@ -3,7 +3,7 @@ import Navigator from "./Navigator";
 import AsyncStorage from "@react-native-community/async-storage"
 import { NavigationContainer } from "@react-navigation/native";
 import { iSchedule, iSchedulesOfDate, iSchedulesOfMonth } from "./src/typeDeclare"
-import { SchedulesProvider, TodayDateProvider } from "./src/provider";
+import { SchedulesProvider, DateProvider } from "./src/provider";
 import { getDateForm, getTheDateSchedules, getTheMonthScehudules, newSchedulesOfDate, newSchedulesofMonth, updateScheduleOfDate, updateScheduleOfMonth } from "./src/function";
 
 export default function App(){
@@ -15,14 +15,16 @@ export default function App(){
   const [theMonthSchedules, setTheMonthSchedules] = useState<iSchedulesOfMonth | undefined>()
 
   useLayoutEffect(() => {
-    //AsyncStorage.clear()
-    AsyncStorage.getItem('@StudyTimer:Schedules').then((state)=> {
+    //AsyncStorage.clear()  // for reset
+    AsyncStorage.getItem('@ScheduleTimer:Schedules').then((state)=> {
       if(state != null){
         const data:iSchedulesOfMonth[] = JSON.parse(state)
         setSchedules(data)
         setTheDateSchedules(getTheDateSchedules(data, theDate))
         setTheMonthSchedules(getTheMonthScehudules(data, theDate))
       }
+    }).catch((err) => {
+      console.log(err)
     })
   }, [])
 
@@ -50,18 +52,22 @@ export default function App(){
   }, [theMonth, schedules])
 
   const saveData = useCallback((data: iSchedulesOfMonth[]) => {
-    AsyncStorage.setItem('@StudyTimer:Schedules', JSON.stringify(data))
+    AsyncStorage.setItem('@ScheduleTimer:Schedules', JSON.stringify(data)).catch((err) => {
+      console.log(err)
+    })
     setSchedules(data)
     setTheDateSchedules(getTheDateSchedules(data, theDate))
     setTheMonthSchedules(getTheMonthScehudules(data, theDate))
   }, [theDate])
 
   const updateSchedules = useCallback((type: string, schedule: iSchedule) => {
-    AsyncStorage.getItem('@StudyTimer:Schedules').then((state)=> {
+    AsyncStorage.getItem('@ScheduleTimer:Schedules').then((state)=> {
       if(state != null)
           return JSON.parse(state)
     }).then((data) => {      
       update(type, schedule, data != undefined? data : [])
+    }).catch((err) => {
+      console.log(err)
     })
   },[theDate])
 
@@ -105,12 +111,12 @@ export default function App(){
   }, [theDate, schedules])
 
   return (
-    <TodayDateProvider today={today} theDate={theDate} theMonth={theMonth} updateTheDate={updateTheDate} updateTheMonth={updateTheMonth}>
+    <DateProvider today={today} theDate={theDate} theMonth={theMonth} updateTheDate={updateTheDate} updateTheMonth={updateTheMonth}>
       <SchedulesProvider schedules={schedules} updateSchedules={updateSchedules} theMonthSchedules={theMonthSchedules} theDateSchedules={theDateSchedules}>
         <NavigationContainer>
           <Navigator/>
         </NavigationContainer>
       </SchedulesProvider>
-    </TodayDateProvider>
+    </DateProvider>
   )
 }

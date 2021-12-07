@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 
 import { styles } from './styles'
+import { Text } from "./theme/Text"
 import { iTimer } from './typeDeclare'
 
 export type parentType = {
@@ -36,7 +37,7 @@ const ShowTimer: FC<parentType> = ({timer}) => {
                         <Text style={styles.timerText}>{timer.second}</Text>
                     </View>
                 </View>
-                <Text style={styles.timerInfoText}>화면 이동 시 타이머가 중단됩니다.</Text>
+                <Text style={[styles.timerInfoText, {textAlign: 'right'}]}>화면 이동 시 타이머가 중단됩니다.</Text>
             </View>
         </View>
     )

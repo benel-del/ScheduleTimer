@@ -173,68 +173,57 @@ export const styles = StyleSheet.create({
     
 
     topText: {
-        fontSize: 23,
+        fontSize: 32,
         marginTop: 2,
-        color: 'white',
-        fontWeight: "500"
+        color: 'white'
     },
     todayText: {
-        fontSize: 25,
-        fontWeight: "bold",
-        color: 'black'
+        fontSize: 33
     },
     homeTitleText: {
         margin: 5,
-        fontSize: 23,
-        fontWeight: "bold",
+        fontSize: 28,
         color: baseColor,
         alignSelf: "center"
     },
     daysTitleText: {
         marginLeft: 7,
-        fontSize: 25,
-        color: 'black'
+        fontSize: 30
     },
     daysDateText: {
         width: "50%",
         fontSize: 25,
-        fontWeight: "bold",
-        color: 'black',
         paddingLeft: 5
     },
     homeContentText: {
         marginHorizontal: 5,
-        fontSize: 18,
-        color: 'black'
+        fontSize: 22
     },
     statisticsContentText: {
         marginLeft: 10,
-        fontSize: 18,
-        color: 'black'
+        fontSize: 23
     },
     scrollViewText: {
-        fontSize: 16,
-        marginLeft: 10,
-        color: 'black'
+        fontSize: 20,
+        marginLeft: 10
     },
     daysScheduleText: {
-        fontSize: 18,
-        marginLeft: 10,
-        color: 'black'
+        fontSize: 22,
+        marginTop: 3,
+        marginLeft: 10
     },
     timerMiniText:{
-        fontSize: 12,
+        fontSize: 18,
         color: Colors.blue700
     },
     timerInfoText: {
-        fontSize: 12,
-        paddingTop: 5,
-        color: Colors.grey500,
+        fontSize: 18,
+        paddingTop: 3,
+        color: Colors.grey700,
         textAlign: "center"
     },
     timerText: {
-        fontSize: 30,
-        color: 'black',
+        fontSize: 35,
         textAlign: "center"
     },
     buttonText: {
@@ -243,25 +232,31 @@ export const styles = StyleSheet.create({
     },
     textInput: {
         padding: 5,
-        fontSize: 20
+        fontSize: 25,
+        fontFamily: 'BinggraeSamanco'
+    },
+    inputInfoText: {
+        fontSize: 20,
+        padding: 5,
+        marginVertical: 5,
+        color: Colors.grey700
     },
     calendarDateText: {
         width: 40,
         height: 40,
-        fontSize: 18,
-        color: 'black',
+        fontSize: 23,
         textAlign: 'center',
         paddingTop: 7,
         marginVertical: 3,
         borderRadius: 20,
-        borderWidth: 0.1,
-        borderColor: lightColor
     },
     todayColorText:{
         color: 'white',
         backgroundColor: baseColor
     },
-
+    dateColorText: {
+        backgroundColor: Colors.grey200
+    },
 
     timeSettingButton: {
         width: 90,

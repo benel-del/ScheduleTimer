@@ -1,20 +1,20 @@
 import React, { useCallback } from "react"
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
+import { Text } from "./theme/Text"
 import ShowMonthTable from "./ShowMonthTable"
-import { useScheduleContext, useTodayDateContext } from "./provider"
+import { useScheduleContext, useDateContext } from "./provider"
 import { getMonthForm, getStatisticsFormat } from "./function"
 
 const iconSize = 40
 const iconSize_mini = 25
 
 export default function Monthly() {
-    const {theMonth, updateTheMonth} = useTodayDateContext()
+    const {theMonth, updateTheMonth} = useDateContext()
     const {theMonthSchedules} = useScheduleContext()
-    const theMonthString = getMonthForm(theMonth)
     const statisticsOfMonth = getStatisticsFormat(theMonthSchedules?.statisticsOfMonth)
 
     const changeMonth = useCallback((type: string) => {
@@ -22,10 +22,10 @@ export default function Monthly() {
     }, [theMonth])
 
     return(
-        <View>
+        <View style={{backgroundColor: 'white'}}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeMonth("before")}/>
-                <Text style={[styles.topText, styles.alignCenter]}>{theMonthString}</Text>
+                <Text style={[styles.topText, styles.alignCenter]}>{getMonthForm(theMonth)}</Text>
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeMonth("after")}/>
             </View>
             <View style={styles.container}>
