@@ -17,7 +17,3 @@ export const newTimer = (timeSetting: number) => {
     }
     return timer
 }
-
-export const isTimerInit = (time: iTimer) => {
-    return time.hour == 0 && time.minute == 0 && time.second == 0
-}

@@ -18,11 +18,11 @@ export default function Daily() {
     const [isEditMode, setIsEditMode] = useState(false)
     const [isTimerStop, setIsTimerStop] = useState(true)
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
-    const {theDate, updateTheDate} = useDateContext()
+    const {today, theDate, updateTheDate} = useDateContext()
     const {theDateSchedules} = useScheduleContext()
     const statisticsOfDate = getStatisticsFormat(theDateSchedules?.statisticsOfDate)
 
-    let tense = getTense(theDate)
+    let tense = getTense(theDate, today)
     const changeDate = useCallback((type: string) => {
         if(isEditMode)
             ToastAndroid.show("편집모드에서 날짜를 이동할 수 없습니다.", ToastAndroid.SHORT)
@@ -30,7 +30,7 @@ export default function Daily() {
             ToastAndroid.show("타이머 동작 중에 날짜를 이동할 수 없습니다.", ToastAndroid.LONG)
         else{
             updateTheDate(type)
-            tense = getTense(theDate)
+            tense = getTense(theDate, today)
         }
     }, [isEditMode, isTimerStop, theDate])
 
