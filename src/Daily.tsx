@@ -49,11 +49,12 @@ export default function Daily() {
             updateTheDate(date)
     }, [])
 
+    const list = <IconStatistics name="menu" size={28} color='white'/>
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeDate("before")}/>
-                <Text style={[styles.topText, styles.alignCenter]} onPress={() => {changeDateByCalendar()}}>   {getDateForm(theDate).split(' ')[0]} =</Text>
+                <Text style={[styles.topText, styles.alignCenter]} onPress={() => {changeDateByCalendar()}}>   {getDateForm(theDate).split(' ')[0]} {list}</Text>
                 {isCalendarOpen && <DateTimePicker value={theDate} mode="date" display="calendar" onChange={onChange}/>}
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeDate("after")}/>
             </View>
