@@ -1,10 +1,10 @@
 import React, { useCallback } from "react"
-import { View } from "react-native"
+import { SafeAreaView, View } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
-import { Text } from "./theme/Text"
+import { Text } from "./theme"
 import ShowMonthTable from "./ShowMonthTable"
 import { useScheduleContext, useDateContext } from "./provider"
 import { getMonthForm, getStatisticsFormat } from "./function"
@@ -22,7 +22,7 @@ export default function Monthly() {
     }, [theMonth])
 
     return(
-        <View style={styles.safeAreaView}>
+        <SafeAreaView style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeMonth("before")}/>
                 <Text style={[styles.topText, styles.alignCenter]}>{getMonthForm(theMonth)}</Text>
@@ -45,6 +45,6 @@ export default function Monthly() {
                     </View>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }

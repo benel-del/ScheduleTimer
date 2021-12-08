@@ -1,13 +1,13 @@
-import React, { useEffect } from "react"
-import { View, ScrollView } from "react-native"
+import React from "react"
+import { View, ScrollView, SafeAreaView } from "react-native"
 import IconCheck from 'react-native-vector-icons/Feather'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
-import { Text, TextBold } from "./theme/Text"
+import { Text, TextBold } from "./theme"
 import { useScheduleContext, useDateContext } from "./provider"
 import { getTotalStatistics, getDateForm, getMonthForm, getStatisticsFormat, getTimeSetting } from "./function"
-import { useIsFocused } from "@react-navigation/native"
+import { useFocusEffect } from "@react-navigation/native"
 
 const iconSize = 33
 const iconSize_mini = 23
@@ -20,12 +20,10 @@ export default function Home() {
     const todaySchedules = toMonthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(today))
     const statisticsOfToday = getStatisticsFormat(todaySchedules?.statisticsOfDate)
     const statisticsOfTotal = getTotalStatistics(schedules)
-    const focused = useIsFocused()
 
-    useEffect(()=>{
-        if(focused)
-            updateTheDate(today)
-    }), [focused];
+    useFocusEffect(() => {
+        updateTheDate(today)
+    })
 
     const scheduleList = todaySchedules?.scheduleOfDate.map((schedule, index) => {
         return (
@@ -38,7 +36,7 @@ export default function Home() {
     })
 
     return (
-        <View style={styles.safeAreaView}>
+        <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.topView}>
                 <TextBold style={[styles.topText, styles.alignCenter, {paddingTop: 5}]}>Schedule Timer</TextBold>
             </View>
@@ -106,6 +104,6 @@ export default function Home() {
                     </View>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }

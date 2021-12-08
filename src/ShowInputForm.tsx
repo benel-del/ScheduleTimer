@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Picker } from '@react-native-picker/picker'
 
 import { styles } from './styles'
-import { Text, TextBold } from "./theme/Text"
+import { Text, TextBold } from "./theme"
 import { useScheduleContext, useDateContext } from './provider'
 import { getDateForm, getLastScheduleIndex, newSchedule } from './function'
 import { Colors } from 'react-native-paper'
@@ -42,8 +42,7 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
 
     const HourSelect = useCallback(() => {
         const hourItem = useMemo(() => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((index) => {
-            const time = index + "시간"
-            return <Picker.Item label={time} value={index} key={index} style={{fontSize: 18}}/>
+            return <Picker.Item label={index + "시간"} value={index} key={index} style={{fontSize: 18}}/>
         }), [])
 
         return (
@@ -65,8 +64,7 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
     
     const MinuteSelect = useCallback(() => {
         const minuteItem = useMemo(() => [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((index) => {
-            const time = index + "분"
-            return <Picker.Item label={time} value={index} key={index} style={{fontSize: 18}}/>
+            return <Picker.Item label={index + "분"} value={index} key={index} style={{fontSize: 18}}/>
         }), [])
 
         return (

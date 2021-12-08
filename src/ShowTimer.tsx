@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { View } from 'react-native'
 
 import { styles } from './styles'
-import { Text } from "./theme/Text"
+import { Text } from "./theme"
 import { iTimer } from './typeDeclare'
 
 export type parentType = {

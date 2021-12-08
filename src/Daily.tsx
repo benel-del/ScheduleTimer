@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react"
-import { View, ToastAndroid } from "react-native"
+import { View, ToastAndroid, SafeAreaView } from "react-native"
 import IconArrow from 'react-native-vector-icons/MaterialIcons'
 import IconStatistics from 'react-native-vector-icons/MaterialCommunityIcons'
 import DateTimePicker from "@react-native-community/datetimepicker"
 
 import { styles } from './styles'
-import { Text } from "./theme/Text"
+import { Text } from "./theme"
 import { getTense, getStatisticsFormat, getDateForm } from "./function"
 import ShowEditMode from "./ShowEditMode"
 import ShowTimerMode from "./ShowTimerMode"
@@ -27,12 +27,21 @@ export default function Daily() {
         if(isEditMode)
             ToastAndroid.show("편집모드에서 날짜를 이동할 수 없습니다.", ToastAndroid.SHORT)
         else if(!isTimerStop)
-            ToastAndroid.show("타이머가 돌아가고 있습니다.", ToastAndroid.LONG)
+            ToastAndroid.show("타이머 동작 중에 날짜를 이동할 수 없습니다.", ToastAndroid.LONG)
         else{
             updateTheDate(type)
             tense = getTense(theDate)
         }
     }, [isEditMode, isTimerStop, theDate])
+
+    const changeDateByCalendar = useCallback(() => {
+        if(isEditMode)
+            ToastAndroid.show("편집모드에서 날짜를 이동할 수 없습니다.", ToastAndroid.SHORT)
+        else if(!isTimerStop)
+            ToastAndroid.show("타이머 동작 중에 날짜를 이동할 수 없습니다.", ToastAndroid.LONG)
+        else
+            setIsCalendarOpen(true)
+    }, [isTimerStop, isEditMode])
 
     const onChange = useCallback((event: Event, date: Date) => {
         setIsCalendarOpen(false)
@@ -41,10 +50,10 @@ export default function Daily() {
     }, [])
 
     return (
-        <View style={styles.safeAreaView}>
+        <SafeAreaView style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeDate("before")}/>
-                <Text style={[styles.topText, styles.alignCenter]} onPress={() => {if(isTimerStop && !isEditMode) setIsCalendarOpen(true)}}>   {getDateForm(theDate).split(' ')[0]} =</Text>
+                <Text style={[styles.topText, styles.alignCenter]} onPress={() => {changeDateByCalendar()}}>   {getDateForm(theDate).split(' ')[0]} =</Text>
                 {isCalendarOpen && <DateTimePicker value={theDate} mode="date" display="calendar" onChange={onChange}/>}
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeDate("after")}/>
             </View>
@@ -66,6 +75,6 @@ export default function Daily() {
                     </View>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }

@@ -4,7 +4,7 @@ import IconCheck from 'react-native-vector-icons/Feather'
 import IconEdit from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
-import { Text } from "./theme/Text"
+import { Text } from "./theme"
 import { iSchedule } from './typeDeclare'
 import { getTimeSetting } from './function'
 

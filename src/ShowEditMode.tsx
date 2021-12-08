@@ -4,7 +4,7 @@ import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
-import { Text, TextBold } from "./theme/Text"
+import { TextBold } from "./theme"
 import { iSchedule } from './typeDeclare'
 import ShowInputForm from './ShowInputForm'
 import ShowScheduleEdit from './ShowScheduleEdit'
@@ -32,10 +32,10 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
     }, [])
 
     const removeSchedule = useCallback((schedule: iSchedule) => {
-        const info = "" + schedule.name + " " + getTimeSetting(schedule) + ""
+        const info = schedule.name + " " + getTimeSetting(schedule)
         Alert.alert(info, " 계획을 삭제하겠습니까?", [
-            {text: "삭제", onPress: () => {updateSchedules("remove", schedule)}},
-            {text: "취소", onPress: () => {}}
+            {text: "취소", onPress: () => {}},
+            {text: "삭제", onPress: () => {updateSchedules("remove", schedule)}}
         ])
     }, [theDateSchedules])
 

@@ -4,7 +4,7 @@ import { Calendar } from 'react-native-calendars'
 import { useNavigation } from "@react-navigation/native"
 
 import { styles } from './styles'
-import { Text } from "./theme/Text"
+import { Text } from "./theme"
 import { useScheduleContext, useDateContext } from "./provider"
 import { getDateForm, getDateFormByString } from "./function"
 
@@ -53,12 +53,8 @@ const ShowMonthTable = () => {
                     const isToday = calendarDate.stringForm == getDateForm(today).split(' ')[0]
                     const day = theMonthSchedules?.schedulesOfMonth.find(day => day.date.split(' ')[0] == calendarDate.stringForm)
                     const dots = day?.scheduleOfDate.map((sch, index) => {
-                        if(index < 4){
-                            let color = 'grey'
-                            if(sch.isChecked)
-                                color = 'black'
-                            return <View style={[styles.scheduleCircle, {backgroundColor:color}]} key={index}></View>
-                        }
+                        if(index < 4)
+                            return <View style={[styles.scheduleCircle, {backgroundColor: sch.isChecked ? 'black' : 'grey'}]} key={index}/>
                     })
                     return (
                       <View style={styles.calendarDateView}>

@@ -4,7 +4,7 @@ import { useIsFocused } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles } from './styles'
-import { Text, TextBold } from "./theme/Text"
+import { TextBold } from "./theme"
 import { iSchedule } from './typeDeclare'
 import ShowTimer from './ShowTimer'
 import ShowScheduleTimer from './ShowScheduleTimer'
@@ -72,8 +72,8 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
     const stopTimer = useCallback((schedule:iSchedule) => {
         tmStop = true
         Alert.alert("타이머를 종료하겠습니까?", "", [
-            {text: "종료", onPress: () => {exitTimer = true, setIsTimerStop(exitTimer)}},
-            {text: "취소", onPress: () => {tmStop = false}}
+            {text: "취소", onPress: () => {tmStop = false}},
+            {text: "종료", onPress: () => {exitTimer = true, setIsTimerStop(exitTimer)}}
         ])
     }, [])
 
