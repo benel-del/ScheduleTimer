@@ -43,9 +43,9 @@ export const updateStatisticsOfMonth = (schedulesList: iSchedulesOfDate[]) => {
 export const getStatisticsFormat = (statistics: iStatistics | undefined) => {
     if(statistics == undefined || statistics.numOfSchedules == 0)
         return ["0시간 0분", "0% 달성"]
-    const studyTime = Math.floor(statistics.amountOfCompleteTime / 3600) + "시간 " + Math.floor(statistics.amountOfCompleteTime / 60) % 60 + "분" 
+    const fulfiledTime = Math.floor(statistics.amountOfCompleteTime / 3600) + "시간 " + Math.floor(statistics.amountOfCompleteTime / 60) % 60 + "분" 
     const gauge = Math.floor(statistics.numOfCompleteSchedules / statistics.numOfSchedules * 100) + "% 달성"
-    return [studyTime, gauge]
+    return [fulfiledTime, gauge]
 }
 
 export const getTotalStatistics = (schedules: iSchedulesOfMonth[]) => {
@@ -53,7 +53,7 @@ export const getTotalStatistics = (schedules: iSchedulesOfMonth[]) => {
         return ["0/0", "0/0", "0/0"]
     let numOfDates = [0, 0] // real, plan
     let numOfSchedules = [0, 0]
-    let studyTime = [0, 0]
+    let planTime = [0, 0]
     
     schedules.forEach((month) => {
         const monthStatistics = month.statisticsOfMonth
@@ -61,13 +61,13 @@ export const getTotalStatistics = (schedules: iSchedulesOfMonth[]) => {
         numOfDates[1] += monthStatistics.numOfDatesInMonth
         numOfSchedules[0] += monthStatistics.numOfCompleteSchedules
         numOfSchedules[1] +=  monthStatistics.numOfSchedules
-        studyTime[0] +=  monthStatistics.amountOfCompleteTime
-        studyTime[1] += monthStatistics.amountOfTime
+        planTime[0] +=  monthStatistics.amountOfCompleteTime
+        planTime[1] += monthStatistics.amountOfTime
     })
 
     const date = numOfDates[0] + " 일 / " + numOfDates[1] + " 일"
     const schedule = numOfSchedules[0] + " 개 / " + numOfSchedules[1] + " 개"
-    const time = getTimeFormat(studyTime[0]) + " / " + getTimeFormat(studyTime[1])
+    const time = getTimeFormat(planTime[0]) + " / " + getTimeFormat(planTime[1])
     return [date, schedule, time]
 }
 

@@ -63,7 +63,7 @@ export default function Home() {
                     <View style={[styles.innerView, {marginVertical: 3}]}>
                         <View style={styles.iconTextView}>
                             <Icon name="calendar-clock" size={iconSize} color={iconColor}/>
-                            <Text style={styles.homeContentText}>공부 시간 :   {statisticsOfToday[0]}</Text>
+                            <Text style={styles.homeContentText}>이행 시간 :   {statisticsOfToday[0]}</Text>
                         </View>
                     </View>
                     <View style={[styles.innerView, {marginVertical: 3}]}>
@@ -96,7 +96,7 @@ export default function Home() {
                             <View style={[styles.flexRowBetween, {marginVertical: 3}]}>
                                 <View style={styles.iconTextView}>
                                     <Icon name="check" size={20} color={iconColor} style={{marginTop: 4}}/>
-                                    <Text style={styles.homeContentText}>공부한 시간 :</Text>
+                                    <Text style={styles.homeContentText}>이행한 시간 :</Text>
                                 </View>
                                 <Text style={styles.homeContentText}>{statisticsOfTotal[2]}</Text>
                             </View>
