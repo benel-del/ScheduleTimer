@@ -23,7 +23,9 @@ const iconSize = 40
 
 const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) => {
     const {updateSchedules, theDateSchedules} = useScheduleContext()
+    const [term, setTerm] = useState(false)
     const [timer, setTimer] = useState(initTimer())
+    const [showScheduleIndex, setShowScheduleIndex] = useState(-1)
     const focused = useIsFocused()
     
     useEffect(() => {
@@ -34,6 +36,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
 
     const startTimer = useCallback((schedule:iSchedule) => {
         const countDown = () => {
+            setTerm(true)
             let time = schedule.remainTime
             setTimer(newTimer(time))
             const start = setInterval(() => {
@@ -53,6 +56,10 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
     
             const stopCountDown = (newSch: iSchedule) => {
                 updateSchedules("modify", newSch)
+                setTimeout(() => {
+                    setShowScheduleIndex(-1)
+                    setTerm(false)
+                }, 100);
                 setTimer(initTimer())
                 clearInterval(start)
             }
@@ -62,8 +69,10 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
             updateSchedules("modify", setTimerIcon(schedule, "timer-sand"))
             tmStop = false
             exitTimer = false
-            setIsTimerStop(exitTimer)
-            countDown()
+            setTimeout(() => {   
+                setIsTimerStop(exitTimer)
+                countDown()
+            }, 100);
         }
         else
             ToastAndroid.show("다른 타이머가 돌아가고 있습니다.", ToastAndroid.SHORT)
@@ -78,7 +87,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
     }, [])
 
     const scheduleList = theDateSchedules?.scheduleOfDate.map((schedule, index) => {
-        return <ShowScheduleTimer tense={tense} schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} key={index}/>
+        return <ShowScheduleTimer tense={tense} schedule={schedule} startTimer={startTimer} stopTimer={stopTimer} exitTimer={exitTimer} showScheduleIndex={showScheduleIndex} setShowScheduleIndex={setShowScheduleIndex} setTimer={setTimer} key={index}/>
     })
 
     return (
@@ -89,13 +98,13 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
                     <TextBold style={styles.daysTitleText}>계획</TextBold>
                 </View>
                 {(tense == "Past" || !exitTimer) && <Icon name="calendar-edit" size={iconSize} color='white'/>}
-                {(tense != "Past" && exitTimer) && <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>} 
+                {(tense != "Past" && exitTimer && !term) && <Icon name="calendar-edit" size={iconSize} color='black' onPress={() => {setIsEditMode(true)}}/>} 
             </View>
             <View style={styles.daysContentView}>
                 <ScrollView style={[styles.daysScrollView, styles.alignCenter, styles.topBoundary]} horizontal={false}>
                     {scheduleList}
                 </ScrollView>
-                {!exitTimer && <ShowTimer timer={timer}></ShowTimer>}
+                {(!exitTimer || showScheduleIndex != -1) && <ShowTimer timer={timer}></ShowTimer>}
             </View>
         </View>
     )
