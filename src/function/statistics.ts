@@ -18,9 +18,8 @@ export const updateStatisticsOfDate = (schedules: iSchedule[]) => {
         statistics.numOfSchedules += 1
         if(schedule.isChecked)
             statistics.numOfCompleteSchedules += 1
-        const planTime = schedule.timeSetting_hour * 3600 + schedule.timeSetting_minute * 60
-        statistics.amountOfTime += planTime
-        statistics.amountOfCompleteTime += planTime - schedule.timeRemaining
+        statistics.amountOfTime += schedule.planTime
+        statistics.amountOfCompleteTime += schedule.planTime - schedule.remainTime
     });
     statistics.numOfDatesInMonth = 1
     return statistics
@@ -50,7 +49,7 @@ export const getStatisticsFormat = (statistics: iStatistics | undefined) => {
 
 export const getTotalStatistics = (schedules: iSchedulesOfMonth[]) => {
     if(schedules.length == 0)
-        return ["0/0", "0/0", "0/0"]
+        return ["0 일 / 0 일", "0 개 / 0 개", "0 분 / 0 분"]
     let numOfDates = [0, 0] // real, plan
     let numOfSchedules = [0, 0]
     let planTime = [0, 0]

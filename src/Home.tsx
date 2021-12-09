@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import { Text, TextBold } from "./theme"
 import { useScheduleContext, useDateContext } from "./provider"
-import { getTotalStatistics, getDateForm, getMonthForm, getStatisticsFormat, getTimeSetting } from "./function"
+import { getTotalStatistics, getDateFormat, getMonthFormat, getStatisticsFormat, getTimeSetting } from "./function"
 import { useFocusEffect } from "@react-navigation/native"
 
 const iconSize = 33
@@ -16,8 +16,8 @@ const iconColor = 'black'
 export default function Home() {
     const {today, updateTheDate} = useDateContext()
     const {schedules} = useScheduleContext()
-    const toMonthSchedules = schedules.find(dates => dates.month == getMonthForm(today))
-    const todaySchedules = toMonthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateForm(today))
+    const toMonthSchedules = schedules.find(dates => dates.month == getMonthFormat(today))
+    const todaySchedules = toMonthSchedules?.schedulesOfMonth.find(schs => schs.date == getDateFormat(today))
     const statisticsOfToday = getStatisticsFormat(todaySchedules?.statisticsOfDate)
     const statisticsOfTotal = getTotalStatistics(schedules)
 
@@ -28,9 +28,8 @@ export default function Home() {
     const scheduleList = todaySchedules?.scheduleOfDate.map((schedule, index) => {
         return (
             <View style={[styles.scrollInnerView, styles.iconTextView]} key={index}>
-                {!schedule.isChecked && <IconCheck name="square" size={iconSize_mini} color={iconColor}/>}
-                {schedule.isChecked && <IconCheck name="check-square" size={iconSize_mini} color={iconColor}/>}
-                <Text style={styles.scrollViewText}>{schedule.name} ({getTimeSetting(schedule)})</Text>
+                <IconCheck name={schedule.isChecked? "check-square" : "square"} size={iconSize_mini} color={iconColor}/>
+                <Text style={styles.scrollViewText}>{schedule.name} ({getTimeSetting(schedule.planTime)})</Text>
             </View>
         )
     })
@@ -42,7 +41,7 @@ export default function Home() {
             </View>
             <View style={styles.container}>
                 <View style={[styles.homeDateView, styles.bottomBoundary, styles.alignCenter, {width: "50%"}]}>
-                    <TextBold style={styles.todayText}>{getDateForm(today)}</TextBold>
+                    <TextBold style={styles.todayText}>{getDateFormat(today)}</TextBold>
                 </View>
                 <View style={[styles.homeContentView, styles.bottomBoundary]}>
                     <View style={styles.homeTitleView}>

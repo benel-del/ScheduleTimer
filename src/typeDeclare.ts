@@ -1,12 +1,10 @@
 export type iSchedule = {
     index: number,
     name: string,
-    timeSetting_hour: number,
-    timeSetting_minute: number,
-    timeRemaining: number,
+    planTime: number,
+    remainTime: number,
     isChecked: boolean,
-    timerIcon: string,
-    checkIcon: string
+    timerIcon: string
 }
 
 export type iTimer = {

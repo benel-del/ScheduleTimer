@@ -7,7 +7,7 @@ import { styles } from './styles'
 import { Text } from "./theme"
 import ShowMonthTable from "./ShowMonthTable"
 import { useScheduleContext, useDateContext } from "./provider"
-import { getMonthForm, getStatisticsFormat } from "./function"
+import { getMonthFormat, getStatisticsFormat } from "./function"
 
 const iconSize = 40
 const iconSize_mini = 25
@@ -25,7 +25,7 @@ export default function Monthly() {
         <SafeAreaView style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeMonth("before")}/>
-                <Text style={[styles.topText, styles.alignCenter]}>{getMonthForm(theMonth)}</Text>
+                <Text style={[styles.topText, styles.alignCenter]}>{getMonthFormat(theMonth)}</Text>
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeMonth("after")}/>
             </View>
             <View style={styles.container}>

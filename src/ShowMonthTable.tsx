@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native"
 import { styles } from './styles'
 import { Text } from "./theme"
 import { useScheduleContext, useDateContext } from "./provider"
-import { getDateForm, getDateFormByString } from "./function"
+import { getDateFormat, getDateFormatByString } from "./function"
 
 const ShowMonthTable = () => {
     const navigation = useNavigation()
@@ -49,8 +49,8 @@ const ShowMonthTable = () => {
                 disableArrowRight={true}
                 theme={theme}
                 dayComponent={({date, state}) => {
-                    const calendarDate = getDateFormByString(date.dateString)
-                    const isToday = calendarDate.stringForm == getDateForm(today).split(' ')[0]
+                    const calendarDate = getDateFormatByString(date.dateString)
+                    const isToday = calendarDate.stringForm == getDateFormat(today).split(' ')[0]
                     const day = theMonthSchedules?.schedulesOfMonth.find(day => day.date.split(' ')[0] == calendarDate.stringForm)
                     const dots = day?.scheduleOfDate.map((sch, index) => {
                         if(index < 4)
@@ -58,7 +58,7 @@ const ShowMonthTable = () => {
                     })
                     return (
                       <View style={styles.calendarDateView}>
-                        <Text style={[styles.calendarDateText, isToday? styles.todayColorText : styles.dateColorText]} onPress={() => navigate(calendarDate.dateForm)}>
+                        <Text style={[styles.calendarDateText, isToday? styles.todayColorText : styles.dateColorText]} onPress={() => navigate(calendarDate.dateFormat)}>
                           {date.day}
                         </Text>
                         <View style={[styles.flexRowCenter, styles.calendarCircleView]}>

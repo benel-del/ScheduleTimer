@@ -6,7 +6,7 @@ import { Picker } from '@react-native-picker/picker'
 import { styles } from './styles'
 import { Text, TextBold } from "./theme"
 import { useScheduleContext, useDateContext } from './provider'
-import { getDateForm, getLastScheduleIndex, newSchedule } from './function'
+import { getDateFormat, getLastScheduleIndex, newSchedule } from './function'
 import { Colors } from 'react-native-paper'
 
 export type parentType = {
@@ -34,7 +34,7 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
         else if(timeSetting_hour + timeSetting_minute == 0)
             ToastAndroid.show("시간을 설정하세요", ToastAndroid.LONG)
         else{
-            updateSchedules("insert", newSchedule(newScheduleIndex, name, timeSetting_hour, timeSetting_minute))
+            updateSchedules("insert", newSchedule(newScheduleIndex, name, timeSetting_hour * 3600 + timeSetting_minute * 60))
             setModalVisible(false)
             reset()
         }
@@ -88,7 +88,7 @@ const ShowInputForm: FC<parentType> = ({modalVisible, setModalVisible}) => {
         <View>
             <Modal animationType="slide" transparent={false} visible={modalVisible}>
                 <View style={[styles.daysTitleView, styles.bottomBoundary, styles.alignCenter, {width: "50%"}]}>
-                    <TextBold style={styles.todayText}>{getDateForm(theDate)}</TextBold>
+                    <TextBold style={styles.todayText}>{getDateFormat(theDate)}</TextBold>
                 </View>
                 <View style={styles.daysTitleView}>
                     <View style={styles.iconTextView}>

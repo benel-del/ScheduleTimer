@@ -4,12 +4,12 @@ import AsyncStorage from "@react-native-community/async-storage"
 import { NavigationContainer } from "@react-navigation/native";
 import { iSchedule, iSchedulesOfDate, iSchedulesOfMonth } from "./src/typeDeclare"
 import { SchedulesProvider, DateProvider } from "./src/provider";
-import { getDateForm, getTheDateSchedules, getTheMonthScehudules, newSchedulesOfDate, newSchedulesofMonth, updateScheduleOfDate, updateScheduleOfMonth } from "./src/function";
+import { getDateFormat, getTheDateSchedules, getTheMonthScehudules, newSchedulesOfDate, newSchedulesofMonth, updateScheduleOfDate, updateScheduleOfMonth } from "./src/function";
 
 export default function App(){
-  const [today, setToday] = useState(new Date())
-  const [theDate, setTheDate] = useState(today)
-  const [theMonth, setTheMonth] = useState(today)
+  const [today, setToday] = useState<Date>(new Date())
+  const [theDate, setTheDate] = useState<Date>(today)
+  const [theMonth, setTheMonth] = useState<Date>(today)
   const [schedules, setSchedules] = useState<iSchedulesOfMonth[]>([])
   const [theDateSchedules, setTheDateSchedules] = useState<iSchedulesOfDate | undefined>()
   const [theMonthSchedules, setTheMonthSchedules] = useState<iSchedulesOfMonth | undefined>()
@@ -30,25 +30,25 @@ export default function App(){
 
   useLayoutEffect(() => {
     const dd = new Date()
-    if(getDateForm(today) != getDateForm(dd)){
+    if(getDateFormat(today) != getDateFormat(dd)){
       setToday(dd)
     }
   })
 
-  const updateTheDate = useCallback((type: string | Date) => {
-    if(typeof(type) == "string")
-      type = new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (type == "before" ? -1 : 1))
-    setTheDate(type)
-    setTheDateSchedules(getTheDateSchedules(schedules, type))
-    setTheMonth(type)
-    setTheMonthSchedules(getTheMonthScehudules(schedules, type))
+  const updateTheDate = useCallback((date: string | Date) => {
+    if(typeof(date) == "string")
+      date = new Date(theDate.getFullYear(), theDate.getMonth(), theDate.getDate() + (date == "before" ? -1 : 1))
+    setTheDate(date)
+    setTheDateSchedules(getTheDateSchedules(schedules, date))
+    setTheMonth(date)
+    setTheMonthSchedules(getTheMonthScehudules(schedules, date))
   }, [theDate, schedules])
 
-  const updateTheMonth = useCallback((type: string | Date) => {
-    if(typeof(type) == "string")
-      type = new Date(theMonth.getFullYear(), theMonth.getMonth() + (type == "before" ? -1 : 1))
-    setTheMonth(type)
-    setTheMonthSchedules(getTheMonthScehudules(schedules, type))
+  const updateTheMonth = useCallback((date: string | Date) => {
+    if(typeof(date) == "string")
+      date = new Date(theMonth.getFullYear(), theMonth.getMonth() + (date == "before" ? -1 : 1))
+    setTheMonth(date)
+    setTheMonthSchedules(getTheMonthScehudules(schedules, date))
   }, [theMonth, schedules])
 
   const saveData = useCallback((data: iSchedulesOfMonth[]) => {

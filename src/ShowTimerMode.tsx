@@ -34,7 +34,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
 
     const startTimer = useCallback((schedule:iSchedule) => {
         const countDown = () => {
-            let time = schedule.timeRemaining
+            let time = schedule.remainTime
             setTimer(newTimer(time))
             const start = setInterval(() => {
                 if(time < 1){

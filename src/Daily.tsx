@@ -6,7 +6,7 @@ import DateTimePicker from "@react-native-community/datetimepicker"
 
 import { styles } from './styles'
 import { Text } from "./theme"
-import { getTense, getStatisticsFormat, getDateForm } from "./function"
+import { getTense, getStatisticsFormat, getDateFormat } from "./function"
 import ShowEditMode from "./ShowEditMode"
 import ShowTimerMode from "./ShowTimerMode"
 import { useScheduleContext, useDateContext } from "./provider"
@@ -54,7 +54,7 @@ export default function Daily() {
         <SafeAreaView style={styles.safeAreaView}>
             <View style={[styles.topView, styles.flexRowBetween]}>
                 <IconArrow name="navigate-before" size={iconSize} color='white' onPress={() => changeDate("before")}/>
-                <Text style={[styles.topText, styles.alignCenter]} onPress={() => {changeDateByCalendar()}}>   {getDateForm(theDate).split(' ')[0]} {list}</Text>
+                <Text style={[styles.topText, styles.alignCenter]} onPress={() => {changeDateByCalendar()}}>   {getDateFormat(theDate).split(' ')[0]} {list}</Text>
                 {isCalendarOpen && <DateTimePicker value={theDate} mode="date" display="calendar" onChange={onChange}/>}
                 <IconArrow name="navigate-next" size={iconSize} color='white' onPress={() => changeDate("after")}/>
             </View>

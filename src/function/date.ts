@@ -24,25 +24,25 @@ export function getTense(day: Date, today: Date){
     }
 }
 
-export function getDateForm(day: Date){
+export function getDateFormat(day: Date){
     const mm = day.getMonth() + 1
     const dd = day.getDate()
     return day.getFullYear() + "." + (mm < 10 ? "0" + mm : mm) + "." + (dd < 10 ? "0" + dd : dd) + " " + daysKor[day.getDay()]
 }
 
-export function getMonthForm(day: Date){
+export function getMonthFormat(day: Date){
     const mm = day.getMonth() + 1
     return day.getFullYear() + "." + (mm < 10 ? "0" + mm : mm)
 }
 
-export function getDateFormByString(day: string){
+export function getDateFormatByString(day: string){
     // day: yyyy-mm-dd
     const yy = Number(day.substring(0, 4))
     const mm = Number(day.substring(5, 7))
     const dd = Number(day.substring(8, 10))
 
     return {
-        dateForm: new Date(yy, mm-1, dd),
+        dateFormat: new Date(yy, mm-1, dd),
         stringForm: yy + "." + (mm < 10 ? "0" + mm : mm) + "." + (dd < 10 ? "0" + dd : dd)
     }
 }

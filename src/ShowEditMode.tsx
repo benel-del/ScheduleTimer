@@ -32,7 +32,7 @@ const ShowEditMode: FC<parentType> = ({setIsEditMode}) => {
     }, [])
 
     const removeSchedule = useCallback((schedule: iSchedule) => {
-        const info = schedule.name + " " + getTimeSetting(schedule)
+        const info = schedule.name + " " + getTimeSetting(schedule.planTime)
         Alert.alert(info, " 계획을 삭제하겠습니까?", [
             {text: "취소", onPress: () => {}},
             {text: "삭제", onPress: () => {updateSchedules("remove", schedule)}}
