@@ -30,13 +30,16 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
     
     useEffect(() => {
         if(!focused){
-            exitTimer = true, setIsTimerStop(exitTimer)
+            exitTimer = true
+            setIsTimerStop(exitTimer)
+            setShowScheduleIndex(-1)
         }
     }, [focused])
 
     const startTimer = useCallback((schedule:iSchedule) => {
         const countDown = () => {
             setTerm(true)
+            setShowScheduleIndex(-1)
             let time = schedule.remainTime
             setTimer(newTimer(time))
             const start = setInterval(() => {
@@ -57,7 +60,6 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
             const stopCountDown = (newSch: iSchedule) => {
                 updateSchedules("modify", newSch)
                 setTimeout(() => {
-                    setShowScheduleIndex(-1)
                     setTerm(false)
                 }, 100);
                 setTimer(initTimer())
@@ -104,7 +106,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
                 <ScrollView style={[styles.daysScrollView, styles.alignCenter, styles.topBoundary]} horizontal={false}>
                     {scheduleList}
                 </ScrollView>
-                {(!exitTimer || showScheduleIndex != -1) && <ShowTimer timer={timer}></ShowTimer>}
+                {(!exitTimer || showScheduleIndex != -1) && <ShowTimer timer={timer} showRemainTime={showScheduleIndex}></ShowTimer>}
             </View>
         </View>
     )
