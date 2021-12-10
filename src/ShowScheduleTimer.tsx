@@ -30,7 +30,7 @@ const ShowScheduleTimer: FC<parentType> = ({tense, schedule, startTimer, stopTim
     }, [schedule])
 
     const TouchableArea = useCallback(() => {
-        const isTouch = () => {
+        const click = () => {
             setTimer(newTimer(schedule.remainTime))
             if(showScheduleIndex == schedule.index)
                 setShowScheduleIndex(-1)
@@ -40,7 +40,7 @@ const ShowScheduleTimer: FC<parentType> = ({tense, schedule, startTimer, stopTim
 
         if(exitTimer)
             return (
-                <TouchableOpacity style={{width: "83%", flexDirection: 'row'}} onPress={() => isTouch()}>
+                <TouchableOpacity style={{width: "83%", flexDirection: 'row'}} onPress={() => click()}>
                     <Text style={styles.daysScheduleText}>{schedule.name}</Text>
                     <Text style={[styles.daysScheduleText, {color: '#000033', fontSize: 20}]}>{getTimeSetting(schedule.planTime)}</Text>
                 </TouchableOpacity>
