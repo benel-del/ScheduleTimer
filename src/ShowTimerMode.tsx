@@ -77,7 +77,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
                 countDown()
             }, 100);
         }
-    }, [theDateSchedules])
+    }, [])
 
     const stopTimer = useCallback((schedule:iSchedule) => {
         tmStop = true
@@ -105,7 +105,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
                 <ScrollView style={[styles.daysScrollView, styles.alignCenter, styles.topBoundary]} horizontal={false}>
                     {scheduleList}
                 </ScrollView>
-                {(!exitTimer || showScheduleIndex != -1) && <ShowTimer timer={timer} showRemainTime={showScheduleIndex}></ShowTimer>}
+                {(!exitTimer || showScheduleIndex != -1) && <ShowTimer timer={timer} isTimer={!exitTimer}></ShowTimer>}
             </View>
         </View>
     )
