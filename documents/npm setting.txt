@@ -1,20 +1,20 @@
-npm i color
-npm i react-native-paper
-npm i react-native-vector-icons
-npm i -D @types/color
-npm i -D @types/react-native-vector-icons
-npm i @react-native-community/datetimepicker
-npm i @react-native-community/masked-view
-npm i @react-navigation/bottom-tabs
-npm i @react-navigation/native
-npm i react-native-appearance
-npm i react-native-gesture-handler
-npm i react-native-reanimated
-npm i react-native-safe-area-context
-npm i react-native-screens
-npm i react-native-calendars
-npm i @react-native-picker/picker
-npm i @react-native-community/async-storage
+npm i color@4.0.1
+npm i react-native-paper@4.9.2
+npm i react-native-vector-icons@9.0.0
+npm i -D @types/color@3.0.2
+npm i -D @types/react-native-vector-icons@6.4.9
+npm i @react-native-community/datetimepicker@4.0.0
+npm i @react-native-community/masked-view@0.1.11
+npm i @react-navigation/bottom-tabs@6.0.9
+npm i @react-navigation/native@6.0.6
+npm i react-native-appearance@0.3.4
+npm i react-native-gesture-handler@1.10.3
+npm i react-native-reanimated@2.2.4
+npm i react-native-safe-area-context@3.3.2
+npm i react-native-screens@3.9.0
+npm i react-native-calendars@1.1269.0
+npm i @react-native-picker/picker@2.2.1
+npm i @react-native-community/async-storage@1.12.1
 npx react-native link react-native-vector-icons
 npx react-native link react-native-appearance
 npx react-native link
