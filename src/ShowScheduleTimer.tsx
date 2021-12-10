@@ -23,11 +23,11 @@ export type parentType = {
 const ShowScheduleTimer: FC<parentType> = ({tense, schedule, startTimer, stopTimer, exitTimer, showScheduleIndex, setShowScheduleIndex, setTimer}) => {
     const Icon = useCallback(() => { 
         if (tense == "Today" && schedule.timerIcon == "timer")
-            return <IconTimer name={schedule.timerIcon} size={32} color='black' onPress={() => {startTimer(schedule)}}/>
+            return <IconTimer name={schedule.timerIcon} size={32} color='black' onPress={() => {if(showScheduleIndex == -1) startTimer(schedule)}}/>
         else if(tense == "Today" && schedule.timerIcon == "timer-sand")
             return <IconTimerSand name={schedule.timerIcon} size={32} color='black' onPress={() => {stopTimer(schedule)}}/>
         return <IconTimer name="timer" size={32} color='white'/>
-    }, [schedule])
+    }, [schedule, showScheduleIndex])
 
     const TouchableArea = useCallback(() => {
         const click = () => {

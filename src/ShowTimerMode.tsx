@@ -39,7 +39,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
     const startTimer = useCallback((schedule:iSchedule) => {
         const countDown = () => {
             setTerm(true)
-            setShowScheduleIndex(-1)
+            setShowScheduleIndex(schedule.index)
             let time = schedule.remainTime
             setTimer(newTimer(time))
             const start = setInterval(() => {
@@ -61,6 +61,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
                 updateSchedules("modify", newSch)
                 setTimeout(() => {
                     setTerm(false)
+                    setShowScheduleIndex(-1)
                 }, 100);
                 setTimer(initTimer())
                 clearInterval(start)
@@ -71,13 +72,11 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
             updateSchedules("modify", setTimerIcon(schedule, "timer-sand"))
             tmStop = false
             exitTimer = false
-            setTimeout(() => {   
+            setTimeout(() => {
                 setIsTimerStop(exitTimer)
                 countDown()
             }, 100);
         }
-        else
-            ToastAndroid.show("다른 타이머가 돌아가고 있습니다.", ToastAndroid.SHORT)
     }, [theDateSchedules])
 
     const stopTimer = useCallback((schedule:iSchedule) => {
