@@ -7,10 +7,10 @@ import { iTimer } from './typeDeclare'
 
 export type parentType = {
     timer: iTimer,
-    showRemainTime: number
+    isTimer: boolean
 }
 
-const ShowTimer: FC<parentType> = ({timer, showRemainTime}) => {
+const ShowTimer: FC<parentType> = ({timer, isTimer}) => {
 
     return (
         <View style={[styles.timerView, styles.alignCenter, styles.topBoundary]}>
@@ -38,7 +38,7 @@ const ShowTimer: FC<parentType> = ({timer, showRemainTime}) => {
                         <Text style={styles.timerText}>{timer.second}</Text>
                     </View>
                 </View>
-                {showRemainTime == -1 && <Text style={[styles.timerInfoText, {textAlign: 'right'}]}>화면 이동 시 타이머가 중단됩니다.</Text>}
+                {isTimer && <Text style={[styles.timerInfoText, {textAlign: 'right'}]}>화면 이동 시 타이머가 중단됩니다.</Text>}
             </View>
         </View>
     )
