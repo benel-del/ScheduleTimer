@@ -77,7 +77,7 @@ const ShowTimerMode: FC<parentType> = ({tense, setIsTimerStop, setIsEditMode}) =
                 countDown()
             }, 100);
         }
-    }, [])
+    }, [theDateSchedules])
 
     const stopTimer = useCallback((schedule:iSchedule) => {
         tmStop = true
