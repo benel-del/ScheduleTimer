@@ -14,7 +14,7 @@ npm i react-native-safe-area-context@3.3.2
 npm i react-native-screens@3.9.0
 npm i react-native-calendars@1.1269.0
 npm i @react-native-picker/picker@2.2.1
-npm i @react-native-community/async-storage@1.12.1
+npm i @react-native-community/async-storage@1.12.1 --save --legacy-peer-deps
 npx react-native link react-native-vector-icons
 npx react-native link react-native-appearance
 npx react-native link
